@@ -1,0 +1,37 @@
+{
+    "name": "brainwave",
+    "version": "1.0.0",
+    "description": "Brainwave theme for Hugo",
+    "type": "module",
+    "scripts": {
+        "dev:css": "npx @tailwindcss/cli -i ./assets/css/main.css -o ./assets/css/compiled/main.css --watch",
+        "dev:hugo": "hugo server -D --disableFastRender --bind 0.0.0.0 --baseURL http://localhost:1313 --poll 700ms --source ../../",
+        "start": "npx concurrently \"npm run dev:css\" \"npm run dev:hugo\" --names \"CSS,HUGO\" --prefix-colors \"blue,magenta\"",
+        "build": "NODE_ENV=production npx @tailwindcss/cli -i ./assets/css/main.css -o ./assets/css/compiled/main.css --minify"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/zhou-shi/brainwave.git"
+    },
+    "keywords": [
+        "hugo",
+        "hugo-theme",
+        "tailwind"
+    ],
+    "author": {
+        "name": "Zhou Shi",
+        "github": "https://github.com/zhou-shi"
+    },
+    "devDependencies": {
+        "@tailwindcss/cli": "^4.1.17",
+        "@tailwindcss/forms": "^0.5.10",
+        "@tailwindcss/typography": "^0.5.19",
+        "@types/alpinejs": "^3.13.11",
+        "alpinejs": "^3.15.2",
+        "concurrently": "^9.1.2",
+        "swiper": "^12.0.3",
+        "tailwind-scrollbar": "^4.0.2",
+        "tailwindcss": "^4.1.17",
+        "typescript": "^5.9.3"
+    }
+}

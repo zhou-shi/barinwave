@@ -1,0 +1,6 @@
+<div 
+    x-data="dropdown"
+    @keydown.window="onKeydown($event)"
+    @click.outside="close()"
+    class="relative inline-block text-left {{ .class }}"
+>

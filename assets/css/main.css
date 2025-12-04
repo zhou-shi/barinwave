@@ -1,0 +1,307 @@
+@import "tailwindcss";
+
+@plugin "@tailwindcss/typography";
+@plugin "@tailwindcss/forms";
+@plugin "tailwind-scrollbar";
+
+@source "../../layouts/**/*.html";
+@source "../../content/**/*.{html,md}";
+@source "../../assets/ts/**/*.ts";
+@source "../../../../layouts/**/*.html";
+@source "../../../../content/**/*.{html,md}";
+
+@layer base {
+    :root {
+       --font-sora: "Sora", sans-serif;
+       --font-code: "Source Code Pro", monospace;
+       --font-grotesk: "Space Grotesk", sans-serif; 
+    }
+
+    html {
+        font-family: var(--font-sora);
+        @apply antialiased scroll-smooth;
+    }
+
+    body {
+        @apply flex flex-col min-h-screen overflow-x-hidden transition-colors duration-300;
+        background-color: var(--color-bg);
+        color: var(--color-text);
+    }
+
+    :root, [data-theme="brainwave"] {
+        --color-bg: #FFFFFF;
+        --color-text: #1E1B4B; /* Indigo Gelap */
+
+        --color-n-50:  #F5F3FF;
+        --color-n-100: #EDE9FE;
+        --color-n-200: #DDD6FE;
+        --color-n-300: #C4B5FD;
+        --color-n-400: #A78BFA;
+        --color-n-500: #8B5CF6;
+        --color-n-600: #7C3AED;
+        --color-n-700: #6D28D9;
+        --color-n-800: #5B21B6;
+        --color-n-900: #4C1D95;
+
+        /* Primary: Violet */
+        --color-p-50:  #F5F3FF;
+        --color-p-100: #EDE9FE;
+        --color-p-200: #DDD6FE;
+        --color-p-300: #C4B5FD;
+        --color-p-400: #A78BFA;
+        --color-p-500: #8B5CF6; /* BASE VIOLET */
+        --color-p-600: #7C3AED;
+        --color-p-700: #6D28D9;
+        --color-p-800: #5B21B6;
+        --color-p-900: #4C1D95;
+
+        /* Secondary: Teal */
+        --color-s-500: #0D9488;
+        --color-s-600: #0F766E;
+
+        /* Tertiary: Amber */
+        --color-t-500: #D97706;
+    }
+
+    :root:has(.dark), [data-theme="brainwave"].dark {
+        /* Neutral (Deep Void) */
+        --color-bg: #0B0A10;
+        --color-text: #E4E3EA;
+
+        --color-n-50:  #13111C; /* Card Surface */
+        --color-n-100: #1C1929;
+        --color-n-200: #2D283E;
+        --color-n-800: #F1F0F5;
+        --color-n-900: #FFFFFF;
+
+        /* Primary: Neon Violet */
+        --color-p-50:  #13111C;
+        --color-p-100: #1C1929;
+        --color-p-400: #A78BFA;
+        --color-p-500: #AC6AFF; /* NEON VIOLET */
+        --color-p-600: #9333EA;
+        --color-p-900: #F3E8FF; /* Text on Primary */
+
+        /* Secondary: Neon Teal */
+        --color-s-500: #2DD4BF;
+        --color-s-600: #14B8A6;
+
+        /* Tertiary: Neon Amber */
+        --color-t-500: #FBBF24;
+    }
+
+    [data-theme="provkalbar"] {
+        /* Neutral (Putih Kehijauan) */
+        --color-bg: #FFFFFF;
+        --color-text: #064E3B; /* Hijau Tua Gelap */
+
+        --color-n-50:  #F6F8F7;
+        --color-n-100: #E8EDE9;
+        --color-n-200: #D1D9D4;
+        --color-n-800: #323D39;
+        --color-n-900: #242B28;
+
+        /* Primary: Emerald Green */
+        --color-p-50:  #ECFDF5;
+        --color-p-100: #D1FAE5;
+        --color-p-200: #A7F3D0;
+        --color-p-300: #6EE7B7;
+        --color-p-400: #34D399;
+        --color-p-500: #10B981; /* BASE EMERALD */
+        --color-p-600: #059669;
+        --color-p-700: #047857;
+        --color-p-800: #065F46;
+        --color-p-900: #064E3B;
+
+        /* Secondary: Gold/Amber */
+        --color-s-500: #F59E0B; /* Gold */
+        --color-s-600: #D97706;
+
+        /* Tertiary: Red */
+        --color-t-500: #EF4444;
+    }
+
+    [data-theme="provkalbar"].dark {
+        /* Neutral (Deep Jungle) */
+        --color-bg: #022C22;
+        --color-text: #ECFDF5;
+
+        --color-n-50:  #064E3B; /* Card Surface */
+        --color-n-100: #065F46;
+        --color-n-200: #10B981;
+        --color-n-800: #F0FDF4;
+        --color-n-900: #FFFFFF;
+
+        /* Primary: Neon Emerald */
+        --color-p-50:  #064E3B;
+        --color-p-100: #065F46;
+        --color-p-400: #34D399;
+        --color-p-500: #34D399; /* NEON GREEN */
+        --color-p-600: #10B981;
+        --color-p-900: #ECFDF5;
+
+        /* Secondary: Luminous Gold */
+        --color-s-500: #FBBF24;
+        --color-s-600: #F59E0B;
+
+        /* Tertiary: Neon Red */
+        --color-t-500: #F87171;
+    }
+
+    /* MODE LIGHT (Discord Light Mode - Hati-hati silau!) */
+  [data-theme="discord"] {
+    /* Neutral (Putih Terang) */
+    --color-bg: #FFFFFF;
+    --color-text: #060607; /* Hampir hitam */
+
+    --color-n-50:  #F2F3F5; /* Backgrounds sekunder */
+    --color-n-100: #E3E5E8;
+    --color-n-200: #C4C9CE;
+    --color-n-800: #23272A;
+    --color-n-900: #060607;
+
+    /* Primary: Blurple (Warna Brand Discord) */
+    --color-p-50:  #EEF0FF;
+    --color-p-100: #DDE1FF;
+    --color-p-200: #BCC3FF;
+    --color-p-500: #5865F2; /* BLURPLE ASLI */
+    --color-p-600: #4752C4;
+    --color-p-900: #3C45A5;
+
+    /* Secondary: Green (Online Status) */
+    --color-s-500: #23A559; 
+    --color-s-600: #1A7F42;
+
+    /* Tertiary: Red (DND Status) */
+    --color-t-500: #DA373C;
+  }
+
+  /* MODE DARK (Discord Dark Mode - Classic) */
+  [data-theme="discord"].dark {
+    /* Neutral (Dark Gray khas Discord) */
+    --color-bg: #313338;    /* Background Utama Modern */
+    --color-text: #DBDEE1;  /* Text Gray */
+
+    --color-n-50:  #2B2D31; /* Card / Sidebar */
+    --color-n-100: #1E1F22; /* Channel List / Input */
+    --color-n-200: #111214; /* Deepest Black */
+    --color-n-800: #F2F3F5;
+    --color-n-900: #FFFFFF;
+
+    /* Primary: Blurple Neon */
+    --color-p-50:  #2B2D31;
+    --color-p-100: #1E1F22;
+    --color-p-400: #5865F2;
+    --color-p-500: #5865F2; /* BLURPLE */
+    --color-p-600: #4752C4;
+    --color-p-900: #DDE1FF;
+
+    /* Secondary: Neon Green */
+    --color-s-500: #23A559;
+    --color-s-600: #1A7F42;
+
+    /* Tertiary: Neon Red */
+    --color-t-500: #F23F42;
+  }
+}
+
+@theme {
+    /* Font Mapping */
+    --font-sans: var(--font-sora);
+    --font-code: var(--font-code);
+    --font-grotesk: var(--font-grotesk);
+
+    /* Color Mapping (Variable CSS -> Tailwind Utility) */
+
+    /* NEUTRAL (bg-neutral-50, text-neutral-900) */
+    --color-neutral:     var(--color-bg);     /* Alias untuk bg utama */
+    --color-neutral-text: var(--color-text);  /* Alias untuk text utama */
+
+    --color-neutral-50:  var(--color-n-50);
+    --color-neutral-100: var(--color-n-100);
+    --color-neutral-200: var(--color-n-200);
+    --color-neutral-300: var(--color-n-300); /* Fallback */
+    --color-neutral-400: var(--color-n-400); /* Fallback */
+    --color-neutral-500: var(--color-n-500); /* Fallback */
+    --color-neutral-600: var(--color-n-600); /* Fallback */
+    --color-neutral-700: var(--color-n-700); /* Fallback */
+    --color-neutral-800: var(--color-n-800);
+    --color-neutral-900: var(--color-n-900);
+
+    /* PRIMARY (bg-primary-500, text-primary-600) */
+    --color-primary-50:  var(--color-p-50);
+    --color-primary-100: var(--color-p-100);
+    --color-primary-200: var(--color-p-200);
+    --color-primary-300: var(--color-p-300); /* Fallback */
+    --color-primary-400: var(--color-p-400);
+    --color-primary-500: var(--color-p-500);
+    --color-primary-600: var(--color-p-600);
+    --color-primary-700: var(--color-p-700);
+    --color-primary-800: var(--color-p-800);
+    --color-primary-900: var(--color-p-900);
+
+    /* SECONDARY (bg-secondary-500) */
+    --color-secondary-500: var(--color-s-500);
+    --color-secondary-600: var(--color-s-600);
+
+    /* TERTIARY (bg-tertiary-500) */
+    --color-tertiary-500: var(--color-t-500);
+
+    /* Custom Spacing / Animation */
+    --spacing-15: 3.75rem;
+    --tracking-tagline: 0.15em;
+}
+
+@layer utilities {
+  /* --- Helper Classes --- */
+  .tap-highlight-color {
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .tagline {
+    @apply font-grotesk font-light text-xs tracking-tagline uppercase;
+  }
+  
+  .h1 {
+    @apply font-semibold text-[2.5rem] leading-[3.25rem] md:text-[2.75rem] md:leading-[3.75rem];
+  }
+
+  /* --- Glow Effects (Futuristic) --- */
+  .glow-primary {
+    text-shadow: 0 0 15px color-mix(in srgb, var(--color-p-500), transparent 40%);
+  }
+  .glow-secondary {
+    text-shadow: 0 0 15px color-mix(in srgb, var(--color-s-500), transparent 40%);
+  }
+  
+  .btn-cyber {
+    @apply relative overflow-hidden border border-primary-500 text-primary-500 bg-primary-500/10 transition-all duration-300;
+  }
+  .btn-cyber:hover {
+    @apply bg-primary-500 text-neutral-50 shadow-lg;
+    box-shadow: 0 0 20px color-mix(in srgb, var(--color-p-500), transparent 50%);
+  }
+
+  /* --- Typography Override --- */
+  .prose {
+    /* Menggunakan variabel tema kita */
+    --tw-prose-body: var(--color-text);
+    --tw-prose-headings: var(--color-text);
+    --tw-prose-links: var(--color-p-500);
+    --tw-prose-bold: var(--color-text);
+    --tw-prose-counters: var(--color-p-600);
+    --tw-prose-bullets: var(--color-p-500);
+    --tw-prose-hr: var(--color-n-200);
+    --tw-prose-quotes: var(--color-text);
+    --tw-prose-code: var(--color-s-500);
+    --tw-prose-th-borders: var(--color-n-200);
+    --tw-prose-td-borders: var(--color-n-100);
+  }
+  
+  /* Helper Debugging */
+  .theme-debug::after {
+    content: "Theme: " attr(data-theme);
+    @apply fixed bottom-4 right-4 bg-red-600 text-white px-3 py-1 text-xs font-bold rounded shadow-xl z-50;
+  }
+}
+

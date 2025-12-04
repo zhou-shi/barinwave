@@ -1,0 +1,32 @@
+{{ $align := .align | default "left" }}
+{{ $width := .width | default "w-56" }}
+{{ $origin := cond (eq $align "left") "origin-top-left" "origin-top-right" }}
+{{ $position := cond (eq $align "left") "left-0" "right-0" }}
+
+<div
+    x-ref="content"
+    x-show="isOpen"
+    x-transition:enter="transition ease-out duration-100"
+    x-transition:enter-start="opacity-0 scale-95"
+    x-transition:enter-end="opacity-100 scale-100"
+    x-transition:leave="transition ease-in duration-75"
+    x-transition:leave-start="opacity-100 scale-100"
+    x-transition:leave-end="opacity-0 scale-95"
+    class="absolute {{ $position }} z-50 mt-2 {{ $width }} {{ $origin }} rounded-xl bg-neutral-50 shadow-xl border border-neutral-200 dark:border-neutral-100 ring-1 ring-black ring-opacity-5 focus:outline-none"
+    style="display: none;"
+    role="menu"
+    aria-orientation="vertical"
+    tabindex="-1"
+>
+    <div class="py-1">
+        {{ with .children }}
+            {{ . | safeHTML}}
+        {{ end }}
+
+        {{ with .items }}
+            {{ range . }}
+                {{ partial "ui/dropdown/item.html" . }}
+            {{ end }}
+        {{ end }}
+    </div>
+</div>

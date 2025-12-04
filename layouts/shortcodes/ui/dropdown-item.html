@@ -1,0 +1,11 @@
+{{ $props := dict
+    "label" (.Get "label")
+    "name" (.Get "name")
+    "url" (.Get "url")
+    "icon" (.Get "icon")
+    "shortcut" (.Get "shortcut")
+    "separator" (.Get "separator")
+    "class" (.Get "class")
+}}
+
+{{ partial "ui/dropdown/item.html" $props }}
