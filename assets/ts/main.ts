@@ -1,7 +1,9 @@
 import Alpine from "alpinejs";
 import dropdown from "./components/dropdown";
 import themeToggle from "./components/theme-toggle";
+import ScreenPlugin, { screens } from "./utils/screen";
 
+ScreenPlugin();
 
 Alpine.data('themeToggle', themeToggle);
 Alpine.data('dropdown', dropdown);

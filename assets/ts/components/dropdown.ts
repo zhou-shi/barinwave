@@ -1,4 +1,7 @@
 // Definisikan x-ref apa saja yang ada di HTML Anda
+
+import { screens } from "../utils/screen";
+
 // Pastikan di HTML ada x-ref="content" dan x-ref="trigger"
 interface DropdownRefs {
     trigger: HTMLButtonElement;
@@ -7,6 +10,7 @@ interface DropdownRefs {
 
 export interface DropdownStore {
     isOpen: boolean;
+    variant: 'default' | 'collapse' | 'responsive';
     toggle: () => void;
     close: () => void;
     open: () => void;
@@ -16,15 +20,22 @@ export interface DropdownStore {
     $nextTick: (callback: () => void) => void;
 }
 
-export default function dropdown(): DropdownStore {
+export default function dropdown(variant: DropdownStore['variant'] = "default"): DropdownStore {
     return {
         isOpen: false,
-
+        variant: variant,
         // Karena $refs disuntikkan oleh Alpine, kita tidak mendefinisikannya di sini.
         // TypeScript akan komplain, jadi kita akan gunakan 'as DropdownStore' di bawah.
         // Properti ini 'undefined' saat inisialisasi JS, tapi 'defined' saat Alpine running.
         $refs: {} as DropdownRefs,
         $nextTick: () => {},
+
+        get isCollapse() {
+            if (this.variant === 'collapse') return true;
+            if (this.variant === 'default') return false;
+
+            return !screens.md;
+        },
     
         toggle() {
             this.isOpen = !this.isOpen;

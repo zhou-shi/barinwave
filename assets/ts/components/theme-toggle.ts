@@ -10,12 +10,10 @@ export default function themeToggle(): ThemeToggleStore {
         isDark: false,
 
         init() {
-            console.log(localStorage.theme)
-
             if (localStorage.theme === "dark" || (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-                this.isDark = false;
-            } else {
                 this.isDark = true;
+            } else {
+                this.isDark = false;
             }
 
             this.applyTheme();
@@ -33,8 +31,6 @@ export default function themeToggle(): ThemeToggleStore {
             } else {
                 document.documentElement.classList.remove("dark");
             }
-
-            console.log(`Applied theme: ${this.isDark ? "dark" : "light"}`);
         }
     };
 }

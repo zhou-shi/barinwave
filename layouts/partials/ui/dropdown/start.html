@@ -1,6 +1,15 @@
+{{ $variant := .variant | default "default" }}
+{{ $class := .class }}
+
+{{ $wrapperClass := "relative inline-block text-left" }}
+
+{{ if eq $variant "collapse" }}
+    {{ $wrapperClass = "relative block w-full" }}
+{{ end }}
+
 <div 
-    x-data="dropdown"
+    x-data="dropdown('{{ $variant }}')"
     @keydown.window="onKeydown($event)"
     @click.outside="close()"
-    class="relative inline-block text-left {{ .class }}"
+    class="{{ $wrapperClass }} {{ $class }}"
 >

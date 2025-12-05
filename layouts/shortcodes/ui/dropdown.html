@@ -5,12 +5,13 @@
     "children" (.Inner)
     "label" (.Get "label")
     "icon" (.Get "icon")
+    "variant" (.Get "variant" | default "default")
     "hover" (eq (string (.Get "hover" | default "false")) "true")
 }}
 
 {{/* 1. Root Start */}}
 
-{{ partial "ui/dropdown/start.html" (dict "class" "inline-block relative") }}
+{{ partial "ui/dropdown/start.html" (dict "class" "inline-block relative" "variant" $props.variant) }}
 
     {{ partial "ui/dropdown/trigger.html" (dict "label" $props.label "icon" $props.icon "hover" $props.hover) }}
 
