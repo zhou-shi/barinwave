@@ -1,11 +1,11 @@
-{{ $props := dict
-    "label" (.Get "label")
-    "name" (.Get "name")
-    "url" (.Get "url")
-    "icon" (.Get "icon")
-    "shortcut" (.Get "shortcut")
-    "separator" (.Get "separator")
-    "class" (.Get "class")
+{{/* Mengumpulkan data item */}}
+{{ $data := dict 
+    "name"      (.Get "name" | default .Inner)
+    "url"       (.Get "url")
+    "icon"      (.Get "icon")
+    "label"     (.Get "label")
+    "separator" (eq (.Get "separator") "true")
+    "shortcut"  (.Get "shortcut")
 }}
 
-{{ partial "ui/dropdown/item.html" $props }}
+{{ partial "ui/dropdown-item.html" $data }}

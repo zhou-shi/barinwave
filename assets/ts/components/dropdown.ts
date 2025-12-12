@@ -33,7 +33,7 @@ export default function dropdown(variant: DropdownStore['variant'] = "default"):
         get isCollapse() {
             if (this.variant === 'collapse') return true;
             if (this.variant === 'default') return false;
-
+     
             return !screens.md;
         },
     

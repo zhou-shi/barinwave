@@ -1,0 +1,20 @@
+{{/* Menangkap parameter dari Markdown */}}
+{{ $href := .Get "href" }}
+{{ $variant := .Get "variant" }}
+{{ $size := .Get "size" }}
+{{ $class := .Get "class" }}
+{{ $icon := .Get "icon" }}
+{{ $white := .Get "white" }}
+{{ $plain := .Get "palin" }}
+
+{{/* Meneruskan ke Partial Core */}}
+{{ partial "ui/button.html" (dict 
+    "content" .Inner 
+    "href"    $href
+    "variant" $variant
+    "size"    $size
+    "class"   $class
+    "icon"    $icon
+    "white"   $white
+    "plain"   $plain
+) }}

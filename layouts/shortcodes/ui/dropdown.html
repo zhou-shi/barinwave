@@ -1,22 +1,17 @@
-{{ $props := dict
-    "class" (.Get "class")
-    "align" (.Get "align")
-    "width" (.Get "width")
-    "children" (.Inner)
-    "label" (.Get "label")
-    "icon" (.Get "icon")
-    "variant" (.Get "variant" | default "default")
-    "hover" (eq (string (.Get "hover" | default "false")) "true")
-}}
+{{/* Jalankan inner agar anak-anak melapor */}}
+{{ $children := trim .Inner "\n\r " }}
 
-{{/* 1. Root Start */}}
-
-{{ partial "ui/dropdown/start.html" (dict "class" "inline-block relative" "variant" $props.variant) }}
-
-    {{ partial "ui/dropdown/trigger.html" (dict "label" $props.label "icon" $props.icon "hover" $props.hover) }}
-
-    {{ partial "ui/dropdown/content.html" $props }}
-
-{{/* 4. Root End */}}
-{{ partial "ui/dropdown/end.html" . }}
-
+{{ partial "ui/dropdown.html" (dict 
+    "hover"   (.Get "hover" | default "false")
+    "label"   (.Get "label")
+    "preIcon" (.Get "preIcon")
+    "icon"    (.Get "icon")
+    "variant" (.Get "variant")
+    "align"   (.Get "align")
+    "width"   (.Get "width")
+    "class"   (.Get "class")
+    "items"   (.Get "items")
+    "backdrop" (.Get "backdrop")
+    "decoration" (.Get "decoration")
+    "children" $children
+) }}

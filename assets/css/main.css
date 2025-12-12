@@ -10,242 +10,378 @@
 @source "../../../../layouts/**/*.html";
 @source "../../../../content/**/*.{html,md}";
 
+
 @layer base {
-    :root {/* 1536px */
-       --font-sora: "Sora", sans-serif;
-       --font-code: "Source Code Pro", monospace;
-       --font-grotesk: "Space Grotesk", sans-serif; 
+    :where(:root) {
+      --color-bg: var(--color-white);
+      --color-text: var(--color-black);
+
+      /* --- NEUTRAL (NORMAL MAPPING) --- */
+      --color-n-50:  theme('colors.neutral.50');
+      --color-n-100: theme('colors.neutral.100');
+      --color-n-200: theme('colors.neutral.200');
+      --color-n-300: theme('colors.neutral.300');
+      --color-n-400: theme('colors.neutral.400');
+      --color-n-500: theme('colors.neutral.500');
+      --color-n-600: theme('colors.neutral.600');
+      --color-n-700: theme('colors.neutral.700');
+      --color-n-800: theme('colors.neutral.800');
+      --color-n-900: theme('colors.neutral.900');
+      --color-n-950: theme('colors.neutral.950');
     }
 
-    html {
-        font-family: var(--font-sora);
-        @apply antialiased scroll-smooth;
+    :where(:root.dark) {
+      --color-bg: var(--color-black);
+      --color-text: var(--color-white);
+
+      /* --- NEUTRAL (INVERTED MAPPING) --- */
+      --color-n-50:  theme('colors.neutral.950'); 
+      --color-n-100: theme('colors.neutral.900');
+      --color-n-200: theme('colors.neutral.800');
+      --color-n-300: theme('colors.neutral.700');
+      --color-n-400: theme('colors.neutral.600');
+      --color-n-500: theme('colors.neutral.500'); 
+      --color-n-600: theme('colors.neutral.400');
+      --color-n-700: theme('colors.neutral.300');
+      --color-n-800: theme('colors.neutral.200');
+      --color-n-900: theme('colors.neutral.100');
+      --color-n-950: theme('colors.neutral.50');
     }
 
-    body {
-        @apply flex flex-col min-h-screen overflow-x-hidden transition-colors duration-300;
-        background-color: var(--color-bg);
-        color: var(--color-text);
+    :where(:root, [data-theme="brainwave"]) {
+      /* Brainwave: Sora + Space Grotesk + Source Code Pro */
+      --font-sans: "Sora", sans-serif;
+      --font-display: "Space Grotesk", sans-serif;
+      --font-mono: "Source Code Pro", monospace;
+
+      /* Primary: Violet */
+      --color-p-50:  theme('colors.violet.50');
+      --color-p-100: theme('colors.violet.100');
+      --color-p-200: theme('colors.violet.200');
+      --color-p-300: theme('colors.violet.300');
+      --color-p-400: theme('colors.violet.400');
+      --color-p-500: theme('colors.violet.500'); /* BASE VIOLET */
+      --color-p-600: theme('colors.violet.600');
+      --color-p-700: theme('colors.violet.700');
+      --color-p-800: theme('colors.violet.800');
+      --color-p-900: theme('colors.violet.900');
+      --color-p-950: theme('colors.violet.950');
+
+      /* Secondary: Teal */
+      --color-s-50:  theme('colors.teal.50');
+      --color-s-100: theme('colors.teal.100');
+      --color-s-200: theme('colors.teal.200');
+      --color-s-300: theme('colors.teal.300');
+      --color-s-400: theme('colors.teal.400');
+      --color-s-500: theme('colors.teal.500');
+      --color-s-600: theme('colors.teal.600');
+      --color-s-700: theme('colors.teal.700');
+      --color-s-800: theme('colors.teal.800');
+      --color-s-900: theme('colors.teal.900');
+      --color-s-950: theme('colors.teal.950');
+
+      /* Tertiary: Amber */
+      --color-t-50:  theme('colors.amber.50');
+      --color-t-100: theme('colors.amber.100');
+      --color-t-200: theme('colors.amber.200');
+      --color-t-300: theme('colors.amber.300');
+      --color-t-400: theme('colors.amber.400');
+      --color-t-500: theme('colors.amber.500');
+      --color-t-600: theme('colors.amber.600');
+      --color-t-700: theme('colors.amber.700');
+      --color-t-800: theme('colors.amber.800');
+      --color-t-900: theme('colors.amber.900');
+      --color-t-950: theme('colors.amber.950');
+
     }
 
-    :root, [data-theme="brainwave"] {
-        --color-bg: #FFFFFF;
-        --color-text: #1E1B4B; /* Indigo Gelap */
+    :where(:root:has(.dark), [data-theme="brainwave"]).dark {
+      /* Primary: Violet (INVERTED) */
+      --color-p-50:  theme('colors.violet.900');
+      --color-p-100: theme('colors.violet.800');  
+      --color-p-200: theme('colors.violet.700');
+      --color-p-300: theme('colors.violet.600');
+      --color-p-400: theme('colors.violet.500');
+      --color-p-500: theme('colors.violet.500'); 
+      --color-p-600: theme('colors.violet.400');
+      --color-p-700: theme('colors.violet.300');
+      --color-p-800: theme('colors.violet.200');
+      --color-p-900: theme('colors.violet.100');
+      --color-p-950: theme('colors.violet.50');
 
-        --color-n-50:  #F5F3FF;
-        --color-n-100: #EDE9FE;
-        --color-n-200: #DDD6FE;
-        --color-n-300: #C4B5FD;
-        --color-n-400: #A78BFA;
-        --color-n-500: #8B5CF6;
-        --color-n-600: #7C3AED;
-        --color-n-700: #6D28D9;
-        --color-n-800: #5B21B6;
-        --color-n-900: #4C1D95;
 
-        /* Primary: Violet */
-        --color-p-50:  #F5F3FF;
-        --color-p-100: #EDE9FE;
-        --color-p-200: #DDD6FE;
-        --color-p-300: #C4B5FD;
-        --color-p-400: #A78BFA;
-        --color-p-500: #8B5CF6; /* BASE VIOLET */
-        --color-p-600: #7C3AED;
-        --color-p-700: #6D28D9;
-        --color-p-800: #5B21B6;
-        --color-p-900: #4C1D95;
+      /* Secondary: Teal (INVERTED) */
+      --color-s-50:  theme('colors.teal.900');
+      --color-s-100: theme('colors.teal.800');
+      --color-s-200: theme('colors.teal.700');
+      --color-s-300: theme('colors.teal.600');
+      --color-s-400: theme('colors.teal.500');
+      --color-s-500: theme('colors.teal.500');
+      --color-s-600: theme('colors.teal.400');
+      --color-s-700: theme('colors.teal.300');
+      --color-s-800: theme('colors.teal.200');
+      --color-s-900: theme('colors.teal.100');
+      --color-s-950: theme('colors.teal.50');
 
-        /* Secondary: Teal */
-        --color-s-500: #0D9488;
-        --color-s-600: #0F766E;
+      /* Tertiary: Amber (INVERTED) */
+      --color-t-50:  theme('colors.amber.900');
+      --color-t-100: theme('colors.amber.800');
+      --color-t-200: theme('colors.amber.700');
+      --color-t-300: theme('colors.amber.600');
+      --color-t-400: theme('colors.amber.500');
+      --color-t-500: theme('colors.amber.500');
+      --color-t-600: theme('colors.amber.400');
+      --color-t-700: theme('colors.amber.300');
+      --color-t-800: theme('colors.amber.200');
+      --color-t-900: theme('colors.amber.100');
+      --color-t-950: theme('colors.amber.50');
 
-        /* Tertiary: Amber */
-        --color-t-500: #D97706;
     }
 
-    :root:has(.dark), [data-theme="brainwave"].dark {
-        /* Neutral (Deep Void) */
-        --color-bg: #0B0A10;
-        --color-text: #E4E3EA;
+    :where([data-theme="provkalbar"]) {
+      /* Government: Inter (Bersih) + Merriweather (Wibawa) */
+      --font-sans: "Inter", sans-serif;
+      --font-display: "Merriweather", serif; 
+      --font-mono: "Source Code Pro", monospace;
 
-        --color-n-50:  #13111C; /* Card Surface */
-        --color-n-100: #1C1929;
-        --color-n-200: #2D283E;
-        --color-n-800: #F1F0F5;
-        --color-n-900: #FFFFFF;
+      /* Primary: Emerald Green */
+      --color-p-50: theme('colors.emerald.50');
+      --color-p-100: theme('colors.emerald.100');
+      --color-p-200: theme('colors.emerald.200');
+      --color-p-300: theme('colors.emerald.300');
+      --color-p-400: theme('colors.emerald.400');
+      --color-p-500: theme('colors.emerald.500'); 
+      --color-p-600: theme('colors.emerald.600');
+      --color-p-700: theme('colors.emerald.700');
+      --color-p-800: theme('colors.emerald.800');
+      --color-p-900: theme('colors.emerald.900');
+      --color-p-950: theme('colors.emerald.950');
 
-        /* Primary: Neon Violet */
-        --color-p-50:  #13111C;
-        --color-p-100: #1C1929;
-        --color-p-400: #A78BFA;
-        --color-p-500: #AC6AFF; /* NEON VIOLET */
-        --color-p-600: #9333EA;
-        --color-p-900: #F3E8FF; /* Text on Primary */
+      /* Secondary: Amber */
+      --color-s-50: theme('colors.amber.50');
+      --color-s-100: theme('colors.amber.100');
+      --color-s-200: theme('colors.amber.200');
+      --color-s-300: theme('colors.amber.300');
+      --color-s-400: theme('colors.amber.400');
+      --color-s-500: theme('colors.amber.500');
+      --color-s-600: theme('colors.amber.600');
+      --color-s-700: theme('colors.amber.700');
+      --color-s-800: theme('colors.amber.800');
+      --color-s-900: theme('colors.amber.900');
+      --color-s-950: theme('colors.amber.950');
 
-        /* Secondary: Neon Teal */
-        --color-s-500: #2DD4BF;
-        --color-s-600: #14B8A6;
-
-        /* Tertiary: Neon Amber */
-        --color-t-500: #FBBF24;
+      /* Tertiary: Red */
+      --color-t-50: theme('colors.red.50');
+      --color-t-100: theme('colors.red.100');
+      --color-t-200: theme('colors.red.200');
+      --color-t-300: theme('colors.red.300');
+      --color-t-400: theme('colors.red.400');
+      --color-t-500: theme('colors.red.500');
+      --color-t-600: theme('colors.red.600');
+      --color-t-700: theme('colors.red.700');
+      --color-t-800: theme('colors.red.800');
+      --color-t-900: theme('colors.red.900');
+      --color-t-950: theme('colors.red.950');
     }
 
-    [data-theme="provkalbar"] {
-        /* Neutral (Putih Kehijauan) */
-        --color-bg: #FFFFFF;
-        --color-text: #064E3B; /* Hijau Tua Gelap */
+    :where([data-theme="provkalbar"].dark) {
+        /* Primary: Emerald INVERTED */
+        --color-p-50:  theme('colors.emerald.950');
+        --color-p-100: theme('colors.emerald.900');
+        --color-p-200: theme('colors.emerald.800');
+        --color-p-300: theme('colors.emerald.700');
+        --color-p-400: theme('colors.emerald.600');
+        --color-p-500: theme('colors.emerald.500'); 
+        --color-p-600: theme('colors.emerald.400');
+        --color-p-700: theme('colors.emerald.300');
+        --color-p-800: theme('colors.emerald.200');
+        --color-p-900: theme('colors.emerald.100');
+        --color-p-950: theme('colors.emerald.50');
 
-        --color-n-50:  #F6F8F7;
-        --color-n-100: #E8EDE9;
-        --color-n-200: #D1D9D4;
-        --color-n-800: #323D39;
-        --color-n-900: #242B28;
+        /* Secondary: Amber INVERTED */
+        --color-s-50: theme('colors.amber.950');
+        --color-s-100: theme('colors.amber.900');
+        --color-s-200: theme('colors.amber.800');
+        --color-s-300: theme('colors.amber.700');
+        --color-s-400: theme('colors.amber.600');
+        --color-s-500: theme('colors.amber.500');
+        --color-s-600: theme('colors.amber.400');
+        --color-s-700: theme('colors.amber.300');
+        --color-s-800: theme('colors.amber.200');
+        --color-s-900: theme('colors.amber.100');
+        --color-s-950: theme('colors.amber.50');
 
-        /* Primary: Emerald Green */
-        --color-p-50:  #ECFDF5;
-        --color-p-100: #D1FAE5;
-        --color-p-200: #A7F3D0;
-        --color-p-300: #6EE7B7;
-        --color-p-400: #34D399;
-        --color-p-500: #10B981; /* BASE EMERALD */
-        --color-p-600: #059669;
-        --color-p-700: #047857;
-        --color-p-800: #065F46;
-        --color-p-900: #064E3B;
-
-        /* Secondary: Gold/Amber */
-        --color-s-500: #F59E0B; /* Gold */
-        --color-s-600: #D97706;
-
-        /* Tertiary: Red */
-        --color-t-500: #EF4444;
-    }
-
-    [data-theme="provkalbar"].dark {
-        /* Neutral (Deep Jungle) */
-        --color-bg: #022C22;
-        --color-text: #ECFDF5;
-
-        --color-n-50:  #064E3B; /* Card Surface */
-        --color-n-100: #065F46;
-        --color-n-200: #10B981;
-        --color-n-800: #F0FDF4;
-        --color-n-900: #FFFFFF;
-
-        /* Primary: Neon Emerald */
-        --color-p-50:  #064E3B;
-        --color-p-100: #065F46;
-        --color-p-400: #34D399;
-        --color-p-500: #34D399; /* NEON GREEN */
-        --color-p-600: #10B981;
-        --color-p-900: #ECFDF5;
-
-        /* Secondary: Luminous Gold */
-        --color-s-500: #FBBF24;
-        --color-s-600: #F59E0B;
-
-        /* Tertiary: Neon Red */
-        --color-t-500: #F87171;
+        /* Tertiary: Red INVERTED */
+        --color-t-50: theme('colors.red.950');
+        --color-t-100: theme('colors.red.900');
+        --color-t-200: theme('colors.red.800');
+        --color-t-300: theme('colors.red.700');
+        --color-t-400: theme('colors.red.600');
+        --color-t-500: theme('colors.red.500');
+        --color-t-600: theme('colors.red.400');
+        --color-t-700: theme('colors.red.300');
+        --color-t-800: theme('colors.red.200');
+        --color-t-900: theme('colors.red.100');
+        --color-t-950: theme('colors.red.50');
     }
 
     /* MODE LIGHT (Discord Light Mode - Hati-hati silau!) */
-  [data-theme="discord"] {
-    /* Neutral (Putih Terang) */
-    --color-bg: #FFFFFF;
-    --color-text: #060607; /* Hampir hitam */
+  :where([data-theme="discord"]) {
+    /* Discord-like: Rubik (Bulat & Ramah) */
+    --font-sans: "Rubik", sans-serif;
+    --font-display: "Rubik", sans-serif;
+    --font-mono: "Source Code Pro", monospace;
 
-    --color-n-50:  #F2F3F5; /* Backgrounds sekunder */
-    --color-n-100: #E3E5E8;
-    --color-n-200: #C4C9CE;
-    --color-n-800: #23272A;
-    --color-n-900: #060607;
-
-    /* Primary: Blurple (Warna Brand Discord) */
-    --color-p-50:  #EEF0FF;
-    --color-p-100: #DDE1FF;
-    --color-p-200: #BCC3FF;
-    --color-p-500: #5865F2; /* BLURPLE ASLI */
-    --color-p-600: #4752C4;
-    --color-p-900: #3C45A5;
+    /* Primary: Indigo */
+    --color-p-50:  theme('colors.indigo.50');
+    --color-p-100: theme('colors.indigo.100');
+    --color-p-200: theme('colors.indigo.200');
+    --color-p-400: theme('colors.indigo.400');
+    --color-p-500: theme('colors.indigo.500'); /* INDIGO */
+    --color-p-600: theme('colors.indigo.600');
+    --color-p-900: theme('colors.indigo.900');
+    --color-p-950: theme('colors.indigo.950');
 
     /* Secondary: Green (Online Status) */
-    --color-s-500: #23A559; 
-    --color-s-600: #1A7F42;
+    --color-s-50: theme('colors.green.50');
+    --color-s-100: theme('colors.green.100');
+    --color-s-200: theme('colors.green.200');
+    --color-s-300: theme('colors.green.300');
+    --color-s-400: theme('colors.green.400');
+    --color-s-500: theme('colors.green.500');
+    --color-s-600: theme('colors.green.600');
+    --color-s-700: theme('colors.green.700');
+    --color-s-800: theme('colors.green.800');
+    --color-s-900: theme('colors.green.900');
+    --color-s-950: theme('colors.green.950');
 
     /* Tertiary: Red (DND Status) */
-    --color-t-500: #DA373C;
+    --color-t-50: theme('colors.red.50');
+    --color-t-100: theme('colors.red.100');
+    --color-t-200: theme('colors.red.200');
+    --color-t-300: theme('colors.red.300');
+    --color-t-400: theme('colors.red.400');
+    --color-t-500: theme('colors.red.500');
+    --color-t-600: theme('colors.red.600');
+    --color-t-700: theme('colors.red.700');
+    --color-t-800: theme('colors.red.800');
+    --color-t-900: theme('colors.red.900');
+    --color-t-950: theme('colors.red.950');
   }
 
   /* MODE DARK (Discord Dark Mode - Classic) */
-  [data-theme="discord"].dark {
-    /* Neutral (Dark Gray khas Discord) */
-    --color-bg: #313338;    /* Background Utama Modern */
-    --color-text: #DBDEE1;  /* Text Gray */
+  :where([data-theme="discord"].dark) {
+    /* Primary: Indigo INVERTED */
+    --color-p-50:  theme('colors.indigo.950');
+    --color-p-100: theme('colors.indigo.900');
+    --color-p-200: theme('colors.indigo.800');
+    --color-p-400: theme('colors.indigo.600');
+    --color-p-500: theme('colors.indigo.500'); /* INDIGO */
+    --color-p-600: theme('colors.indigo.400');
+    --color-p-900: theme('colors.indigo.100');
+    --color-p-950: theme('colors.indigo.50');
 
-    --color-n-50:  #2B2D31; /* Card / Sidebar */
-    --color-n-100: #1E1F22; /* Channel List / Input */
-    --color-n-200: #111214; /* Deepest Black */
-    --color-n-800: #F2F3F5;
-    --color-n-900: #FFFFFF;
+    /* Secondary: Green INVERTED */
+    --color-s-50: theme('colors.green.950');
+    --color-s-100: theme('colors.green.900');
+    --color-s-200: theme('colors.green.800');
+    --color-s-300: theme('colors.green.700');
+    --color-s-400: theme('colors.green.600');
+    --color-s-500: theme('colors.green.500');
+    --color-s-600: theme('colors.green.400');
+    --color-s-700: theme('colors.green.300');
+    --color-s-800: theme('colors.green.200');
+    --color-s-900: theme('colors.green.100');
+    --color-s-950: theme('colors.green.50');
 
-    /* Primary: Blurple Neon */
-    --color-p-50:  #2B2D31;
-    --color-p-100: #1E1F22;
-    --color-p-400: #5865F2;
-    --color-p-500: #5865F2; /* BLURPLE */
-    --color-p-600: #4752C4;
-    --color-p-900: #DDE1FF;
+    /* Tertiary: Red INVERTED */
+    --color-t-50: theme('colors.red.950');
+    --color-t-100: theme('colors.red.900');
+    --color-t-200: theme('colors.red.800');
+    --color-t-300: theme('colors.red.700');
+    --color-t-400: theme('colors.red.600');
+    --color-t-500: theme('colors.red.500');
+    --color-t-600: theme('colors.red.400');
+    --color-t-700: theme('colors.red.300');
+    --color-t-800: theme('colors.red.200');
+    --color-t-900: theme('colors.red.100');
+    --color-t-950: theme('colors.red.50');
+  }
 
-    /* Secondary: Neon Green */
-    --color-s-500: #23A559;
-    --color-s-600: #1A7F42;
+  html {
+      font-family: var(--font-sans);
+      @apply antialiased scroll-smooth;
+  }
 
-    /* Tertiary: Neon Red */
-    --color-t-500: #F23F42;
+  body {
+      @apply flex flex-col min-h-screen overflow-x-hidden transition-colors duration-300;
+      background-color: var(--color-bg);
+      color: var(--color-text);
   }
 }
 
 @theme {
     /* Font Mapping */
-    --font-sans: var(--font-sora);
-    --font-code: var(--font-code);
-    --font-grotesk: var(--font-grotesk);
+    --font-sans: var(--font-sans);
+    --font-display: var(--font-display);
+    --font-mono: var(--font-mono);
 
-    /* Color Mapping (Variable CSS -> Tailwind Utility) */
+    /* Mapping Neutral */
+    --color-netral: var(--color-netral-500);
+    --color-netral-50:  var(--color-n-50);
+    --color-netral-100: var(--color-n-100);
+    --color-netral-200: var(--color-n-200);
+    --color-netral-300: var(--color-n-300);
+    --color-netral-400: var(--color-n-400);
+    --color-netral-500: var(--color-n-500);
+    --color-netral-600: var(--color-n-600);
+    --color-netral-700: var(--color-n-700);
+    --color-netral-800: var(--color-n-800);
+    --color-netral-900: var(--color-n-900);
+    --color-netral-950: var(--color-n-950);
 
-    /* NEUTRAL (bg-neutral-50, text-neutral-900) */
-    --color-neutral:     var(--color-bg);     /* Alias untuk bg utama */
-    --color-neutral-text: var(--color-text);  /* Alias untuk text utama */
-
-    --color-neutral-50:  var(--color-n-50);
-    --color-neutral-100: var(--color-n-100);
-    --color-neutral-200: var(--color-n-200);
-    --color-neutral-300: var(--color-n-300); /* Fallback */
-    --color-neutral-400: var(--color-n-400); /* Fallback */
-    --color-neutral-500: var(--color-n-500); /* Fallback */
-    --color-neutral-600: var(--color-n-600); /* Fallback */
-    --color-neutral-700: var(--color-n-700); /* Fallback */
-    --color-neutral-800: var(--color-n-800);
-    --color-neutral-900: var(--color-n-900);
-
-    /* PRIMARY (bg-primary-500, text-primary-600) */
+    /* PRIMARY */
+    --color-primary: var(--color-primary-500);
     --color-primary-50:  var(--color-p-50);
     --color-primary-100: var(--color-p-100);
     --color-primary-200: var(--color-p-200);
-    --color-primary-300: var(--color-p-300); /* Fallback */
+    --color-primary-300: var(--color-p-300); 
     --color-primary-400: var(--color-p-400);
     --color-primary-500: var(--color-p-500);
     --color-primary-600: var(--color-p-600);
     --color-primary-700: var(--color-p-700);
     --color-primary-800: var(--color-p-800);
     --color-primary-900: var(--color-p-900);
+    --color-primary-950: var(--color-p-950);
 
-    /* SECONDARY (bg-secondary-500) */
+    /* SECONDARY */
+    --color-secondary:    var(--color-secondary-500);
+    --color-secondary-50: var(--color-s-50);
+    --color-secondary-100: var(--color-s-100);
+    --color-secondary-200: var(--color-s-200);
+    --color-secondary-300: var(--color-s-300);
+    --color-secondary-400: var(--color-s-400);
     --color-secondary-500: var(--color-s-500);
     --color-secondary-600: var(--color-s-600);
+    --color-secondary-700: var(--color-s-700);
+    --color-secondary-800: var(--color-s-800);
+    --color-secondary-900: var(--color-s-900);
+    --color-secondary-950: var(--color-s-950);
 
-    /* TERTIARY (bg-tertiary-500) */
+
+    /* TERTIARY */
+    --color-tertiary:    var(--color-tertiary-500);
+    --color-tertiary-50: var(--color-t-50);
+    --color-tertiary-100: var(--color-t-100);
+    --color-tertiary-200: var(--color-t-200);
+    --color-tertiary-300: var(--color-t-300);
+    --color-tertiary-400: var(--color-t-400);
     --color-tertiary-500: var(--color-t-500);
+    --color-tertiary-600: var(--color-t-600);
+    --color-tertiary-700: var(--color-t-700);
+    --color-tertiary-800: var(--color-t-800);
+    --color-tertiary-900: var(--color-t-900);
+    --color-tertiary-950: var(--color-t-950);
 
     /* Custom Spacing / Animation */
     --spacing-15: 3.75rem;
@@ -259,7 +395,7 @@
   }
   
   .tagline {
-    @apply font-grotesk font-light text-xs tracking-tagline uppercase;
+    @apply font-display font-light text-xs tracking-tagline uppercase;
   }
   
   .h1 {
@@ -302,6 +438,15 @@
   .theme-debug::after {
     content: "Theme: " attr(data-theme);
     @apply fixed bottom-4 right-4 bg-red-600 text-white px-3 py-1 text-xs font-bold rounded shadow-xl z-50;
+  }
+
+  @keyframes float-y {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); } /* Bergerak naik 12px */
+  }
+  
+  .animate-float-slow {
+    animation: float-y 4s ease-in-out infinite;
   }
 }
 

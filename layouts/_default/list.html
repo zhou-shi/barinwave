@@ -1,6 +1,4 @@
 {{ define "main" }}
-    <section class="flex overflow-auto h-screen">
-        {{.Content}}
-         <button x-on:click="toggle">Toggle Theme</button>
-    </section>
+    {{.Content}}
+    <button @click="toggle()" class="text-primary">Theme Toggle</button>
 {{ end }}

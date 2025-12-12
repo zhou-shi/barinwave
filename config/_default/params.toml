@@ -1,0 +1,6 @@
+[header.logo]
+    src = 'html/brainwave.html'
+    alt = "Brainwave Logo"
+[style]
+    theme = "brainwave"
+    

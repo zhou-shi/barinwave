@@ -3,12 +3,12 @@
     {{ with .hover }}@mouseover="toggle()"{{else}}@click="toggle()"{{ end }}
     type="button"
     class="
-            inline-flex items-center px-4 py-2 text-sm font-code font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 w-full border
+            inline-flex items-center px-4 py-2 text-sm font-mono font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 w-full border
             {{ .class }}
         "
     :class="isCollapse 
-        ? 'justify-between bg-transparent border-transparent hover:border-neutral-700 rounded-lg' 
-        : 'justify-center md:w-auto bg-neutral-50 border-neutral-100 shadow-sm hover:shadow-md rounded-lg hover:bg-neutral-100 hover:border-primary-500'"
+        ? 'justify-between bg-transparent border-transparent hover:border-netral-700 rounded-lg' 
+        : 'justify-center md:w-auto bg-netral-50 border-netral-100 shadow-sm hover:shadow-md rounded-lg hover:bg-netral-100 hover:border-primary-500'"
     :aria-expanded="isOpen"
     aria-haspopup="true"
 >

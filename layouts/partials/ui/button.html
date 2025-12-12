@@ -1,0 +1,88 @@
+{{/* Params:
+    - content: string (Isi teks/HTML button)
+    - href: string (URL tujuan, jika ada akan jadi <a>)
+    - variant: "default" | "secondary" | "outline" | "ghost" | "destructive" | "link"
+    - size: "default" | "sm" | "lg" | "icon"
+    - class: string (Tailwind override)
+    - type: "button" | "submit" (Default "button" jika bukan link)
+    - icon: string (SVG raw atau URL)
+*/}}
+
+{{ $variant := .variant | default "default" }}
+{{ $size := .size | default "default" }}
+{{ $href := .href }}
+{{ $type := .type | default "button" }}
+{{ $white := eq (string (.white | default "false")) "true" }}
+{{ $plain := eq (string (.plain | default "false")) "true" }}
+
+{{/* --- 1. Base Styles (Reset & Typography) --- */}}
+{{ $baseClass := "inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-mono font-bold uppercase tracking-wider ring-offset-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50" }}
+
+{{/* --- 2. Variant Styles --- */}}
+{{ $variantClass := "" }}
+
+{{ if or (eq $variant "default") (eq $variant "primary") }}
+    {{/* Primary Solid Color */}}
+    {{ $variantClass = "bg-primary-500 text-netral-950 hover:bg-primary-600 shadow-md hover:shadow-lg hover:shadow-primary-500/20" }}
+{{ else if eq $variant "secondary" }}
+    {{/* Secondary Solid (Gold/Teal) */}}
+    {{ $variantClass = "bg-secondary-500 text-netral-950 hover:bg-secondary-600 shadow-sm" }}
+{{ else if eq $variant "outline" }}
+    {{/* Bordered */}}
+    {{ $variantClass = "border border-netral-200 bg-transparent hover:bg-netral-100 hover:text-netral-900 dark:border-netral-800 dark:hover:bg-netral-800 dark:hover:text-netral-50 text-netral-600 dark:text-netral-300" }}
+{{ else if eq $variant "ghost" }}
+    {{/* Transparent hover only */}}
+    {{ $variantClass = "hover:bg-netral-100 hover:text-netral-900 dark:hover:bg-netral-800 dark:hover:text-netral-50 text-netral-600 dark:text-netral-400" }}
+{{ else if eq $variant "destructive" }}
+    {{/* Red / Error */}}
+    {{ $variantClass = "bg-tertiary-500 text-white hover:bg-tertiary-600 shadow-sm" }}
+{{ else if eq $variant "link" }}
+    {{/* Text Link Style */}}
+    {{ $variantClass = "text-primary-500 underline-offset-4 hover:underline" }}
+{{ else if eq $variant "brainwave" }}
+    {{ $variantClass = printf "relative inline-flex items-center justify-center h-11 transition-colors hover:text-primary-500 px-7 %s " (cond $white "text-netral-950" "text-netral")}}
+{{ end }}
+
+{{/* --- 3. Size Styles --- */}}
+{{ $sizeClass := "" }}
+
+{{ if eq $size "default" }}
+    {{ $sizeClass = "h-10 px-6 py-2" }}
+{{ else if eq $size "sm" }}
+    {{ $sizeClass = "h-9 rounded-md px-3 text-xs" }}
+{{ else if eq $size "lg" }}
+    {{ $sizeClass = "h-12 rounded-md px-8 text-base" }}
+{{ else if eq $size "icon" }}
+    {{ $sizeClass = "h-10 w-10" }}
+{{ end }}
+
+{{/* --- 4. Render Element --- */}}
+{{ $finalClass := printf "%s %s %s %s" $baseClass $variantClass $sizeClass (.class | default "") }}
+
+{{ if $href }}
+    <a href="{{ $href }}" class="{{ $finalClass }}">
+        {{ if .icon }}<span class="mr-2">{{ .icon | safeHTML }}</span>{{ end }}
+        {{ .content | safeHTML }}
+        {{ if eq $variant "brainwave"}}
+            <div class="-z-1">
+                {{ partial "structure/svg/button.html" (dict
+                    "white" $white
+                    "plain" $plain
+                ) }}
+            </div>
+        {{end}}
+    </a>
+{{ else }}
+    <button type="{{ $type }}" class="{{ $finalClass }}">
+        {{ if .icon }}<span class="mr-2">{{ .icon | safeHTML }}</span>{{ end }}
+        {{ .content | safeHTML }}
+         {{ if and (eq $variant "brainwave") (not $plain) }}
+            <div class="-z-1">
+                {{ partial "structure/svg/button.html" (dict
+                    "white" $white
+                    "plain" $plain
+                ) }}
+            </div>
+        {{end}}
+    </button>
+{{ end }}

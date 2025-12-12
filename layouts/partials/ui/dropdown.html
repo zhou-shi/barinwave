@@ -1,0 +1,178 @@
+{{/* Params: 
+    - hover: "true" | "false" (Jika true, dropdown akan terbuka saat hover)
+    - label: string (Text tombol trigger)
+    - preIcon: html (Icon sebelum label)
+    - icon: html (Icon tombol trigger)
+    - variant: "default" | "collapse" | "responsive"
+    - align: "left" | "right"
+    - width: string (class tailwind, default w-56)
+    - class: string (wrapper class)
+    - items: slice of dict (Data item terstruktur)
+    - children: html (Manual content)
+    - backdrop: "true" | "false" (Jika true, menambahkan backdrop saat dropdown terbuka)
+    - decoration: string (src/url gambar dekorasi)
+*/}}
+
+{{ $hover := eq ( .hover | default "false") "true" }}
+{{ $variant := .variant | default "default" }}
+{{ $align := .align | default "left" }}
+{{ $width := .width | default "w-56 md:w-xs lg:w-sm" }}
+{{ $backdrop := eq ( .backdrop | default "false") "true" }}
+
+{{ $origin := cond (eq $align "left") "origin-top-left" "origin-top-right" }}
+{{ $position := cond (eq $align "left") "left-0" "right-0" }}
+
+{{/* Logika Dekorasi (Image/SVG) */}}
+{{ $decoSrc := .decoration }}
+{{ $isHtmlDeco := false }}
+{{ $decoContent := "" }}
+{{ $decoLink := "" }}
+
+{{ if $decoSrc }}
+    {{ if strings.HasSuffix $decoSrc ".html" }}
+        {{/* Kasus 1: SVG/HTML Raw di assets/html/ */}}
+        {{ $isHtmlDeco = true }}
+        {{ $res := resources.Get (printf "html/%s" $decoSrc) }}
+        {{ if $res }}
+            {{ $decoContent = $res.Content }}
+        {{ end }}
+    {{ else }}
+        {{/* Kasus 2: Gambar di assets/png/ atau static */}}
+        {{ $res := resources.Get (printf "png/%s" $decoSrc) }}
+        {{ if $res }}
+            {{/* Jika ada di assets/png */}}
+            {{ $decoLink = $res.RelPermalink }}
+        {{ else }}
+            {{/* Jika tidak, asumsikan di static/img/ */}}
+            {{ $decoLink = printf "img/%s" $decoSrc }}
+        {{ end }}
+    {{ end }}
+{{ end }}
+
+<div 
+    x-data="dropdown('{{ $variant }}')"
+    @keydown.window="onKeydown($event)"
+    @click.outside="close()"
+    class="{{ .class }}"
+    :class="isCollapse 
+        ? 'relative block w-full' 
+        : 'relative inline-block text-left'"
+>
+    <button
+        x-ref="trigger"
+        {{ if $hover }}@mouseover="toggle()"{{else}}@click="toggle()"{{ end }}
+        type="button"
+        class="inline-flex items-center z-50 px-4 py-2 text-sm font-mono font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary-500 w-full border {{ .class }}"
+        :class="isCollapse 
+            ? 'justify-between bg-transparent border-transparent hover:border-netral-700 rounded-lg' 
+            : 'justify-center md:w-auto bg-netral-50 border-netral-100 shadow-sm hover:shadow-md rounded-lg hover:bg-netral-100 hover:border-primary-500'"
+        :aria-expanded="isOpen"
+        aria-haspopup="true"
+    >
+        <div class="inline-flex items-center justify-center">
+            {{ if .preIcon }}
+                <span class="mr-2 flex items-center text-netral-400 group-hover:text-primary-500 transition-colors duration-200">
+                    {{ .preIcon | safeHTML }}
+                </span>
+            {{ end }}
+        
+            <span>
+                {{ .label | default "Menu" }}
+            </span>
+        </div>
+
+        {{ if .icon }}          
+            {{ .icon | safeHTML }}
+        {{ else }}
+            <svg 
+                class="-mr-1 ml-2 h-5 w-5 transition-transform duration-300" 
+                :class="isOpen ? 'rotate-180' : ''"
+                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
+            >
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+        {{ end }}
+    </button>
+
+    {{ if $backdrop }}
+        <template x-teleport="body">
+            <div 
+                x-show="isOpen && !isCollapse"
+                x-cloak
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100"
+                x-transition:leave="transition ease-in duration-150"
+                x-transition:leave-start="opacity-100"
+                x-transition:leave-end="opacity-0"
+                @click="close()"
+                class="fixed inset-0 z-40 bg-netral-50/80 backdrop-blur-xs"
+                aria-hidden="true"
+                ></div>
+        </template>
+    {{ end }}
+
+    <div
+        x-ref="content"
+        x-show="isOpen"
+        x-cloak
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 scale-95 -translate-y-2"
+        x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+        x-transition:leave-end="opacity-0 scale-95 -translate-y-2"
+        :class="isCollapse 
+            ? 'grid transition-[grid-template-rows] duration-300 ease-out' 
+            : 'absolute {{ $position }} z-50 mt-2 {{ $width }} {{ $origin }} rounded-xl bg-netral-50 shadow-xl border border-netral-200 ring-1 ring-black ring-opacity-5 focus:outline-none'"
+        :style="isCollapse && isOpen ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'"
+        style="display: none;"
+        role="menu"
+        aria-orientation="vertical"
+        tabindex="-1"
+    >
+        <div :class="isCollapse ? 'overflow-hidden' : 'py-1'">
+            <div :class="isCollapse && 'py-2 px-1 border-x border-b border-netral-200 dark:border-netral-100 rounded-b-xl bg-netral-50/50'">
+                {{ with .items }}
+                    {{ range . }}{{ partial "ui/dropdown-item.html" . }}{{ end }}
+                {{ end }}
+                {{ with .children }}{{ . | safeHTML}}{{ end }}
+            </div>
+
+            {{ if $decoSrc }}
+                <div 
+                    class="absolute -bottom-36 -right-36 w-48 h-48 lg:w-50 lg:h-50 z-50 pointer-events-none select-none drop-shadow-2xl filter"
+                >
+                    <div 
+                        x-show="isOpen && !isCollapse"
+                        x-cloak
+                        x-transition:enter="transition cubic-bezier(0.34, 1.56, 0.64, 1) duration-500 delay-100"
+                        x-transition:enter-start="opacity-0 translate-y-12 scale-50 rotate-12"
+                        x-transition:enter-end="opacity-100 translate-y-0 scale-100 rotate-0"
+                        x-transition:leave="transition ease-in duration-200"
+                        x-transition:leave-start="opacity-100 scale-100"
+                        x-transition:leave-end="opacity-0 scale-50 translate-y-8"
+                        class="w-full h-full origin-bottom-right"
+                    >
+                        <div class="w-full h-full animate-float-slow drop-shadow-2xl filter">
+                            {{ if $isHtmlDeco }}
+                                {{/* Render SVG Inline */}}
+                                <div class="w-full h-full text-netral-100">
+                                    {{ $decoContent | safeHTML }}
+                                </div>
+                            {{ else }}
+                                {{/* Render Image (PNG/JPG) */}}
+                                <img 
+                                    src="{{ $decoLink }}" 
+                                    alt="Decoration" 
+                                    class="w-full h-full object-contain"
+                                    loading="lazy"
+                                >
+                            {{ end }}
+                        </div>
+                    </div>
+                </div>
+            {{ end }}
+        </div>
+    </div>
+</div>

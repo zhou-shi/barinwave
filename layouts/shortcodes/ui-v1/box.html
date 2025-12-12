@@ -1,0 +1,16 @@
+{{/* Params:
+    - class: string (Tailwind classes)
+    - id: string
+    - element: string (default "div", bisa "section", "article", "span")
+*/}}
+{{ $element := .Get "element" | default "div" }}
+{{ $class := .Get "class" }}
+{{ $id := .Get "id" }}
+
+{{/* Teknik membuat tag dinamis di Hugo */}}
+{{ printf "<%s" $element | safeHTML }} 
+    {{ with $class }}class="{{ . }}"{{ end }}
+    {{ with $id }}id="{{ . }}"{{ end }}
+>
+    {{ .Inner }}
+{{ printf "</%s>" $element | safeHTML }}

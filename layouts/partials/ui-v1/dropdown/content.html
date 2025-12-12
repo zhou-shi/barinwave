@@ -5,7 +5,7 @@
 {{ $origin := cond (eq $align "left") "origin-top-left" "origin-top-right" }}
 {{ $position := cond (eq $align "left") "left-0" "right-0" }}
 
-{{ $defaultClass := printf "absolute %s z-50 mt-2 %s %s rounded-xl bg-neutral-50 shadow-xl border border-neutral-200 ring-1 ring-black ring-opacity-5 focus:outline-none" $position $width $origin }}
+{{ $defaultClass := printf "absolute %s z-50 mt-2 %s %s rounded-xl bg-netral-50 shadow-xl border border-netral-200 ring-1 ring-black ring-opacity-5 focus:outline-none" $position $width $origin }}
 
 {{ $collapseClass := "grid transition-[grid-template-rows] duration-300 ease-out"}}
 
@@ -26,7 +26,7 @@
     tabindex="-1"
 >
     <div :class="isCollapse ? 'overflow-hidden' : 'py-1'">
-        <div :class="isCollapse && 'py-2 px-1 border-x border-b border-neutral-200 dark:border-neutral-100 rounded-b-xl bg-neutral-50/50'">
+        <div :class="isCollapse && 'py-2 px-1 border-x border-b border-netral-200 dark:border-netral-100 rounded-b-xl bg-netral-50/50'">
             {{ with .children }}{{ . | safeHTML}}{{ end }}
             {{ with .items }}
                 {{ range . }}{{ partial "ui/dropdown/item.html" . }}{{ end }}

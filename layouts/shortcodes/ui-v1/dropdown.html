@@ -1,0 +1,21 @@
+{{ $props := dict
+    "class" (.Get "class")
+    "align" (.Get "align")
+    "width" (.Get "width")
+    "children" (.Inner)
+    "label" (.Get "label")
+    "icon" (.Get "icon")
+    "variant" (.Get "variant" | default "default")
+    "hover" (eq (string (.Get "hover" | default "false")) "true")
+}}
+
+{{/* 1. Root Start */}}
+
+{{ partial "ui-v1/dropdown/start.html" (dict "class" "inline-block relative" "variant" $props.variant) }}
+
+    {{ partial "ui-v1/dropdown/trigger.html" (dict "label" $props.label "icon" $props.icon "hover" $props.hover) }}
+
+    {{ partial "ui-v1/dropdown/content.html" $props }}
+{{/* 4. Root End */}}
+{{ partial "ui-v1/dropdown/end.html" . }}
+
