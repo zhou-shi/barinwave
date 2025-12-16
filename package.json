@@ -4,10 +4,16 @@
     "description": "Brainwave theme for Hugo",
     "type": "module",
     "scripts": {
+        "//": "--- BUILD SCRIPTS ---",
+        "generate": "tsx scripts/generate-partials.js",
+
+        "//": "--- DEV SCRIPTS ---",
         "dev:css": "npx @tailwindcss/cli -i ./assets/css/main.css -o ./assets/css/compiled/main.css --watch",
         "dev:hugo": "hugo server -D --disableFastRender --bind 0.0.0.0 --baseURL http://localhost:1313 --poll 700ms --source ../../",
-        "start": "npx concurrently \"npm run dev:css\" \"npm run dev:hugo\" --names \"CSS,HUGO\" --prefix-colors \"blue,magenta\"",
-        "build": "NODE_ENV=production npx @tailwindcss/cli -i ./assets/css/main.css -o ./assets/css/compiled/main.css --minify"
+        
+        "//": "--- MAIN COMMANDS ---",
+        "start": "npm run generate && npx concurrently \"npm run dev:css\" \"npm run dev:hugo\" --names \"CSS,HUGO\" --prefix-colors \"blue,magenta\"",
+        "build": "npm run generate && NODE_ENV=production npx @tailwindcss/cli -i ./assets/css/main.css -o ./assets/css/compiled/main.css --minify"
     },
     "repository": {
         "type": "git",
@@ -22,16 +28,19 @@
         "name": "Zhou Shi",
         "github": "https://github.com/zhou-shi"
     },
+    "dependencies": {
+        "@radix-ui/react-navigation-menu": "^1.1.4",
+        "preact": "^10.19.3",
+        "preact-render-to-string": "^6.3.1",
+        "react": "npm:@preact/compat",
+        "react-dom": "npm:@preact/compat"
+    },
     "devDependencies": {
         "@tailwindcss/cli": "^4.1.17",
         "@tailwindcss/forms": "^0.5.10",
         "@tailwindcss/typography": "^0.5.19",
-        "@types/alpinejs": "^3.13.11",
-        "alpinejs": "^3.15.2",
-        "concurrently": "^9.1.2",
-        "swiper": "^12.0.3",
         "tailwind-scrollbar": "^4.0.2",
         "tailwindcss": "^4.1.17",
-        "typescript": "^5.9.3"
+        "concurrently": "^9.1.2"
     }
 }

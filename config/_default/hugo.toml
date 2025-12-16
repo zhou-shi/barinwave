@@ -1,0 +1,5 @@
+baseurl = "http://localhost:1313"
+languageCode = "id-ID"
+title = "Brainwave Hugo Theme"
+theme = "brainwave"
+
