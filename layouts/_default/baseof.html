@@ -1,27 +1,26 @@
 <!DOCTYPE html>
-<html
-    lang="{{ or site.Language.LanguageCode site.Language.Lang }}" 
-    data-theme="{{ .Site.Params.style.theme | default "brainwave" }}"
-    x-data="themeToggle"
-    x-cloak
->
+<html lang="{{ or site.Language.LanguageCode site.Language.Lang }}" class="scroll-smooth">
 {{- partial "structure/head.html" . -}}
-<body>
-    {{ partial "structure/svg/definition.html" . }}
 
-    {{/*  Navigation  */}}
-    <div class="pt-[4.75rem] lg:pt-[5.25rem] overflow-hidden">
-        {{ $header := print "structure/header/" .Site.Params.header.layout ".html"}}
-        {{ if templates.Exists (printf "partials/%s" $header ) }}
-            {{ partial $header . }}
-        {{ else }}
-            {{ partial "structure/header/basic.html" . }}
-        {{ end }}
-    </div>
+<body class="bg-white text-gray-900 font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
 
-    {{/*  Main Content  */}}
-    <main>
+
+    {{/* Header */}}        
+    {{ $layout := .Site.Params.header.layout | default "basic" }}
+    {{ $headerPath := printf "structure/header/%s.html" $layout }}
+    
+    {{ if templates.Exists (printf "partials/%s" $headerPath ) }}
+        {{ partial $headerPath . }}
+    {{ else }}
+        {{/* Fallback jika layout yang diminta tidak ada */}}
+        {{ partial "structure/header/basic.html" . }}
+    {{ end }}
+
+    {{/* Main Content */}}
+    <main class="relative z-0"> 
+        {{/* z-0 agar konten tidak menutupi dropdown menu (yang biasanya z-10/z-50) */}}
         {{ block "main" . }}{{ end }}
     </main>
+
 </body>
 </html>

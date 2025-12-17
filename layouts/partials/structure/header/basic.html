@@ -1,0 +1,8 @@
+<header>
+  {{ $menuData := .Site.Menus.main }}
+  
+  {{ partial "radix-layouts/navigation-menu.html" (dict 
+      "data" $menuData 
+      "class" ""
+  ) }}
+</header>

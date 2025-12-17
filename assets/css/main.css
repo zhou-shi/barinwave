@@ -4,6 +4,7 @@
 @plugin "@tailwindcss/forms";
 @plugin "tailwind-scrollbar";
 
+@source "../../src/**/*.tsx";
 @source "../../layouts/**/*.html";
 @source "../../content/**/*.{html,md}";
 @source "../../assets/ts/**/*.ts";

@@ -1,0 +1,33 @@
+[[main]]
+  identifier = "home"
+  name = "Beranda"
+  url = "/"
+  weight = 10
+
+[[main]]
+  identifier = "products"
+  name = "Produk"
+  url = "/products"
+  weight = 20
+
+[[main]]
+  parent = "products"
+  name = "Sepatu Lari"
+  url = "/products/sepatu"
+  weight = 1
+  [main.params]
+    description = "Sepatu ringan untuk maraton"
+
+[[main]]
+  parent = "products"
+  name = "Baju Olahraga"
+  url = "/products/baju"
+  weight = 2
+  [main.params]
+    description = "Bahan menyerap keringat"
+
+[[main]]
+  identifier = "about"
+  name = "Tentang Kami"
+  url = "/about"
+  weight = 30

@@ -1,0 +1,35 @@
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} | {{ site.Title }}{{ end }}</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600&family=Source+Code+Pro:wght@400;600;700&family=Space+Grotesk:wght@300;500;700&family=Rubik:wght@400;500;700&family=Inter:wght@400;500;600&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+
+    {{/* 1. CSS Logic: Ambil hasil compile Tailwind CLI */}}
+    {{/* Sesuai package.json: -o ./assets/css/compiled/main.css */}}
+    {{ $css := resources.Get "css/compiled/main.css" }} 
+    {{ if $css }}
+        {{/* Di production, kita fingerprint agar cache busting jalan */}}
+        {{ if hugo.IsProduction }}
+            {{ $css = $css | fingerprint }}
+        {{ end }}
+        <link rel="stylesheet" href="{{ $css.RelPermalink }}">
+    {{ end }}
+
+    {{/* 2. JS/TS Logic: Menggunakan ESBuild */}}
+    {{/* Ganti 'ts/main.ts' jadi 'ts/main.tsx' agar support JSX import */}}
+    {{ $opts := dict "target" "es2017" "defines" (dict "process.env.NODE_ENV" "\"production\"") }}
+    {{ $script := resources.Get "ts/main.tsx" | js.Build $opts }}
+    
+    {{ if hugo.IsProduction }}
+        {{ $script = $script | minify | fingerprint }}
+    {{ end }}
+
+    {{/* PERBAIKAN: Gunakan $script, bukan $ts */}}
+    <script src="{{ $script.RelPermalink }}" defer></script>
+
+    {{ hugo.Generator }}
+</head>
