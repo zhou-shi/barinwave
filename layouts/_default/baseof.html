@@ -1,3 +1,5 @@
+{{ $data := .Site.Menus.main }}
+
 <!DOCTYPE html>
 <html lang="{{ or site.Language.LanguageCode site.Language.Lang }}" class="scroll-smooth">
 {{- partial "structure/head.html" . -}}
@@ -21,6 +23,5 @@
         {{/* z-0 agar konten tidak menutupi dropdown menu (yang biasanya z-10/z-50) */}}
         {{ block "main" . }}{{ end }}
     </main>
-
 </body>
 </html>

@@ -13,8 +13,9 @@
     
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./gen/src/*"],
+      
     }
   },
-  "include": ["src/**/*", "assets/ts/**/*", "scripts/**/*"]
+  "include": ["gen/src/**/*", "gen/scripts/**/*", "assets/ts/**/*"]
 }

@@ -35,7 +35,7 @@ export const Navigation = ({items, className}: {items: HugoMenuEntry[], classNam
     const cleanItems = mapHugo(items);
 
     return (
-        <NavigationMenu.Root className={clsx("", className)}>
+        <NavigationMenu.Root className={clsx("relative flex bg-primary-400 flex-col", className)}>
             <NavigationMenu.List className="">
                 {cleanItems.map((item, index) => (
                     <NavigationMenu.Item key={index}>
@@ -44,21 +44,21 @@ export const Navigation = ({items, className}: {items: HugoMenuEntry[], classNam
                         {item.children && item.children.length > 0 ? (
                         <>
                             <NavigationMenu.Trigger className="">
-                            {item.label}
-                            <CaretDownIcon className="" aria-hidden />
+                                {item.label}
+                                <CaretDownIcon className="" aria-hidden />
                             </NavigationMenu.Trigger>
                             
                             <NavigationMenu.Content className="">
-                            <ul className="">
-                                {item.children.map((child, childIdx) => (
-                                <li key={childIdx} className="">
-                                    <NavigationMenu.Link href={child.url} className="">
-                                    <div className="">{child.label}</div>
-                                    <p className="">Deskripsi singkat jika ada...</p>
-                                    </NavigationMenu.Link>
-                                </li>
-                                ))}
-                            </ul>
+                                <ul className="">
+                                    {item.children.map((child, childIdx) => (
+                                    <li key={childIdx} className="">
+                                        <NavigationMenu.Link href={child.url} className="">
+                                        <div className="">{child.label}</div>
+                                        <p className="">Deskripsi singkat jika ada...</p>
+                                        </NavigationMenu.Link>
+                                    </li>
+                                    ))}
+                                </ul>
                             </NavigationMenu.Content>
                         </>
                         ) : (
