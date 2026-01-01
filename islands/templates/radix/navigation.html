@@ -1,0 +1,19 @@
+{{/* Auto-generated Smart Wrapper for Radix Navigation Menu */}}
+{{ $data := .data }} {{/* Data Menu (Array of Objects) dari Hugo */}}
+{{ $class := .class | default "" }}
+{{ $id := delimit (slice "radix-nav" (now.UnixNano)) "-" }}
+
+<nav id="{{ $id }}">
+    <script id="data-{{ $id }}" type="application/json">
+        {{ dict "items" $data | jsonify | safeJS }}
+    </script>
+    
+    <script>
+        window.requestIslands = window.requestIslands || [];
+        window.requestIslands.push({
+            component: "RadixNavigation",
+            targetId: "{{ $id }}",
+            dataId: "data-{{ $id }}"
+        });
+    </script>
+</nav>

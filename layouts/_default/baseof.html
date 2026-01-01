@@ -1,15 +1,17 @@
 {{ $data := .Site.Menus.main }}
 
 <!DOCTYPE html>
-<html lang="{{ or site.Language.LanguageCode site.Language.Lang }}" class="scroll-smooth">
+<html 
+    lang="{{ or site.Language.LanguageCode site.Language.Lang }}" 
+    class="scroll-smooth" 
+    data-theme="{{ .Site.Params.style.theme_variant | default "brainwave" }}"
+>
 {{- partial "structure/head.html" . -}}
 
-<body class="bg-white text-gray-900 font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
-
-
+<body>
     {{/* Header */}}        
-    {{ $layout := .Site.Params.header.layout | default "basic" }}
-    {{ $headerPath := printf "structure/header/%s.html" $layout }}
+    {{ $variant := .Site.Params.header.variant | default "basic" }}
+    {{ $headerPath := printf "structure/header/%s.html" $variant }}
     
     {{ if templates.Exists (printf "partials/%s" $headerPath ) }}
         {{ partial $headerPath . }}

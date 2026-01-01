@@ -1,17 +1,17 @@
-import Header from "@/components/brainwave/header/Basic";
-import { BorderBeam } from "@/components/lightswind/border-beam";
-import { Navigation } from "@/components/radix/navigation";
+import BasicHeader from "@/modules/features/header/hotodus";
+import BarinwaveHeader from "@/modules/features/header/brainwave";
+import { HugoMenuEntry, HugoParamsEntry, IslandProps } from "@/modules/types";
 import {h, FunctionalComponent, render } from "preact";
 
-const COMPONENT_MAP: Record<string, FunctionalComponent<any>> = {
-    "RadixNavigation": Navigation,
-    "BorderBeam": BorderBeam,
-    "Header": Header
+const COMPONENT_MAP: Record<string, FunctionalComponent<IslandProps>> = {
+    "BasicHeader": BasicHeader,
+    "BrainwaveHeader": BarinwaveHeader,
+
 };
 
 
 const init = () => {
-    const queue = window.requestHydration || [];
+    const queue = window.requestIslands || [];
 
     queue.forEach((req) => {
         const { component, targetId, dataId } = req;
@@ -24,16 +24,29 @@ const init = () => {
             try {
                 root.innerHTML = '';
 
+                let props: IslandProps = {
+                    Menus: [],
+                    Params: {}
+                };
+
                 if (dataScript) {
-                    const rawData = JSON.parse(dataScript.textContent || '{}'); 
-                    const props = Array.isArray(rawData) ? { props: rawData } : rawData;
+                    const rawData = JSON.parse(dataScript.textContent || 'null'); 
 
+                    if (rawData) {
+                        if (Array.isArray(rawData)) {
+                            props.Menus = rawData as HugoMenuEntry[];
+                        } else if (typeof rawData === 'object') {
+                            const hasMenuKey = 'Menus' in rawData;
+                            const hasParamsKey = 'Params' in rawData;
 
-                    console.log(Array.isArray(rawData));
-
-                    console.log(rawData);
-                    console.log(props);
-
+                            if (hasMenuKey || hasParamsKey) {
+                                props.Menus = rawData.Menus as HugoMenuEntry[] || [];
+                                props.Params = rawData.Params as HugoParamsEntry || {};
+                            } else {
+                                props.Params = rawData as HugoParamsEntry;
+                            }
+                        } 
+                    }
                     render(<Component {...props} />, root);
                 } else {
                     render(<Component />, root);

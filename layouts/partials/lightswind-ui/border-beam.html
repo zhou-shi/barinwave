@@ -1,14 +1,12 @@
 {{ $id := delimit (slice "lightswind-ui" (now.UnixNano)) "-" }}
 
 <div id="{{ $id }}">
-    <!-- Border Beam Component will be hydrated here -->
+    <script>
+        window.requestIslands = window.requestIslands || [];
+        window.requestIslands.push({
+            component: "BorderBeam",
+            targetId: "{{ $id }}",
+            dataId: null
+        });
+    </script>
 </div>
-
-<script>
-    window.requestHydration = window.requestHydration || [];
-    window.requestHydration.push({
-        component: "BorderBeam",
-        targetId: "{{ $id }}",
-        dataId: null
-    });
-</script>

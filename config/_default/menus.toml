@@ -1,33 +1,235 @@
 [[main]]
-  identifier = "home"
-  name = "Beranda"
-  url = "/"
-  weight = 10
-
-[[main]]
   identifier = "products"
   name = "Produk"
-  url = "/products"
+  weight = 15
+  # Tidak butuh icon params karena ini parent menu (biasanya)
+
+[[main]]
+  parent = "products"
+  name = "Exdus Pay"
+  url = "/products/exdus-pay"
+  weight = 1
+  [main.params]
+    description = "Join the waitlist"
+    icon = "CreditCard"
+
+[[main]]
+  parent = "products"
+  name = "Mobile Wallet"
+  url = "/products/mobile-wallet"
+  weight = 3
+  [main.params]
+    description = "Control your wallet anywhere, anytime"
+    icon = "Smartphone"
+
+[[main]]
+  parent = "products"
+  name = "Desktop Wallet"
+  url = "/products/desktop-wallet"
+  weight = 4
+  [main.params]
+    description = "Swap and transfer digital assets"
+    icon = "Monitor"
+
+[[main]]
+  parent = "products"
+  name = "Web3 Wallet"
+  url = "/products/web3-wallet"
+  weight = 5
+  [main.params]
+    description = "Explore the world of web3 and DeFi"
+    icon = "Globe"
+
+[[main]]
+  parent = "products"
+  name = "Ledger Hardware Wallet"
+  url = "/products/ledger-hardware-wallet"
+  weight = 6
+  [main.params]
+    description = "Advanced security for Desktop"
+    icon = "HardDrive"
+
+[[main]]
+  parent = "products"
+  name = "Trezor Hardware Wallet" 
+  url = "/products/trezor-hardware-wallet"
+  weight = 7
+  [main.params]
+    description = "Advanced security for your Desktop"
+    icon = "ShieldCheck"
+
+[[main]]
+  parent = "products"
+  name = "Staking Rewards"
+  url = "/products/staking-rewards"
+  weight = 8
+  [main.params]
+    description = "Earn rewards by staking your assets"
+    icon = "TrendingUp"
+
+[[main]]
+  parent = "products"
+  name = "Enterprise"
+  weight = 9
+  [main.params]
+    description = "Solutions for business" 
+    icon = "Building2"
+
+[[main]]
+  parent = "products"
+  name = "XO Pay"
+  url = "/products/xo-pay"
+  weight = 10
+  [main.params]
+    description = "The fastest, most secure way to buy and cash out crypto"
+    icon = "Zap"
+
+[[main]]
+  parent = "products"
+  name = "XO Swap"
+  url = "/products/xo-swap"
+  weight = 11
+  [main.params]
+    description = "Boost growth with a premium crypto swap engine"
+    icon = "ArrowRightLeft"
+
+[[main]]
+  parent = "products"
+  name = "Passkey Wallet & SDK"
+  url = "/products/passkey-wallet-sdk"
+  weight = 12
+  [main.params]
+    description = "Reduce drop-off with one-click wallet onboarding"
+    icon = "KeyRound"
+
+[[main]]
+  parent = "products"
+  name = "Wallet-as-a-Service (WaaS)" 
+  url = "/products/wallet-as-a-service"
+  weight = 13
+  [main.params]
+    description = "Grow your platform with a custom web3 wallet"
+    icon = "Code2"
+
+[[main]]
+  identifier = "support"
+  name = "Support"
   weight = 20
 
 [[main]]
-  parent = "products"
-  name = "Sepatu Lari"
-  url = "/products/sepatu"
-  weight = 1
+  parent = "support"
+  name = "24/7 Customer Support"
+  url = "/support/customer-support"
+  weight = 16
   [main.params]
-    description = "Sepatu ringan untuk maraton"
+    description = "Support engineers are standing by to help"
+    icon = "Headset"
 
 [[main]]
-  parent = "products"
-  name = "Baju Olahraga"
-  url = "/products/baju"
-  weight = 2
+  parent = "support"
+  name = "Crypto Asset" 
+  url = "/support/crypto-asset"
+  weight = 17
   [main.params]
-    description = "Bahan menyerap keringat"
+    description = "Info on supported assets, crypto, rewards, and more"
+    icon = "Coins"
 
 [[main]]
-  identifier = "about"
-  name = "Tentang Kami"
-  url = "/about"
+  identifier = "learn"
+  name = "Learn"
   weight = 30
+
+[[main]]
+  parent = "learn"
+  name = "Knowledge Base"
+  url = "/learn/knowledge-base"
+  weight = 21
+  [main.params]
+    description = "Common questions and blockchain education"
+    icon = "BookOpen"
+
+[[main]]
+  parent = "learn"
+  name = "YouTube"
+  url = "/learn/youtube"
+  weight = 22
+  [main.params]
+    description = "Crypto education and tutorials"
+    icon = "Youtube"
+
+[[main]]
+  parent = "learn"
+  name = "Newsletter"
+  url = "/learn/newsletter"
+  weight = 23
+  [main.params]
+    description = "Sign-up for product updates and crypto highlights"
+    icon = "Mail"
+
+[[main]]
+  identifier = "company"
+  name = "Company"
+  weight = 40
+
+[[main]]
+  parent = "company"
+  name = "About Us"
+  url = "/company/about-us"
+  weight = 31
+  [main.params]
+    description = "Learn more about Exodus"
+    icon = "Info"
+
+[[main]]
+  parent = "company"
+  name = "Investors"
+  url = "/company/investors"
+  weight = 32
+  [main.params]
+    description = "Read about news, media, events and more"
+    icon = "LineChart"
+
+[[main]]
+  parent = "company"
+  name = "Careers"
+  url = "/company/careers"
+  weight = 33
+  [main.params]
+    description = "See our open positions"
+    icon = "Briefcase"
+
+[[main]]
+  parent = "company"
+  name = "Contact Us"
+  url = "/company/contact-us"
+  weight = 34
+  [main.params]
+    description = "Get in touch"
+    icon = "MessageCircle"
+
+[[main]]
+  parent = "company"
+  name = "Brand Guidelines"
+  url = "/company/brand-guidelines"
+  weight = 35
+  [main.params]
+    description = "Exodus media kit"
+    icon = "Palette"
+
+[[main]]
+  parent = "company"
+  name = "Security"
+  url = "/company/security"
+  weight = 36
+  [main.params]
+    description = "How we keep your crypto safe"
+    icon = "Lock"
+
+[[main]]
+  parent = "company"
+  name = "Intellectual Property"
+  url = "/company/intellectual-property"
+  weight = 37
+  [main.params]
+    description = "Exodus Trademarks and Copyrights"
+    icon = "Scale"

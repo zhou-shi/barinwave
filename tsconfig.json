@@ -13,9 +13,9 @@
     
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./gen/src/*"],
+      "@/*": ["./islands/*"],
       
     }
   },
-  "include": ["gen/src/**/*", "gen/scripts/**/*", "assets/ts/**/*"]
+  "include": ["islands/modules/**/*", "islands/core/**/*", "assets/ts/**/*"]
 }

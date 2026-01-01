@@ -387,9 +387,24 @@
     /* Custom Spacing / Animation */
     --spacing-15: 3.75rem;
     --tracking-tagline: 0.15em;
+
+    --breakpoint-xs: 30rem;
+    --breakpoint-2xl: 100rem;
+    --breakpoint-3xl: 120rem;
 }
 
 @layer utilities {
+  /* Chrome, Safari and Opera */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* IE and Edge */
+  .scrollbar-hide {
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  /* Firefox */
+  }
+
   /* --- Helper Classes --- */
   .tap-highlight-color {
     -webkit-tap-highlight-color: transparent;
@@ -449,5 +464,56 @@
   .animate-float-slow {
     animation: float-y 4s ease-in-out infinite;
   }
+
+  /* --- RADIX NAVIGATION MENU ANIMATIONS --- */
+  @keyframes enterFromRight {
+    from { opacity: 0; transform: translateX(200px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes enterFromLeft {
+    from { opacity: 0; transform: translateX(-200px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes exitToRight {
+    from { opacity: 1; transform: translateX(0); }
+    to { opacity: 0; transform: translateX(200px); }
+  }
+
+  @keyframes exitToLeft {
+    from { opacity: 1; transform: translateX(0); }
+    to { opacity: 0; transform: translateX(-200px); }
+  }
+
+  @keyframes scaleIn {
+    from { opacity: 0; transform: rotateX(-10deg) scale(0.9); }
+    to { opacity: 1; transform: rotateX(0) scale(1); }
+  }
+
+  @keyframes scaleOut {
+    from { opacity: 1; transform: rotateX(0) scale(1); }
+    to { opacity: 0; transform: rotateX(-10deg) scale(0.95); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+
+  /* Utility Classes mapping to Keyframes */
+  .animate-enterFromLeft { animation: enterFromLeft 250ms ease; }
+  .animate-enterFromRight { animation: enterFromRight 250ms ease; }
+  .animate-exitToLeft { animation: exitToLeft 250ms ease; }
+  .animate-exitToRight { animation: exitToRight 250ms ease; }
+  .animate-scaleIn { animation: scaleIn 200ms ease; }
+  .animate-scaleOut { animation: scaleOut 200ms ease; }
+  .animate-fadeIn { animation: fadeIn 200ms ease; }
+  .animate-fadeOut { animation: fadeOut 200ms ease; }
 }
 
