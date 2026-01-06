@@ -1,24 +1,26 @@
-[style]
-    theme_variant = "brainwave"
+# [style]
+#     theme_variant = "brainwave"
 
-[header]
-    variant = "brainwave"
+# [header]
+#     variant = "brainwave"
 
-    [header.logo] 
-        variant = "brainwave"
-        title="BRAINWAVE"
-        href = "/"
+#     [header.logo] 
+#         variant = "brainwave"
+#         title="BRAINWAVE"
+#         href = "/"
 
-        # Props Hootodus Logo
-        hotodus-class-name = ""
-        img-url = "images/exodus.svg"
-        img-alt = "braibnwave Logo"
+#         # Props Hootodus Logo
+#         hotodus-class-name = ""
+#         img-url = "images/exodus.svg"
+#         img-alt = "braibnwave Logo"
 
-        # Props Brainwave Logo
-        brainwave-class-name = ""
-        scene-class-name = ""
-        # scene-url = "https://prod.spline.design/reAn1UQOOP2t0Mjf/scene.splinecode"
-        video-src = "videos/eye-anime-girl.mp4"
-        beam-size = 50
-        video-font-size = "1.875rem"
-        video-font-weight = 800 
+#         # Props Brainwave Logo
+#         brainwave-class-name = ""
+#         scene-class-name = ""
+#         # scene-url = "https://prod.spline.design/reAn1UQOOP2t0Mjf/scene.splinecode"
+#         video-src = "videos/eye-anime-girl.mp4"
+#         beam-size = 50
+#         video-font-size = "1.875rem"
+#         video-font-weight = 800 
+
+

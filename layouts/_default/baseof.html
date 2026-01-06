@@ -1,5 +1,3 @@
-{{ $data := .Site.Menus.main }}
-
 <!DOCTYPE html>
 <html 
     lang="{{ or site.Language.LanguageCode site.Language.Lang }}" 
@@ -9,21 +7,19 @@
 {{- partial "structure/head.html" . -}}
 
 <body>
-    {{/* Header */}}        
     {{ $variant := .Site.Params.header.variant | default "basic" }}
     {{ $headerPath := printf "structure/header/%s.html" $variant }}
     
     {{ if templates.Exists (printf "partials/%s" $headerPath ) }}
         {{ partial $headerPath . }}
     {{ else }}
-        {{/* Fallback jika layout yang diminta tidak ada */}}
         {{ partial "structure/header/basic.html" . }}
     {{ end }}
 
-    {{/* Main Content */}}
-    <main class="relative z-0"> 
-        {{/* z-0 agar konten tidak menutupi dropdown menu (yang biasanya z-10/z-50) */}}
+    <main class="relative z-10"> 
         {{ block "main" . }}{{ end }}
     </main>
+
+    {{ partial "structure/footer.html" . }}
 </body>
 </html>

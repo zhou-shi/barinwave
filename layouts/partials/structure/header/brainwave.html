@@ -1,20 +1,18 @@
-{{ $id := delimit (slice "header-component" (now.UnixNano)) "-" }}
+{{ $uniqueID := now.UnixNano }}{{ $targetId := printf "island-%d" $uniqueID }}{{ $dataId := printf "data-%d" $uniqueID }}
+<div id="{{ $targetId }}"></div>
 
-<div id="{{ $id }}">
-    <script id="data-{{ $id }}" type="application/json">
-        {{ dict 
-            "Menus" .Site.Menus.main 
-            "Params" .Site.Params
-            | jsonify | safeJS 
-        }}
-    </script>
-    
-    <script>
+<script id="{{ $dataId }}" type="application/json">
+    {{/* Tambahkan .Page.Params ke dalam Dictionary */}}
+    {{ dict "Params" .Site.Params "Page" .Page.Params "Menus" .Site.Menus.main "Data" .Site.Data | jsonify | safeJS }}
+</script>
+
+<script>
+    (function() {
         window.requestIslands = window.requestIslands || [];
         window.requestIslands.push({
-            component: "BrainwaveHeader",
-            targetId: "{{ $id }}",
-            dataId: "data-{{ $id }}"
+            component: "brainwave",
+            targetId: "{{ $targetId }}",
+            dataId: "{{ $dataId }}"
         });
-    </script>
-</div>
+    })();
+</script>

@@ -1,8 +1,8 @@
 import {clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { HugoMenuEntry } from "../types";
-import { LucideIconKey, NavigationMenuItems } from "../features/header/types";
 import * as LucideIcons from "lucide-react";
+import { LucideIconKey, NavigationMenuItems } from "../components/header/types";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));

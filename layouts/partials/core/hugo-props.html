@@ -1,0 +1,60 @@
+{{/* --- UNIVERSAL PROPS HANDLER --- */}}
+{{/* Template ini menangani logika props baik saat dipanggil sebagai Shortcode maupun Partial */}}
+
+{{ $mergedProps := dict }}
+{{ $userClass := "" }}
+
+{{/* Cek Tipe Context (.) */}}
+{{ $type := printf "%T" . }}
+{{ $isPage := eq $type "*hugolib.pageState" }} 
+{{ $isMap := reflect.IsMap . }}
+
+{{ if $isPage }}
+    {{/* KASUS 1: Dipanggil sebagai PARTIAL dengan Page Context */}}
+    {{/* Contoh: {{ partial "structure/footer.html" . }} */}}
+    {{/* Di sini kita tidak bisa pakai .Get, jadi kita ambil Params dari halaman saja */}}
+    {{ $mergedProps = .Params }} 
+
+{{ else if $isMap }}
+    {{/* KASUS 2: Dipanggil sebagai PARTIAL dengan Dict/Map */}}
+    {{/* Contoh: {{ partial "structure/footer.html" (dict "className" "bg-red") }} */}}
+    {{ $userClass = index . "className" | default (index . "class") }}
+    {{ $mergedProps = . }}
+
+{{ else }}
+    {{/* KASUS 3: Dipanggil sebagai SHORTCODE */}}
+    {{/* Contoh: {{< footer className="mt-10" >}} */}}
+    {{/* Hanya di sini kita boleh pakai .Get */}}
+    {{ $userClass = .Get "className" | default (.Get "class") }}
+    
+    {{/* Gabungkan Page Params dengan Shortcode Params */}}
+    {{ $mergedProps = .Page.Params }}
+    {{ range $k, $v := .Params }}
+        {{ $mergedProps = merge $mergedProps (dict $k $v) }}
+    {{ end }}
+{{ end }}
+
+{{/* --- RENDER ATTRIBUTES --- */}}
+
+{{/* 1. Render ClassName (jika ada) */}}
+{{ if $userClass }}
+    class="{{ $userClass }}"
+{{ end }}
+
+{{/* 2. Render Sisa Props */}}
+{{ range $k, $v := $mergedProps }}
+    {{/* Filter atribut internal yang tidak perlu dicetak ke HTML */}}
+    {{ if and (ne $k "className") (ne $k "class") (ne $k "draft") (ne $k "layout") (ne $k "menus") }}
+        
+        {{/* Handle tipe data Slice/Array agar tidak error saat render string */}}
+        {{ if reflect.IsSlice $v }}
+            {{/* Opsional: Render array sebagai string comma-separated */}}
+            {{/* {{ $k }}="{{ delimit $v "," }}" */}}
+        {{ else if reflect.IsMap $v }}
+            {{/* Skip Map/Object kompleks agar tidak merusak HTML */}}
+        {{ else }}
+            {{ $k }}="{{ $v }}"
+        {{ end }}
+
+    {{ end }}
+{{ end }}

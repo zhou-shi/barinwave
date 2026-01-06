@@ -1,27 +1,44 @@
 import type { IslandConfig } from "./core/island-builder";
 
-const TEMPLATES_ROOT = ['islands', 'templates'];
+const MODULE_ROOT = ['islands', 'modules'];
 const HUGO_PARTIALS = ['layouts', 'partials'];
 
 // Helper path
-const getTemplate = (...path: string[]) => [...TEMPLATES_ROOT, ...path];
+const getModule = (...path: string[]) => [...MODULE_ROOT, ...path];
 
 export const islandsConfig: IslandConfig[] = [
-    // Feature Components
     {
         name: 'basic',
         outputDir: [...HUGO_PARTIALS, 'structure', 'header'],
-        templateSource : [...getTemplate('brainwave', 'header', 'basic')]
+        moduleSource : [...getModule('components', 'header', 'hotodus')],
+        mode: 'interactive'
     },
     {
         name: 'brainwave',
         outputDir: [...HUGO_PARTIALS, 'structure', 'header'],
-        templateSource : [...getTemplate('brainwave', 'header', 'brainwave')]
+        moduleSource : [...getModule('components', 'header', 'brainwave')],
+        mode: 'interactive'
     },
-    // Lightswind UI Components
     {
-        name: 'border-beam',
-        outputDir: [...HUGO_PARTIALS, 'lightswind-ui'],
-        templateSource : [...getTemplate('lightswind', 'border-beam')]
+        name: 'home',
+        outputDir: [...HUGO_PARTIALS, 'pages'],
+        moduleSource : [...getModule('pages', 'home')],
+        mode: 'interactive',
+        createShortcode: true
     },
+    {
+        name: 'wbs',
+        outputDir: [...HUGO_PARTIALS, 'pages'],
+        moduleSource : [...getModule('pages', 'layanan', 'wbs')],
+        mode: 'interactive',
+        createShortcode: true
+    },
+    {
+        name: 'footer',
+        outputDir: [...HUGO_PARTIALS, 'structure'],
+        moduleSource : [...getModule('components', 'footer')],
+        mode: 'static',
+    },
+
 ];
+

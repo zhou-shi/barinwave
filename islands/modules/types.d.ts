@@ -1,3 +1,5 @@
+import { R } from "node_modules/framer-motion/dist/types.d-DagZKalS";
+
 declare global {
     interface Window {
         requestIslands?: IslandRequest[];
@@ -19,7 +21,9 @@ export interface IslandMenuParams {
 
 export interface IslandProps {
     Menus?: HugoMenuEntry[];
-    Params?: HugoParamsEntry;
+    Params?: Record<string, any>;
+    Data?: Record<string, any>;
+    Page?: Record<string, any>;
 };
 
 export interface HugoMenuEntry  {
@@ -37,11 +41,6 @@ export interface HugoMenuEntry  {
   ConfiguredURL?: string;
   Page?: any;
   Children?: HugoMenuEntry[];
-}
-
-export interface HugoParamsEntry {
-    islands?: Record<string, any>;
-    [key: string]: any;
 }
 
 export {};

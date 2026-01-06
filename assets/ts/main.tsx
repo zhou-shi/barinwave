@@ -1,62 +1,118 @@
-import BasicHeader from "@/modules/features/header/hotodus";
-import BarinwaveHeader from "@/modules/features/header/brainwave";
-import { HugoMenuEntry, HugoParamsEntry, IslandProps } from "@/modules/types";
+import { HugoMenuEntry, IslandProps } from "@/modules/types";
 import {h, FunctionalComponent, render } from "preact";
 
-const COMPONENT_MAP: Record<string, FunctionalComponent<IslandProps>> = {
-    "BasicHeader": BasicHeader,
-    "BrainwaveHeader": BarinwaveHeader,
+type IslandModul = {
+    default: FunctionalComponent<IslandProps>;
+}
 
+const COMPONENT_LOADERS: Record<string, () => Promise<IslandModul>> = {
+    "basic": () => import("@/modules/components/header/hotodus"),
+    "brainwave": () => import("@/modules/components/header/brainwave"),
+    "home": () => import("@/modules/pages/home"),
+    "wbs": () => import("@/modules/pages/layanan/wbs"),
 };
 
-
-const init = () => {
+// ASYNC karena import() butuh waktu (await)
+const init = async () => {
     const queue = window.requestIslands || [];
 
-    queue.forEach((req) => {
+    // Gunakan for ..of agar bisa await di dalam loop
+    for (const req of queue) {
         const { component, targetId, dataId } = req;
-
-        const Component = COMPONENT_MAP[component];
         const root = document.getElementById(targetId);
-        const dataScript = dataId ? document.getElementById(dataId) : null;
 
-        if (Component && root) {
+        // Cek apakah loader tersedia
+        const loader = COMPONENT_LOADERS[component];
+
+        if (loader && root) {
             try {
+                // DOWNLOAD SCRIPT SAAT DIPERLUKAN SAJA (Lazy Load)
+                // Browser baru akan request file JS komponen di baris ini
+                const module = await loader();
+
+                const Component = module.default;
+                // Ambil data dari <script> jika ada sebelum konten dihancurkan
+                const dataScript = dataId ? document.getElementById(dataId) : null;
+                // Hancurkan konten l
                 root.innerHTML = '';
 
-                let props: IslandProps = {
-                    Menus: [],
-                    Params: {}
-                };
+                let props: IslandProps = {Menus: [], Params: {}};
 
                 if (dataScript) {
                     const rawData = JSON.parse(dataScript.textContent || 'null'); 
-
                     if (rawData) {
                         if (Array.isArray(rawData)) {
                             props.Menus = rawData as HugoMenuEntry[];
                         } else if (typeof rawData === 'object') {
                             const hasMenuKey = 'Menus' in rawData;
                             const hasParamsKey = 'Params' in rawData;
-
-                            if (hasMenuKey || hasParamsKey) {
+                            const hasDataKey = 'Data' in rawData;
+                            const hasPageKey = 'Page' in rawData;
+                            if (hasMenuKey || hasParamsKey || hasDataKey || hasPageKey) {
                                 props.Menus = rawData.Menus as HugoMenuEntry[] || [];
-                                props.Params = rawData.Params as HugoParamsEntry || {};
+                                props.Params = rawData.Params as Pick<IslandProps, "Params"> || {};
+                                props.Data = rawData.Data as Pick<IslandProps, "Data"> || {};
+                                props.Page = rawData.Page as Pick<IslandProps, "Page"> || {};
                             } else {
-                                props.Params = rawData as HugoParamsEntry;
+                                props.Params = rawData as Pick<IslandProps, "Params">;
                             }
                         } 
                     }
-                    render(<Component {...props} />, root);
-                } else {
-                    render(<Component />, root);
-                }
+                } 
 
-            } catch (err) {   
+                render(<Component {...props} />, root);
+
+            } catch (err) {
                 console.error(`❌ Error rendering ${component}:`, err);
             }
         }
-    });
+    }
+
+    // queue.forEach((req) => {
+    //     const { component, targetId, dataId } = req;
+
+    //     const Component = COMPONENT_MAP[component];
+    //     const root = document.getElementById(targetId);
+    //     const dataScript = dataId ? document.getElementById(dataId) : null;
+
+    //     if (Component && root) {
+    //         try {
+    //             root.innerHTML = '';
+
+    //             let props: IslandProps = {
+    //                 Menus: [],
+    //                 Params: {}
+    //             };
+
+    //             if (dataScript) {
+    //                 const rawData = JSON.parse(dataScript.textContent || 'null'); 
+
+    //                 if (rawData) {
+    //                     if (Array.isArray(rawData)) {
+    //                         props.Menus = rawData as HugoMenuEntry[];
+    //                     } else if (typeof rawData === 'object') {
+    //                         const hasMenuKey = 'Menus' in rawData;
+    //                         const hasParamsKey = 'Params' in rawData;
+
+    //                         if (hasMenuKey || hasParamsKey) {
+    //                             props.Menus = rawData.Menus as HugoMenuEntry[] || [];
+    //                             props.Params = rawData.Params as HugoParamsEntry || {};
+    //                         } else {
+    //                             props.Params = rawData as HugoParamsEntry;
+    //                         }
+    //                     } 
+    //                 }
+    //                 render(<Component {...props} />, root);
+    //             } else {
+    //                 render(<Component />, root);
+    //             }
+
+    //         } catch (err) {   
+    //             console.error(`❌ Error rendering ${component}:`, err);
+    //         }
+    //     }
+    // });
+    
 };
 
 if (document.readyState === "loading") {

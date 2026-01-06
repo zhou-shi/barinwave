@@ -139,7 +139,7 @@
 
     }
 
-    :where([data-theme="provkalbar"]) {
+    :where([data-theme="kalbarprov"]) {
       /* Government: Inter (Bersih) + Merriweather (Wibawa) */
       --font-sans: "Inter", sans-serif;
       --font-display: "Merriweather", serif; 
@@ -185,7 +185,7 @@
       --color-t-950: theme('colors.red.950');
     }
 
-    :where([data-theme="provkalbar"].dark) {
+    :where([data-theme="kalbarprov"].dark) {
         /* Primary: Emerald INVERTED */
         --color-p-50:  theme('colors.emerald.950');
         --color-p-100: theme('colors.emerald.900');
@@ -391,6 +391,16 @@
     --breakpoint-xs: 30rem;
     --breakpoint-2xl: 100rem;
     --breakpoint-3xl: 120rem;
+
+    /* --- ANIMATION EASING (Pengganti Framer Motion) --- */
+    /* ease-spring: Memberikan efek membal sedikit di akhir */
+    --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+    /* ease-smooth: Transisi yang sangat halus dan premium */
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Custom Duration jika diperlukan */
+    --animate-duration-2000: 2000ms;
 }
 
 @layer utilities {
@@ -515,5 +525,6 @@
   .animate-scaleOut { animation: scaleOut 200ms ease; }
   .animate-fadeIn { animation: fadeIn 200ms ease; }
   .animate-fadeOut { animation: fadeOut 200ms ease; }
+
 }
 
