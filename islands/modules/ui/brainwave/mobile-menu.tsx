@@ -1,10 +1,14 @@
 import { cn } from "@/modules/lib/utils";
 import * as Collapsible from "@radix-ui/react-collapsible";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDownIcon } from "lucide-react";
-import { ComponentType, h } from "preact";
+import { ChevronDownIcon, LucideIcon } from "lucide-react";
 import { useState } from "preact/hooks";
-import { NavigationMenuItems } from "../components/header/types";
+import { NavigationMenuItems } from "../../components/types";
+import { ConfigIsland } from "../../types";
+
+export const config: ConfigIsland = {
+    build: false 
+};
 
 export const MenuItemLayout = ({ 
   title, 
@@ -15,7 +19,7 @@ export const MenuItemLayout = ({
 }: { 
   title: string, 
   description?: string, 
-  icon?: ComponentType<{className?: string}>, 
+  icon?: LucideIcon,
   hasChildren?: boolean, 
   isOpen?: boolean 
 }) => (

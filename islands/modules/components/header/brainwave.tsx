@@ -1,4 +1,3 @@
-import { h, Fragment } from "preact"
 import { useIsMobile } from "@/modules/hooks/use-mobile";
 import {
   NavigationMenu,
@@ -14,14 +13,14 @@ import {
    MotionConfig, 
    Variants 
 } from "framer-motion";
-import { MenuItemLayout, MobileMenuItem } from "@/modules/ui/mobile-menu";
+import { MenuItemLayout, MobileMenuItem } from "@/modules/ui/brainwave/mobile-menu";
 import { cn, keysToCamel, mapHugoMenuEntry } from "@/modules/lib/utils";
 import { ToggleTheme } from "@/modules/ui/lightswind/theme-toggle";
-import { IslandProps } from "@/modules/types";
+import { ConfigIsland, IslandProps } from "@/modules/types";
 import { ShineButton } from "@/modules/ui/lightswind/shine-button";
 import { useEffect, useState } from "preact/hooks";
-import { NavigationMenuItems } from "./types";
-import { Dispatcher, LogoConfig } from "../logos/dispatcher";
+import { NavigationMenuItems } from "../types";
+import { Dispatcher } from "../logos/dispatcher";
 
 const MotionSpan = ({className,...props}:HTMLMotionProps<"span">) => (
   <motion.span
@@ -266,6 +265,8 @@ const ResponsiveNavigation = ({Menus=[]}: {Menus: NavigationMenuItems[]}) => {
     </motion.nav>
   )
 };
+
+export const config: ConfigIsland = { mode: "interactive", createShortcode: false };
 
 const Brainwave = ({Menus=[], Params={}}: IslandProps) => {
    const cleanMenus = mapHugoMenuEntry(Menus);

@@ -1,0 +1,81 @@
+
+<script>
+    window.__BRAINWAVE_ENV__ = window.__BRAINWAVE_ENV__ || {};
+    Object.assign(window.__BRAINWAVE_ENV__, {"VITE_SUPABASE_URL":"https://xxx.supabase.co","VITE_SUPABASE_ANON_KEY":"eyJh..."});
+</script>
+{{ $uniqueID := now.UnixNano }}{{ $targetId := printf "island-%d" $uniqueID }}{{ $dataId := printf "data-%d" $uniqueID }}
+<div id="{{ $targetId }}"><header class="fixed w-full rounded-lg flex items-center md:justify-between md:px-8 lg:px-16 bg-linear-to-r/oklch z-50 transition-all duration-300 py-4 from-primary-600 to-secondary-600 text-primary-100"><a href="#" class="z-50"></a><nav style="clip-path:none;"><nav aria-label="Main" data-orientation="horizontal" dir="ltr" data-slot="navigation-menu" data-viewport="false" class="group/navigation-menu relative flex max-w-max flex-1 items-center justify-center"><div style="position:relative;"></div></nav></nav><div class="hidden items-center px-2 md:flex"><button class="p-2 rounded-full transition-colors duration-300 hover:text-blue-500"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-moon h-6 w-6"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path></svg></button><style>
+                            ::view-transition-old(root),
+                            ::view-transition-new(root) {
+                                animation: none;
+                                mix-blend-mode: normal;
+                            }
+                        </style><button class="relative text-netral-950 font-medium rounded-md min-w-[120px] min-h-[44px] transition-all duration-700 ease-in-out
+        border-none cursor-pointer shadow-[0px_0px_20px_rgba(71,184,255,0.5),0px_5px_5px_-1px_rgba(58,125,233,0.25),inset_4px_4px_8px_rgba(175,230,255,0.5),inset_-4px_-4px_8px_rgba(19,95,216,0.35)]
+        focus:outline-none focus:ring-2 focus:ring-netral-950 focus:ring-offset-2 focus:ring-offset-blue-500
+        hover:bg-[length:280%_auto] active:scale-95 " style="background-image:linear-gradient(325deg, var(--color-primary) 0%, var(--color-secondary) 55%, var(--color-primary) 90%);background-size:280% auto;background-position:initial;color:var(--netral-950);font-size:0.875rem;padding:0.5rem 1rem;transition:0.8s;">Login<div class="absolute top-0 left-[-75%] w-[200%] 
+      h-full bg-netral-950/40 skew-x-[-20deg] opacity-0 
+      group-hover:opacity-100 animate-shine pointer-events-none z-20"></div></button></div></header></div>
+
+<script id="{{ $dataId }}" type="application/json">
+    {{/* --- INISIALISASI VARIABEL DEFAULT (Asumsi: Halaman Hugo Biasa) --- */}}
+    {{ $finalData := .Site.Data }}
+    {{ $finalParams := .Site.Params }}
+    {{ $finalMenus := .Site.Menus.main }}
+    {{ $pageCtx := . }} {{/* Default context adalah dot saat ini */}}
+
+    {{/* --- LOGIKA PENCABANGAN (MAP vs STRUCT) --- */}}
+    {{ if reflect.IsMap . }}
+        {{/* === JALUR 1: ASSEMBLER (Input berupa Map/Dict) === */}}
+        
+        {{/* 1. Ambil Data Spesifik dari Props */}}
+        {{ $finalData = .Data | default .Site.Data }}
+        
+        {{/* 2. Ambil Params Spesifik (Merge dengan Global jika perlu) */}}
+        {{ if .Params }}
+            {{ $finalParams = merge $finalParams .Params }}
+        {{ end }}
+
+        {{/* 3. Ambil Page Context Asli yang diselipkan di key 'ctx' */}}
+        {{/* PENTING: Gunakan fungsi 'index' agar aman mengambil key dari Map */}}
+        {{ $extractedCtx := index . "ctx" }}
+        {{ if $extractedCtx }}
+            {{ $pageCtx = $extractedCtx }}
+        {{ end }}
+
+    {{ else }}
+        {{/* === JALUR 2: STANDARD PAGE / SHORTCODE (Input berupa Page Object/Struct) === */}}
+        
+        {{/* 1. Ambil Params Lokal Page */}}
+        {{ if .Params }}
+            {{ $finalParams = merge $finalParams .Params }}
+        {{ end }}
+
+        {{/* 2. Cek apakah ini Shortcode (.Page merujuk ke parent page) */}}
+        {{ if .Page }}
+            {{ $pageCtx = .Page }}
+        {{ end }}
+        
+        {{/* 3. Halaman List kadang punya .Data yang berbahaya, jadi kita tetap pakai .Site.Data (default diatas) */}}
+    {{ end }}
+
+
+    {{/* --- EKSTRAKSI PAGE META --- */}}
+    {{/* Sekarang $pageCtx dijamin berisi Objek Page yang valid (baik dari Assembler maupun Page biasa) */}}
+    {{ $pageMeta := dict "Title" ($pageCtx.Title | default "") "Permalink" ($pageCtx.Permalink | default "") "IsHome" ($pageCtx.IsHome | default false) }}
+
+
+    {{/* --- RENDER FINAL JSON --- */}}
+    {{ dict "Params" $finalParams "Menus" $finalMenus "Data" $finalData "Page" $pageMeta | jsonify | safeJS }}
+</script>
+
+<script>
+    (function() {
+        window.requestIslands = window.requestIslands || [];
+        window.requestIslands.push({
+            component: "brainwave",
+            targetId: "{{ $targetId }}",
+            dataId: "{{ $dataId }}"
+        });
+    })();
+</script>

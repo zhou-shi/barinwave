@@ -1,3 +1,28 @@
+// {
+//   "compilerOptions": {
+//     "target": "ESNext",
+//     "module": "ESNext",
+//     "moduleResolution": "bundler",
+//     "strict": true,
+//     "esModuleInterop": true,
+//     "skipLibCheck": true,
+
+//     "jsx": "react",                 
+//     "jsxFactory": "h",              
+//     "jsxFragmentFactory": "Fragment", 
+    
+//     "baseUrl": ".",
+//     "paths": {
+//       "@/*": ["./islands/*"],
+//       "react": ["./node_modules/preact/compat"],
+//       "react-dom": ["./node_modules/preact/compat"],
+//       "react/jsx-runtime": ["./node_modules/preact/jsx-runtime"]
+      
+//     }
+//   },
+//   "include": ["islands/modules/**/*", "islands/core/**/*", "assets/ts/**/*"]
+// }
+
 {
   "compilerOptions": {
     "target": "ESNext",
@@ -7,15 +32,20 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
 
-    "jsx": "react",                 
-    "jsxFactory": "h",              
-    "jsxFragmentFactory": "Fragment", 
-    
+    "jsx": "react-jsx",
+    "jsxImportSource": "react", 
+
     "baseUrl": ".",
     "paths": {
       "@/*": ["./islands/*"],
-      
-    }
+      "react": ["./node_modules/preact/compat"],
+      "react-dom": ["./node_modules/preact/compat"],
+      "react/jsx-runtime": ["./node_modules/preact/jsx-runtime"]
+    },
+    
   },
-  "include": ["islands/modules/**/*", "islands/core/**/*", "assets/ts/**/*"]
+  "include": [
+    "islands/**/*", 
+    "assets/ts/**/*"
+  ]
 }

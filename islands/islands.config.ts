@@ -8,7 +8,7 @@ const getModule = (...path: string[]) => [...MODULE_ROOT, ...path];
 
 export const islandsConfig: IslandConfig[] = [
     {
-        name: 'basic',
+        name: 'hotodus',
         outputDir: [...HUGO_PARTIALS, 'structure', 'header'],
         moduleSource : [...getModule('components', 'header', 'hotodus')],
         mode: 'interactive'
@@ -30,6 +30,20 @@ export const islandsConfig: IslandConfig[] = [
         name: 'wbs',
         outputDir: [...HUGO_PARTIALS, 'pages'],
         moduleSource : [...getModule('pages', 'layanan', 'wbs')],
+        mode: 'interactive',
+        createShortcode: true
+    },
+    {
+        name: 'gratifikasi',
+        outputDir: [...HUGO_PARTIALS, 'pages'],
+        moduleSource : [...getModule('pages', 'layanan', 'gratifikasi')],
+        mode: 'interactive',
+        createShortcode: true
+    },
+    {
+        name: 'konsultasi',
+        outputDir: [...HUGO_PARTIALS, 'pages'],
+        moduleSource : [...getModule('pages', 'layanan', 'konsultasi')],
         mode: 'interactive',
         createShortcode: true
     },

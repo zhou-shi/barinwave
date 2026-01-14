@@ -1,11 +1,11 @@
 import { ErrorBoundary } from "@/modules/lib/error-boundry";
 import { cn } from "@/modules/lib/utils";
+import { ConfigIsland } from "@/modules/types";
 import { BorderBeam } from "@/modules/ui/lightswind/border-beam";
 import { VideoText } from "@/modules/ui/lightswind/video-text";
 import SceneIcon, { SceneIconProps } from "@/modules/ui/spline/scene-icon";
 import ScenePlaceholder from "@/modules/ui/spline/scene-paceholder";
 import { Suspense } from "node_modules/preact/compat/src/suspense";
-import { h } from "preact";
 
 export interface BrainwaveProps extends Omit<SceneIconProps, "className"> {
     beamSize?: number;
@@ -16,6 +16,8 @@ export interface BrainwaveProps extends Omit<SceneIconProps, "className"> {
     sceneClassName?: string;
     brainwaveClassName?: string;
 };
+
+export const config: ConfigIsland = {build: false};
 
 const Brainwave = ({
     beamSize=50, 
@@ -39,11 +41,11 @@ const Brainwave = ({
             colorTo="var(--color-secondary-600)"
         />
         <div className="basis-1/6 flex justify-center items-center size-16">
-        <ErrorBoundary fallback={<ScenePlaceholder isError={true} />}>
-            <Suspense fallback={<ScenePlaceholder />}>
-                <SceneIcon sceneUrl={sceneUrl} className={sceneClassName} />
-            </Suspense>
-        </ErrorBoundary>
+            <ErrorBoundary fallback={<ScenePlaceholder isError={true} />}>
+                <Suspense fallback={<ScenePlaceholder />}>
+                    <SceneIcon sceneUrl={sceneUrl} className={sceneClassName} />
+                </Suspense>
+            </ErrorBoundary>
         </div>
         <div className="basis-11/12 flex items-center h-12">
             <VideoText

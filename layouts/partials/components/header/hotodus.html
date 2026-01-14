@@ -1,0 +1,70 @@
+
+<script>
+    window.__BRAINWAVE_ENV__ = window.__BRAINWAVE_ENV__ || {};
+    Object.assign(window.__BRAINWAVE_ENV__, {"VITE_SUPABASE_URL":"https://xxx.supabase.co","VITE_SUPABASE_ANON_KEY":"eyJh..."});
+</script>
+{{ $uniqueID := now.UnixNano }}{{ $targetId := printf "island-%d" $uniqueID }}{{ $dataId := printf "data-%d" $uniqueID }}
+<div id="{{ $targetId }}"><header class="fixed top-6 left-0 right-0 z-50 flex justify-center items-center w-full pointer-events-none"><nav style="height:64px;border-radius:50px;"><div class="flex flex-col w-full h-full relative items-center"><div class="flex items-center justify-between px-6 md:py-4 py-2 h-16 shrink-0 w-full relative z-20"><a href="#" class="text-primary-50"></a><div class="hidden md:flex items-center justify-center absolute left-0 right-0 h-full pointer-events-none"><nav aria-label="Main" data-orientation="horizontal" dir="ltr" class="pointer-events-auto relative z-10 flex w-full justify-center"><div style="position:relative;"></div></nav></div><div class="flex items-center gap-4"><a href="#" class="hidden md:inline-flex items-center justify-center h-10 px-6 rounded-full font-bold text-sm transition-colors bg-netral-50 text-primary-900 hover:bg-netral-100">Let's Talk</a><button data-slot="button" data-variant="outline" data-size="default" class="items-center gap-2 whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=size-])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 px-4 py-2 has-[>svg]:px-3 hidden md:flex relative h-10 w-full justify-start rounded-[0.5rem] bg-netral-900 border-netral-800 text-sm text-netral-400 sm:pr-12 md:w-40 lg:w-64 hover:bg-netral-800 hover:text-netral-50"><span class="inline-flex gap-2 items-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-search h-4 w-4"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg><span class="hidden lg:inline-flex">Cari layanan...</span><span class="inline-flex lg:hidden">Cari...</span></span><kbd class="pointer-events-none absolute right-1.5 top-1.5 hidden h-6 select-none items-center gap-1 rounded border border-netral-700 bg-netral-950 px-1.5 font-mono text-[10px] font-medium text-netral-400 opacity-100 sm:flex"><span class="text-xs">⌘</span>K</kbd></button><button data-slot="button" data-variant="ghost" data-size="icon" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=size-])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-9 md:hidden text-netral-400"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-search h-5 w-5"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg></button><button aria-label="Open main menu" aria-expanded="false" aria-controls="mobile-menu-content" class="md:hidden rounded-md transition-colors text-primary-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-secondary-300 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-900"></button></div></div><div style="opacity:0;display:none;transform:translateY(-10px);"><div dir="ltr" class="w-full h-full" style="position:relative;--radix-scroll-area-corner-width:0px;--radix-scroll-area-corner-height:0px;"><style>[data-radix-scroll-area-viewport]{scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;}[data-radix-scroll-area-viewport]::-webkit-scrollbar{display:none}</style><div data-radix-scroll-area-viewport class="w-full h-full pb-6" style="overflow-x:hidden;overflow-y:hidden;"><div style="min-width:100%;display:table;"><div class="px-6 pt-2 flex flex-col gap-2"><div class="mt-4 pt-4 border-t border-primary-50/10 pb-8"><a href="#" class="flex items-center justify-center w-full py-3 bg-netral-50 text-primary-900 font-bold rounded-lg hover:bg-netral-100 transition-colors">Let's Talk</a><button data-slot="button" data-variant="outline" data-size="default" class="items-center gap-2 whitespace-nowrap font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=size-])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border shadow-xs dark:bg-input/30 dark:border-input dark:hover:bg-input/50 px-4 py-2 has-[>svg]:px-3 hidden md:flex relative h-10 w-full justify-start rounded-[0.5rem] bg-netral-900 border-netral-800 text-sm text-netral-400 sm:pr-12 md:w-40 lg:w-64 hover:bg-netral-800 hover:text-netral-50"><span class="inline-flex gap-2 items-center"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-search h-4 w-4"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg><span class="hidden lg:inline-flex">Cari layanan...</span><span class="inline-flex lg:hidden">Cari...</span></span><kbd class="pointer-events-none absolute right-1.5 top-1.5 hidden h-6 select-none items-center gap-1 rounded border border-netral-700 bg-netral-950 px-1.5 font-mono text-[10px] font-medium text-netral-400 opacity-100 sm:flex"><span class="text-xs">⌘</span>K</kbd></button><button data-slot="button" data-variant="ghost" data-size="icon" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=size-])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-9 md:hidden text-netral-400"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-search h-5 w-5"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg></button></div></div></div></div></div></div></div></nav></header></div>
+
+<script id="{{ $dataId }}" type="application/json">
+    {{/* --- INISIALISASI VARIABEL DEFAULT (Asumsi: Halaman Hugo Biasa) --- */}}
+    {{ $finalData := .Site.Data }}
+    {{ $finalParams := .Site.Params }}
+    {{ $finalMenus := .Site.Menus.main }}
+    {{ $pageCtx := . }} {{/* Default context adalah dot saat ini */}}
+
+    {{/* --- LOGIKA PENCABANGAN (MAP vs STRUCT) --- */}}
+    {{ if reflect.IsMap . }}
+        {{/* === JALUR 1: ASSEMBLER (Input berupa Map/Dict) === */}}
+        
+        {{/* 1. Ambil Data Spesifik dari Props */}}
+        {{ $finalData = .Data | default .Site.Data }}
+        
+        {{/* 2. Ambil Params Spesifik (Merge dengan Global jika perlu) */}}
+        {{ if .Params }}
+            {{ $finalParams = merge $finalParams .Params }}
+        {{ end }}
+
+        {{/* 3. Ambil Page Context Asli yang diselipkan di key 'ctx' */}}
+        {{/* PENTING: Gunakan fungsi 'index' agar aman mengambil key dari Map */}}
+        {{ $extractedCtx := index . "ctx" }}
+        {{ if $extractedCtx }}
+            {{ $pageCtx = $extractedCtx }}
+        {{ end }}
+
+    {{ else }}
+        {{/* === JALUR 2: STANDARD PAGE / SHORTCODE (Input berupa Page Object/Struct) === */}}
+        
+        {{/* 1. Ambil Params Lokal Page */}}
+        {{ if .Params }}
+            {{ $finalParams = merge $finalParams .Params }}
+        {{ end }}
+
+        {{/* 2. Cek apakah ini Shortcode (.Page merujuk ke parent page) */}}
+        {{ if .Page }}
+            {{ $pageCtx = .Page }}
+        {{ end }}
+        
+        {{/* 3. Halaman List kadang punya .Data yang berbahaya, jadi kita tetap pakai .Site.Data (default diatas) */}}
+    {{ end }}
+
+
+    {{/* --- EKSTRAKSI PAGE META --- */}}
+    {{/* Sekarang $pageCtx dijamin berisi Objek Page yang valid (baik dari Assembler maupun Page biasa) */}}
+    {{ $pageMeta := dict "Title" ($pageCtx.Title | default "") "Permalink" ($pageCtx.Permalink | default "") "IsHome" ($pageCtx.IsHome | default false) }}
+
+
+    {{/* --- RENDER FINAL JSON --- */}}
+    {{ dict "Params" $finalParams "Menus" $finalMenus "Data" $finalData "Page" $pageMeta | jsonify | safeJS }}
+</script>
+
+<script>
+    (function() {
+        window.requestIslands = window.requestIslands || [];
+        window.requestIslands.push({
+            component: "hotodus",
+            targetId: "{{ $targetId }}",
+            dataId: "{{ $dataId }}"
+        });
+    })();
+</script>

@@ -1,11 +1,13 @@
-import { h } from "preact";
 import { cn } from "@/modules/lib/utils"; 
+import { ConfigIsland } from "@/modules/types";
 
 export interface HotodusProps {
     title?: string;
     imgUrl?: string;
     className?: string; 
 }
+
+export const config: ConfigIsland = {build: false};
 
 const Hotodus = ({ title, imgUrl, className }: HotodusProps) => {
   const hasImage = !!imgUrl;

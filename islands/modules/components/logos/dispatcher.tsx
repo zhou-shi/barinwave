@@ -1,6 +1,6 @@
-import { h } from "preact";
 import HotodusLogo, { HotodusProps } from "./hotodus";
 import BrainwaveLogo, { BrainwaveProps } from "./brainwave";
+import { ConfigIsland } from "@/modules/types";
 
 interface HotodusLogoProps extends Omit<HotodusProps, "className"> {
   variant: "hotodus";
@@ -14,9 +14,13 @@ interface BrainwaveLogoProps extends BrainwaveProps {
   imgAlt?: never;
 }
 
+export const config: ConfigIsland = {build: false};
+
 export type LogoConfig = HotodusLogoProps | BrainwaveLogoProps;
 
-export const Dispatcher = ({ config }: { config: LogoConfig }) => {
+export const Dispatcher = ({ config }: { config: LogoConfig | undefined | null }) => {
+    if (!config) return null;
+
     switch (config.variant) {
         case "brainwave":
             return (

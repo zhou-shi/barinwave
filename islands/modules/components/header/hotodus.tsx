@@ -1,4 +1,3 @@
-import { h, Fragment } from "preact";
 import { useState, useEffect } from "preact/hooks";
 import { motion, AnimatePresence, Variants, useReducedMotion } from "framer-motion";
 import { Menu, X, ChevronDown } from "lucide-react";
@@ -6,9 +5,10 @@ import * as Accordion from "@radix-ui/react-accordion";
 import * as ScrollArea from "@radix-ui/react-scroll-area";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
 import { cn, keysToCamel, mapHugoMenuEntry } from "@/modules/lib/utils";
-import { IslandProps } from "@/modules/types";
-import { NavigationMenuItems } from "./types";
+import { ConfigIsland, IslandProps } from "@/modules/types";
+import { NavigationMenuItems } from "../types";
 import { Dispatcher } from "../logos/dispatcher";
+import SearchDialog from "@/modules/components/search-dialog";
 
 // --- THEME CONSTANTS ---
 // Menggunakan Primary-900 untuk background Header agar pekat/kontras
@@ -193,12 +193,16 @@ const DesktopDropdownItem = ({ item }: { item: NavigationMenuItems }) => {
   );
 };
 
+export const config: ConfigIsland = { mode: "interactive", createShortcode: false };
+
 // --- MAIN COMPONENT ---
 export default function Hotodus({ Menus = [], Params = {} }: IslandProps) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const cleanMenus = mapHugoMenuEntry(Menus);
+  const cleanMenus: NavigationMenuItems[] = mapHugoMenuEntry(Menus);
   const cleanParams = keysToCamel(Params);
   const logoConfig = cleanParams.header?.logo;
+
+  console.log("Header component rendered with Params:", cleanParams);
 
   useEffect(() => {
     const handleResize = () => {
@@ -285,6 +289,7 @@ export default function Hotodus({ Menus = [], Params = {} }: IslandProps) {
                )}>
                 Let's Talk
               </a>
+              <SearchDialog />
               
               <button 
                 onClick={() => setIsMobileOpen(!isMobileOpen)} 
@@ -326,6 +331,7 @@ export default function Hotodus({ Menus = [], Params = {} }: IslandProps) {
                              <a href="#" className="flex items-center justify-center w-full py-3 bg-netral-50 text-primary-900 font-bold rounded-lg hover:bg-netral-100 transition-colors">
                                 Let's Talk
                              </a>
+                             <SearchDialog />
                         </div>
                     </div>
                 </ScrollArea.Viewport>
@@ -339,74 +345,3 @@ export default function Hotodus({ Menus = [], Params = {} }: IslandProps) {
     </header>
   );
 };
-
-
-
-// // --- SUB-COMPONENT: DESKTOP DROPDOWN (FLOATING CARD) ---
-// const DesktopDropdownItem = ({ item }: { item: NavigationMenuItems }) => {
-//   const [isHovered, setIsHovered] = useState(false);
-//   const hasChildren = item.children && item.children.length > 0;
-
-//   return (
-//     <div
-//       className="relative h-full flex items-center"
-//       onMouseEnter={() => setIsHovered(true)}
-//       onMouseLeave={() => setIsHovered(false)}
-//       // TAMBAHAN AKSESIBILITAS KEYBOARD:
-//       // Saat user menekan Tab dan fokus masuk ke area ini, buka dropdown
-//       onFocus={() => setIsHovered(true)}
-//       // Saat fokus keluar dari area ini (Tab ke menu berikutnya), tutup dropdown
-//       onBlur={(e) => {
-//         if (!e.currentTarget.contains(e.relatedTarget as Node)) {
-//           setIsHovered(false);
-//         }
-//       }}
-//     >
-//       <a
-//         href={item.href || "#"}
-//         className={cn(
-//           "flex items-center gap-1 px-4 py-2 rounded-full transition-colors text-sm font-medium relative z-10",
-//           isHovered ? "bg-netral-950/10 text-netral-950" : "text-netral-950/80 hover:text-netral-950"
-//         )}
-//       >
-//         {item.title}
-//         {hasChildren && <ChevronDown className={cn("w-4 h-4 transition-transform duration-200", isHovered && "rotate-180")} />}
-//       </a>
-
-//       {/* DROPDOWN POPUP */}
-//       <AnimatePresence>
-//         {isHovered && hasChildren && (
-//           <motion.div
-//             initial={{ opacity: 0, y: 15, scale: 0.95 }}
-//             animate={{ opacity: 1, y: 0, scale: 1 }}
-//             exit={{ opacity: 0, y: 15, scale: 0.95 }}
-//             transition={{ duration: 0.2 }}
-//             // Tambahkan z-50 agar muncul di atas elemen lain
-//             className="absolute top-full left-1/2 -translate-x-1/2 mt-6 w-[320px] bg-netral-950 rounded-xl shadow-2xl overflow-hidden z-50 p-2"
-//           >
-//             {/* Panah Indikator (Triangle) */}
-//             <div className="absolute top-0 left-1/2 -translate-x-1/2 -mt-1.5 w-3 h-3 bg-netral-950 rotate-45" />
-            
-//             <ul className="relative flex flex-col gap-1 max-h-[400px] overflow-y-auto scrollbar-hide p-2">
-//               {item.children!.map((child, idx) => (
-//                 <li key={idx} >
-//                     <a href={child.href || "#"} className="flex items-start gap-4 p-3 rounded-lg hover:bg-netral-50 transition-colors group">
-//                     {child.icon && (
-//                         <div className="shrink-0 p-2 rounded-full bg-teal-50 text-teal-700 group-hover:bg-teal-600 group-hover:text-netral-950 transition-colors">
-//                         <child.icon className="w-5 h-5" />
-//                         </div>
-//                     )}
-//                     <div className="flex flex-col">
-//                         <span className="text-sm font-bold text-netral-900 group-hover:text-teal-700">{child.title}</span>
-//                         {child.description && <span className="text-xs text-netral-500 mt-1 leading-snug">{child.description}</span>}
-//                     </div>
-//                     </a>
-//                 </li>
-//               ))}
-//             </ul>
-//           </motion.div>
-//         )}
-//       </AnimatePresence>
-//     </div>
-//   );
-// };

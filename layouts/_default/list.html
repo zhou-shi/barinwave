@@ -1,3 +1,84 @@
 {{ define "main" }}
-    {{.Content}}
+<div class="min-h-screen bg-netral-950">
+    <section class="py-20 px-6 container mx-auto -mt-20 relative z-10">
+        
+        {{/* Paginator: Ambil 6 halaman per load */}}
+        {{ $paginator := .Paginate (where .Pages "Type" "in" site.Params.mainSections) 6 }}
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {{ range $paginator.Pages }}
+                
+                {{/* --- KARTU ARTIKEL --- */}}
+                <article class="group relative flex flex-col h-full bg-netral-900 border border-netral-800 rounded-2xl overflow-hidden hover:border-primary-500/50 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
+                    
+                    {{/* Link Pembungkus */}}
+                    <a href="{{ .Permalink }}" class="absolute inset-0 z-10"></a>
+
+                    {{/* Gambar Thumbnail */}}
+                    <div class="aspect-[16/9] overflow-hidden bg-netral-950 relative">
+                        {{ with .Params.image }}
+                            <img src="{{ . }}" alt="{{ $.Title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                        {{ else }}
+                            {{/* Placeholder jika tidak ada gambar */}}
+                            <div class="w-full h-full flex items-center justify-center text-netral-700">
+                                <span class="text-4xl">📰</span>
+                            </div>
+                        {{ end }}
+                        
+                        {{/* Badge Kategori Overlay */}}
+                        {{ with index .Params.categories 0 }}
+                            <span class="absolute top-4 left-4 bg-black/60 backdrop-blur-md text-white text-xs font-bold px-3 py-1 rounded-full border border-white/10">
+                                {{ . }}
+                            </span>
+                        {{ end }}
+                    </div>
+
+                    {{/* Konten Teks */}}
+                    <div class="p-6 flex flex-col flex-grow">
+                        <div class="flex items-center gap-2 text-xs text-netral-400 mb-3 font-mono">
+                            <span>{{ .Date.Format "02 Jan 2006" }}</span>
+                            <span>•</span>
+                            <span>{{ .ReadingTime }} min read</span>
+                        </div>
+
+                        <h2 class="text-xl font-bold text-white mb-3 line-clamp-2 group-hover:text-primary-400 transition-colors">
+                            {{ .Title }}
+                        </h2>
+
+                        <p class="text-netral-400 text-sm line-clamp-3 mb-4 flex-grow">
+                            {{ .Summary | default .Content | truncate 120 }}
+                        </p>
+
+                        <div class="flex items-center text-primary-400 text-sm font-bold mt-auto group-hover:translate-x-2 transition-transform">
+                            Baca Selengkapnya &rarr;
+                        </div>
+                    </div>
+                </article>
+
+            {{ end }}
+        </div>
+
+        {{/* --- 3. PAGINATION (Tombol Next/Prev) --- */}}
+        {{ if gt $paginator.TotalPages 1 }}
+        <div class="mt-16 flex justify-center gap-4">
+            {{ if $paginator.HasPrev }}
+                <a href="{{ $paginator.Prev.URL }}" class="px-6 py-3 rounded-full border border-netral-700 text-white hover:bg-netral-800 transition-colors">
+                    &larr; Sebelumnya
+                </a>
+            {{ end }}
+            
+            <span class="px-4 py-3 text-netral-500 font-mono">
+                Page {{ $paginator.PageNumber }} of {{ $paginator.TotalPages }}
+            </span>
+
+            {{ if $paginator.HasNext }}
+                <a href="{{ $paginator.Next.URL }}" class="px-6 py-3 rounded-full bg-primary-600 text-white hover:bg-primary-500 transition-colors font-bold">
+                    Selanjutnya &rarr;
+                </a>
+            {{ end }}
+        </div>
+        {{ end }}
+
+    </section>
+</div>
 {{ end }}

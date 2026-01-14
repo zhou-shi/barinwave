@@ -1,6 +1,4 @@
-import { cn } from '@/modules/lib/utils';
 import Spline from '@splinetool/react-spline';
-import { h } from 'preact';
 
 export interface SceneProps {
   sceneUrl?: string;

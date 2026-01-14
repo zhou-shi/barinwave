@@ -1,50 +1,13 @@
-import { h } from "preact";
 import { Button } from "@/modules/ui/shadcn/button";
 import { cn } from "@/modules/lib/utils";
 import { motion } from "framer-motion"; // Import Magic Library
-import { IslandProps } from "../types";
-import { lazy, Suspense } from "preact/compat";
+import { ConfigIsland, IslandProps } from "../types";
+import { lazy, Suspense } from "react";
 import { ErrorBoundary } from "../lib/error-boundry";
 import ScenePlaceholder from "../ui/spline/scene-paceholder";
+import { ANIM } from "../lib/motion";
 
 const Scene = lazy(() => import("@/modules/ui/spline/scene"));
-
-// --- KONFIGURASI VARIAN ANIMASI ---
-// Kita pisahkan logic animasi di sini agar JSX tetap bersih
-
-const ANIM = {
-    // Animasi Container (untuk mengatur anak-anaknya muncul berurutan)
-    container: {
-        hidden: { opacity: 0 },
-        show: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.2, // Jeda 0.2 detik antar elemen anak
-                delayChildren: 0.1,
-            },
-        },
-    },
-    // Muncul dari Kiri (Untuk Text Hero)
-    slideRight: {
-        hidden: { x: -100, opacity: 0 },
-        show: { x: 0, opacity: 1, transition: { type: "spring", bounce: 0.4, duration: 1 } }
-    },
-    // Muncul dari Bawah (Untuk Card/Umum)
-    slideUp: {
-        hidden: { y: 50, opacity: 0 },
-        show: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 50, damping: 20 } }
-    },
-    // Efek Pop / Zoom In (Untuk Stats & 3D)
-    popIn: {
-        hidden: { scale: 0.8, opacity: 0 },
-        show: { scale: 1, opacity: 1, transition: { type: "spring", bounce: 0.5 } }
-    },
-    // Efek Kartu Berputar sedikit (Swap/Flip feel)
-    flipIn: {
-        hidden: { rotateX: 90, opacity: 0 },
-        show: { rotateX: 0, opacity: 1, transition: { type: "spring", bounce: 0.4 } }
-    }
-};
 
 // --- DATA DUMMY ---
 interface ServiceItem {
@@ -76,6 +39,7 @@ interface HomeSpecificData {
     news: NewsItem[];
 }
 
+export const config: ConfigIsland = {mode: "interactive", build: false};
 
 export const Home = ({Data}: Pick<IslandProps, "Data">) => {
     // TYPE ASSERTION / CASTING

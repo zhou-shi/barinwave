@@ -1,66 +1,35 @@
-import { h, Fragment } from "preact";
-import { useState } from "preact/hooks";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { motion } from "framer-motion"; 
-import { IslandProps } from "@/modules/types";
-import { cn } from "@/modules/lib/utils";
+import { ConfigIsland, IslandProps } from "@/modules/types";
 
-// --- SHADCN IMPORTS (The Game Changer) ---
+// --- IMPORT ANIMASI TERPUSAT ---
+import { ANIM } from "@/modules/lib/motion"; 
+
+// --- IMPORT COMPONENTS & ICONS ---
 import { Button } from "@/modules/ui/shadcn/button";
 import { Input } from "@/modules/ui/shadcn/input";
-import { Label } from "@/modules/ui/shadcn/label";
 import { Textarea } from "@/modules/ui/shadcn/textarea";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/modules/ui/shadcn/dialog";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/modules/ui/shadcn/select";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/modules/ui/shadcn/card";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/modules/ui/shadcn/accordion";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/modules/ui/shadcn/form";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/modules/ui/shadcn/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/modules/ui/shadcn/select";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/modules/ui/shadcn/card";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/modules/ui/shadcn/accordion";
+import { ShieldCheck, Lock, FileWarning, EyeOff, Send, Siren, Search, CheckCircle2 } from "lucide-react";
 
-// --- ICONS ---
-import { 
-    ShieldCheck, Lock, FileWarning, EyeOff, 
-    Send, Siren, Search, Paperclip
-} from "lucide-react";
+const MotionDiv = motion.div;
+const MotionH1 = motion.h1;
+const MotionP = motion.p;
+const FormProvider = Form;
 
-// --- ANIMATION VARIANTS (Page Level Only) ---
-// Kita biarkan Dialog & Accordion menggunakan animasi bawaan Shadcn (Radix)
-const ANIM = {
-    container: {
-        hidden: { opacity: 0 },
-        show: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.1 } },
-    },
-    slideUp: {
-        hidden: { y: 30, opacity: 0 },
-        show: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 50 } }
-    }
-};
-
+// --- DATA CONSTANTS (Updated Colors) ---
 const VIOLATIONS = [
-    { title: "Korupsi & Suap", desc: "Penyalahgunaan anggaran, penerimaan suap, atau pemerasan.", icon: <Siren className="text-red-400" size={32} /> },
-    { title: "Benturan Kepentingan", desc: "Pengambilan keputusan yang menguntungkan pribadi.", icon: <FileWarning className="text-amber-400" size={32} /> },
-    { title: "Pelanggaran Disiplin", desc: "Pelanggaran kode etik ASN dan peraturan.", icon: <ShieldCheck className="text-emerald-400" size={32} /> }
+    // Korupsi (Bahaya) -> Tertiary (Red)
+    { title: "Korupsi & Suap", desc: "Penyalahgunaan anggaran, penerimaan suap, atau pemerasan.", icon: <Siren className="text-tertiary-400" size={32} /> },
+    // Benturan Kepentingan (Warning) -> Secondary (Amber)
+    { title: "Benturan Kepentingan", desc: "Pengambilan keputusan yang menguntungkan pribadi.", icon: <FileWarning className="text-secondary-400" size={32} /> },
+    // Disiplin (Standar) -> Primary (Emerald)
+    { title: "Pelanggaran Disiplin", desc: "Pelanggaran kode etik ASN dan peraturan.", icon: <ShieldCheck className="text-primary-400" size={32} /> }
 ];
 
 const FAQS = [
@@ -69,193 +38,260 @@ const FAQS = [
     { question: "Berapa lama laporan diproses?", answer: "Verifikasi maksimal 3 hari kerja. Investigasi maksimal 30 hari kerja." }
 ];
 
-// --- SUB-COMPONENTS: FORMS ---
+// --- TYPES ---
+interface ReportValues {
+    judul: string;
+    kategori: string;
+    lokasi: string;
+    isi: string;
+}
+interface StatusValues {
+    ticketId: string;
+}
 
+// --- COMPONENT: FORM BUAT LAPORAN ---
 const ReportForm = ({ onSuccess }: { onSuccess: () => void }) => {
-    const [loading, setLoading] = useState(false);
+    const form = useForm<ReportValues>();
+    const { isSubmitting } = form.formState;
 
-    const handleSubmit = (e: any) => {
-        e.preventDefault();
-        setLoading(true);
-        setTimeout(() => {
-            setLoading(false);
-            onSuccess(); // Tutup modal via callback
-            alert("Laporan berhasil dikirim! Kode tiket Anda: WBS-2024-X99");
-        }, 2000);
+    const onSubmit = async (data: ReportValues) => {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        console.log("Laporan Terkirim:", data);
+        onSuccess();
+        alert("Laporan Berhasil! Kode Tiket: WBS-2026-XYZ");
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-4 py-2">
-            <div className="space-y-2">
-                <Label htmlFor="judul" className="text-netral-300">Judul Laporan</Label>
-                <Input id="judul" required placeholder="Contoh: Dugaan Pungli di Dinas X" className="bg-netral-900 border-netral-700 focus-visible:ring-emerald-500" />
-            </div>
-            
-            <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                    <Label className="text-netral-300">Kategori</Label>
-                    <Select>
-                        <SelectTrigger className="bg-netral-900 border-netral-700">
-                            <SelectValue placeholder="Pilih..." />
-                        </SelectTrigger>
-                        <SelectContent className="bg-netral-900 border-netral-800 text-white">
-                            <SelectItem value="korupsi">Korupsi</SelectItem>
-                            <SelectItem value="pungli">Pungli</SelectItem>
-                            <SelectItem value="gratifikasi">Gratifikasi</SelectItem>
-                            <SelectItem value="lainnya">Lainnya</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
-                <div className="space-y-2">
-                    <Label htmlFor="lokasi" className="text-netral-300">Lokasi Kejadian</Label>
-                    <Input id="lokasi" placeholder="Nama Instansi/Daerah" className="bg-netral-900 border-netral-700 focus-visible:ring-emerald-500" />
-                </div>
-            </div>
+        <FormProvider {...form} >
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-2">
+                <MotionDiv initial="hidden" animate="show" variants={ANIM.container} className="space-y-4">
+                    
+                    <MotionDiv variants={ANIM.slideUp}>
+                        <FormField
+                            control={form.control}
+                            name="judul"
+                            rules={{ required: "Judul laporan wajib diisi" }}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-netral-300">Judul Laporan</FormLabel>
+                                    <FormControl>
+                                        {/* Input: bg-netral-950, Focus Ring Primary */}
+                                        <Input placeholder="Contoh: Dugaan Pungli di Dinas X" className="bg-netral-950 border-netral-700 focus-visible:ring-primary-500" {...field} />
+                                    </FormControl>
+                                    <FormMessage className="text-tertiary-400" />
+                                </FormItem>
+                            )}
+                        />
+                    </MotionDiv>
 
-            <div className="space-y-2">
-                <Label htmlFor="isi" className="text-netral-300">Isi Laporan</Label>
-                <Textarea id="isi" required rows={4} placeholder="Jelaskan detail kejadian (5W + 1H)..." className="bg-netral-900 border-netral-700 focus-visible:ring-emerald-500 resize-none" />
-            </div>
+                    <div className="grid grid-cols-2 gap-4">
+                        <MotionDiv variants={ANIM.slideUp}>
+                            <FormField
+                                control={form.control}
+                                name="kategori"
+                                rules={{ required: "Pilih kategori" }}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-netral-300">Kategori</FormLabel>
+                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                            <FormControl>
+                                                <SelectTrigger className="bg-netral-950 border-netral-700 focus:ring-primary-500">
+                                                    <SelectValue placeholder="Pilih..." />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent className="bg-netral-900 border-netral-800 text-netral-50">
+                                                <SelectItem value="korupsi">Korupsi</SelectItem>
+                                                <SelectItem value="pungli">Pungli</SelectItem>
+                                                <SelectItem value="gratifikasi">Gratifikasi</SelectItem>
+                                                <SelectItem value="etik">Kode Etik</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage className="text-tertiary-400" />
+                                    </FormItem>
+                                )}
+                            />
+                        </MotionDiv>
+                        
+                        <MotionDiv variants={ANIM.slideUp}>
+                            <FormField
+                                control={form.control}
+                                name="lokasi"
+                                rules={{ required: "Wajib diisi" }}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-netral-300">Lokasi</FormLabel>
+                                        <FormControl>
+                                            <Input placeholder="Instansi / Daerah" className="bg-netral-950 border-netral-700 focus-visible:ring-primary-500" {...field} />
+                                        </FormControl>
+                                        <FormMessage className="text-tertiary-400" />
+                                    </FormItem>
+                                )}
+                            />
+                        </MotionDiv>
+                    </div>
 
-            <div className="space-y-2">
-                <Label className="text-netral-300">Bukti Lampiran</Label>
-                <div className="border-2 border-dashed border-netral-700 rounded-lg p-6 text-center hover:border-emerald-500/50 hover:bg-netral-900/80 transition-all cursor-pointer">
-                    <Paperclip className="mx-auto text-netral-500 mb-2" />
-                    <span className="text-xs text-netral-400">Klik untuk upload dokumen/foto</span>
-                </div>
-            </div>
+                    <MotionDiv variants={ANIM.slideUp}>
+                        <FormField
+                            control={form.control}
+                            name="isi"
+                            rules={{ required: "Wajib diisi", minLength: { value: 20, message: "Min 20 karakter" } }}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-netral-300">Kronologi</FormLabel>
+                                    <FormControl>
+                                        <Textarea placeholder="Jelaskan detail kejadian..." className="bg-netral-950 border-netral-700 focus-visible:ring-primary-500 resize-none min-h-[100px]" {...field} />
+                                    </FormControl>
+                                    <FormMessage className="text-tertiary-400" />
+                                </FormItem>
+                            )}
+                        />
+                    </MotionDiv>
 
-            <Button type="submit" disabled={loading} className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold h-12 mt-2">
-                {loading ? "Mengirim..." : "Kirim Laporan"}
-            </Button>
-        </form>
+                    <MotionDiv variants={ANIM.slideUp}>
+                        <Button type="submit" disabled={isSubmitting} className="w-full bg-primary-600 hover:bg-primary-500 text-netral-50 font-bold h-12 mt-2">
+                            {isSubmitting ? "Mengirim..." : "Kirim Laporan"}
+                        </Button>
+                    </MotionDiv>
+
+                </MotionDiv>
+            </form>
+        </FormProvider>
     );
 };
 
+// --- COMPONENT: FORM STATUS ---
 const StatusForm = ({ onSuccess }: { onSuccess: () => void }) => {
+    const form = useForm<StatusValues>();
+    
     return (
-        <form onSubmit={(e) => { e.preventDefault(); onSuccess(); alert("Mencari data..."); }} className="space-y-6 py-4">
-            <div className="text-center">
-                <div className="w-16 h-16 bg-emerald-900/20 rounded-full flex items-center justify-center mx-auto mb-4 text-emerald-500">
-                    <Search size={32} />
-                </div>
-                <p className="text-netral-400 text-sm">Masukkan Nomor Tiket atau Kode Registrasi yang Anda dapatkan saat melapor.</p>
-            </div>
+        <FormProvider {...form}>
+            <form onSubmit={form.handleSubmit(() => { onSuccess(); alert("Tracking..."); })} className="space-y-6 py-4">
+                <MotionDiv initial="hidden" animate="show" variants={ANIM.container}>
+                    <MotionDiv variants={ANIM.popIn} className="text-center">
+                        <div className="w-16 h-16 bg-primary-900/20 rounded-full flex items-center justify-center mx-auto mb-4 text-primary-500 animate-pulse">
+                            <Search size={32} />
+                        </div>
+                        <p className="text-netral-400 text-sm mb-4">Masukkan Nomor Tiket Anda.</p>
+                    </MotionDiv>
 
-            <div className="space-y-2">
-                <Label htmlFor="ticket" className="text-netral-300">Nomor Tiket</Label>
-                <Input id="ticket" required placeholder="WBS-2024-X99" className="bg-netral-900 border-netral-700 text-center font-mono text-lg uppercase tracking-widest h-12 focus-visible:ring-emerald-500" />
-            </div>
-
-            <Button type="submit" className="w-full bg-white text-emerald-950 hover:bg-emerald-50 font-bold h-12">
-                Lacak Laporan
-            </Button>
-        </form>
+                    <MotionDiv variants={ANIM.slideUp}>
+                        <FormField
+                            control={form.control}
+                            name="ticketId"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl>
+                                        <Input placeholder="WBS-2026-XXX" className="bg-netral-950 border-netral-700 text-center font-mono text-lg uppercase h-14 focus-visible:ring-primary-500" {...field} />
+                                    </FormControl>
+                                </FormItem>
+                            )}
+                        />
+                    </MotionDiv>
+                    
+                    <MotionDiv variants={ANIM.slideUp} className="mt-4">
+                        <Button type="submit" className="w-full bg-netral-50 text-primary-950 hover:bg-primary-50 font-bold h-12">
+                            Lacak Laporan
+                        </Button>
+                    </MotionDiv>
+                </MotionDiv>
+            </form>
+        </FormProvider>
     );
 };
+
+export const config: ConfigIsland = {mode: "interactive", build: false};
 
 // --- MAIN PAGE ---
-export const WBSPage = ({ Data }: IslandProps) => {
-    // State untuk kontrol Dialog (Shadcn Dialog Controlled)
+export const WBS = ({ Data }: IslandProps) => {
     const [createOpen, setCreateOpen] = useState(false);
     const [checkOpen, setCheckOpen] = useState(false);
 
     return (
-        <div className="w-full overflow-hidden bg-[#0B0E14] min-h-screen pt-20">
+        // Background Page: netral-950 (Darkest)
+        <div className="w-full overflow-hidden bg-netral-950 min-h-screen pt-20">
             
-            {/* --- MODAL DIALOGS (SHADCN) --- */}
-            
-            {/* 1. Modal Buat Laporan */}
+            {/* MODALS: bg-netral-900 (Slightly Lighter than Page) */}
             <Dialog open={createOpen} onOpenChange={setCreateOpen}>
-                <DialogContent className="bg-[#0f1219] border-netral-800 text-white sm:max-w-lg max-h-[90vh] overflow-y-auto">
+                <DialogContent className="bg-netral-900 border-netral-800 text-netral-50 sm:max-w-lg max-h-[90vh] overflow-y-auto">
                     <DialogHeader>
-                        <DialogTitle>Buat Laporan Baru</DialogTitle>
-                        <DialogDescription className="text-netral-400">
-                            Identitas Anda akan dienkripsi secara otomatis.
-                        </DialogDescription>
+                        <DialogTitle className="flex items-center gap-2 text-primary-500">
+                            <ShieldCheck size={20}/> Buat Laporan Baru
+                        </DialogTitle>
+                        <DialogDescription className="text-netral-400">Identitas terenkripsi. Aman & Rahasia.</DialogDescription>
                     </DialogHeader>
                     <ReportForm onSuccess={() => setCreateOpen(false)} />
                 </DialogContent>
             </Dialog>
 
-            {/* 2. Modal Cek Status */}
             <Dialog open={checkOpen} onOpenChange={setCheckOpen}>
-                <DialogContent className="bg-[#0f1219] border-netral-800 text-white sm:max-w-md">
+                <DialogContent className="bg-netral-900 border-netral-800 text-netral-50 sm:max-w-md">
                     <DialogHeader>
-                        <DialogTitle>Lacak Status Laporan</DialogTitle>
-                        <DialogDescription className="text-netral-400">
-                            Pantau progres tindak lanjut laporan Anda.
-                        </DialogDescription>
+                        <DialogTitle className="text-primary-500">Lacak Status</DialogTitle>
+                        <DialogDescription className="text-netral-400">Pantau progres laporan Anda.</DialogDescription>
                     </DialogHeader>
                     <StatusForm onSuccess={() => setCheckOpen(false)} />
                 </DialogContent>
             </Dialog>
 
-
             {/* --- HERO SECTION --- */}
             <section className="relative py-20 lg:py-32 px-6 container mx-auto text-center">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-emerald-900/20 blur-[100px] rounded-full pointer-events-none" />
+                {/* Glow: Primary */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-primary-900/20 blur-[100px] rounded-full pointer-events-none" />
                 
-                <motion.div initial="hidden" animate="show" variants={ANIM.container} className="relative z-10 max-w-4xl mx-auto">
-                    <motion.div variants={ANIM.slideUp} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-900/30 border border-emerald-500/30 text-emerald-400 text-sm font-medium mb-8">
+                <MotionDiv initial="hidden" animate="show" variants={ANIM.container} className="relative z-10 max-w-4xl mx-auto">
+                    <MotionDiv variants={ANIM.slideUp} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary-900/30 border border-primary-500/30 text-primary-400 text-sm font-medium mb-8">
                         <Lock size={14} /> Rahasia & Terenkripsi
-                    </motion.div>
+                    </MotionDiv>
                     
-                    <motion.h1 variants={ANIM.slideUp} className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+                    <MotionH1 variants={ANIM.slideUp} className="text-4xl md:text-6xl font-bold text-netral-50 mb-6 leading-tight">
                         Whistleblowing System <br/>
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">(WBS)</span>
-                    </motion.h1>
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-secondary-400">(WBS)</span>
+                    </MotionH1>
                     
-                    <motion.p variants={ANIM.slideUp} className="text-lg text-netral-400 mb-10 max-w-2xl mx-auto">
-                        Saluran pelaporan resmi bagi masyarakat atau ASN untuk melaporkan indikasi tindak pidana korupsi dan pelanggaran.
-                    </motion.p>
+                    <MotionP variants={ANIM.slideUp} className="text-lg text-netral-400 mb-10 max-w-2xl mx-auto">
+                        Saluran pelaporan resmi bagi masyarakat atau ASN untuk melaporkan indikasi tindak pidana korupsi.
+                    </MotionP>
 
-                    <motion.div variants={ANIM.slideUp} className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Button 
-                            size="lg" 
-                            onClick={() => setCreateOpen(true)}
-                            className="rounded-full bg-emerald-600 hover:bg-emerald-500 hover:shadow-[0_0_20px_rgba(16,185,129,0.4)] text-white border-0 transition-all hover:scale-105"
-                        >
-                            Buat Laporan Baru
+                    <MotionDiv variants={ANIM.slideUp} className="flex flex-col sm:flex-row gap-4 justify-center">
+                        <Button size="lg" onClick={() => setCreateOpen(true)} className="rounded-full bg-primary-600 hover:bg-primary-500 text-netral-50 border-0 hover:scale-105 transition-transform shadow-[0_0_20px_color-mix(in_srgb,var(--color-primary-500),transparent_70%)]">
+                            <Send className="w-4 h-4 mr-2" /> Buat Laporan Baru
                         </Button>
-                        <Button 
-                            variant="outline" 
-                            size="lg" 
-                            onClick={() => setCheckOpen(true)}
-                            className="rounded-full border-netral-700 text-white hover:bg-netral-800"
-                        >
-                            Cek Status Laporan
+                        <Button variant="outline" size="lg" onClick={() => setCheckOpen(true)} className="rounded-full border-netral-700 text-netral-50 hover:bg-netral-800 hover:scale-105 transition-transform">
+                            Cek Status
                         </Button>
-                    </motion.div>
-                </motion.div>
+                    </MotionDiv>
+                </MotionDiv>
             </section>
 
-            {/* --- KRITERIA PELAPORAN (SHADCN CARDS) --- */}
-            <section className="py-20 border-t border-netral-800 bg-[#0f1219]">
+            {/* --- KRITERIA PELAPORAN --- */}
+            <section className="py-20 border-t border-netral-800 bg-netral-900">
                 <div className="container mx-auto px-6">
-                    <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={ANIM.slideUp} className="text-center mb-16">
-                        <h2 className="text-3xl font-bold text-white mb-4">Apa yang Bisa Dilaporkan?</h2>
+                    <MotionDiv initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={ANIM.slideUp} className="text-center mb-16">
+                        <h2 className="text-3xl font-bold text-netral-50 mb-4">Apa yang Bisa Dilaporkan?</h2>
                         <p className="text-netral-400">Lingkup pengaduan yang ditangani oleh Inspektorat Daerah.</p>
-                    </motion.div>
+                    </MotionDiv>
 
-                    <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={ANIM.container} className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <MotionDiv 
+                        initial="hidden" 
+                        whileInView="show" 
+                        viewport={{ once: true, amount: 0.2 }} 
+                        variants={ANIM.container} 
+                        className="grid grid-cols-1 md:grid-cols-3 gap-6"
+                    >
                         {VIOLATIONS.map((item, idx) => (
-                            <motion.div key={idx} variants={ANIM.slideUp} whileHover={{ y: -5 }}>
-                                {/* SHADCN CARD */}
-                                <Card className="bg-[#0B0E14] border-netral-800 hover:border-netral-600 transition-colors h-full">
+                            <MotionDiv key={idx} variants={ANIM.popIn} whileHover={{ y: -10, transition: { duration: 0.3 } }} className="h-full">
+                                <Card className="bg-netral-950 border-netral-800 hover:border-primary-500/30 transition-colors h-full flex flex-col">
                                     <CardHeader>
                                         <div className="mb-4 p-4 rounded-xl bg-netral-900 w-fit">{item.icon}</div>
-                                        <CardTitle className="text-white text-xl">{item.title}</CardTitle>
+                                        <CardTitle className="text-netral-50 text-xl">{item.title}</CardTitle>
                                     </CardHeader>
                                     <CardContent>
-                                        <CardDescription className="text-netral-400 text-base">
-                                            {item.desc}
-                                        </CardDescription>
+                                        <CardDescription className="text-netral-400 text-base">{item.desc}</CardDescription>
                                     </CardContent>
                                 </Card>
-                            </motion.div>
+                            </MotionDiv>
                         ))}
-                    </motion.div>
+                    </MotionDiv>
                 </div>
             </section>
 
@@ -263,9 +299,13 @@ export const WBSPage = ({ Data }: IslandProps) => {
             <section className="py-24 relative overflow-hidden">
                 <div className="container mx-auto px-6 relative z-10">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                        <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={ANIM.slideUp}>
-                            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Alur Penanganan <br/> <span className="text-emerald-400">Cepat & Transparan</span></h2>
-                            <p className="text-netral-400 mb-8 leading-relaxed">Setiap laporan yang masuk akan melalui proses verifikasi ketat. Kami memastikan setiap tahap dapat dipantau oleh pelapor menggunakan kode tiket unik.</p>
+                        <MotionDiv initial="hidden" whileInView="show" viewport={{ once: true }} variants={ANIM.container}>
+                            <MotionH1 variants={ANIM.slideUp} className="text-3xl md:text-4xl font-bold text-netral-50 mb-6">
+                                Alur Penanganan <br/> <span className="text-primary-400">Cepat & Transparan</span>
+                            </MotionH1>
+                            <MotionP variants={ANIM.slideUp} className="text-netral-400 mb-8">
+                                Setiap laporan yang masuk akan melalui proses verifikasi ketat.
+                            </MotionP>
                             
                             <div className="space-y-8">
                                 {[
@@ -273,72 +313,87 @@ export const WBSPage = ({ Data }: IslandProps) => {
                                     { step: "02", title: "Penelaahan & Investigasi", desc: "Tim auditor melakukan audit investigatif jika bukti valid." },
                                     { step: "03", title: "Tindak Lanjut", desc: "Rekomendasi sanksi atau perbaikan diserahkan ke pimpinan." }
                                 ].map((s, i) => (
-                                    <div key={i} className="flex gap-6 group">
-                                        <div className="flex-shrink-0 w-12 h-12 rounded-full border border-netral-700 flex items-center justify-center text-netral-500 font-mono font-bold group-hover:border-emerald-500 group-hover:text-emerald-400 transition-colors">{s.step}</div>
-                                        <div><h4 className="text-white font-bold mb-1 group-hover:text-emerald-400 transition-colors">{s.title}</h4><p className="text-sm text-netral-500">{s.desc}</p></div>
-                                    </div>
+                                    <MotionDiv key={i} variants={ANIM.slideRight} className="flex gap-6 group">
+                                        <div className="flex-shrink-0 w-12 h-12 rounded-full border border-netral-700 flex items-center justify-center text-netral-500 font-mono font-bold group-hover:border-primary-500 group-hover:text-primary-400 transition-colors">
+                                            {s.step}
+                                        </div>
+                                        <div>
+                                            <h4 className="text-netral-50 font-bold mb-1 group-hover:text-primary-400 transition-colors">{s.title}</h4>
+                                            <p className="text-sm text-netral-500">{s.desc}</p>
+                                        </div>
+                                    </MotionDiv>
                                 ))}
                             </div>
-                        </motion.div>
+                        </MotionDiv>
 
-                        <motion.div initial={{ opacity: 0, x: 50 }} whileInView={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="relative h-[500px] rounded-3xl bg-gradient-to-br from-netral-900 to-black border border-netral-800 flex items-center justify-center overflow-hidden">
-                             <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150"></div>
-                             <div className="absolute w-64 h-64 bg-emerald-600/20 blur-[80px] rounded-full animate-pulse"></div>
-                             <div className="relative z-10 text-center space-y-4">
-                                <div className="mx-auto w-20 h-20 bg-emerald-900/30 rounded-full flex items-center justify-center border border-emerald-500/30 text-emerald-400"><EyeOff size={40} /></div>
-                                <h3 className="text-2xl font-bold text-white">100% Anonim</h3>
-                                <p className="text-netral-400 max-w-xs mx-auto text-sm">Sistem kami mengenkripsi data pelapor. Anda dilindungi oleh Undang-Undang Perlindungan Saksi & Korban.</p>
-                             </div>
-                        </motion.div>
+                        <MotionDiv 
+                            initial={{ opacity: 0, scale: 0.8 }} 
+                            whileInView={{ opacity: 1, scale: 1 }} 
+                            transition={{ type: "spring", duration: 1 }}
+                            className="relative h-[500px] rounded-3xl bg-gradient-to-br from-netral-900 to-netral-950 border border-netral-800 flex items-center justify-center"
+                        >
+                             {/* Floating Card UI Animation */}
+                             <MotionDiv animate={{ y: [0, -20, 0] }} transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }} className="relative z-10 text-center space-y-4 bg-netral-900/50 backdrop-blur-md p-8 rounded-2xl border border-netral-50/5 mx-6">
+                                <div className="mx-auto w-20 h-20 bg-primary-900/30 rounded-full flex items-center justify-center border border-primary-500/30 text-primary-400 mb-4">
+                                    <EyeOff size={40} />
+                                </div>
+                                <h3 className="text-2xl font-bold text-netral-50">100% Anonim</h3>
+                                <div className="flex items-center justify-center gap-2 text-primary-400 text-xs font-mono bg-primary-950/50 py-1 px-3 rounded-full w-fit mx-auto">
+                                    <CheckCircle2 size={12} />
+                                    <span>ENCRYPTED: AES-256</span>
+                                </div>
+                             </MotionDiv>
+                        </MotionDiv>
                     </div>
                 </div>
             </section>
 
-            {/* --- FAQ SECTION (SHADCN ACCORDION) --- */}
-            <section className="py-24 bg-[#0f1219] border-t border-netral-800">
+            {/* --- FAQ SECTION --- */}
+            <section className="py-24 bg-netral-900 border-t border-netral-800">
                 <div className="container mx-auto px-6 max-w-3xl">
-                    <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={ANIM.slideUp} className="text-center mb-12">
-                        <h2 className="text-3xl font-bold text-white">Pertanyaan Umum</h2>
-                    </motion.div>
+                    <MotionDiv initial="hidden" whileInView="show" viewport={{ once: true }} variants={ANIM.slideUp} className="text-center mb-12">
+                        <h2 className="text-3xl font-bold text-netral-50">Pertanyaan Umum</h2>
+                    </MotionDiv>
                     
-                    <motion.div initial="hidden" whileInView="show" viewport={{ once: true }} variants={ANIM.container}>
-                        {/* SHADCN ACCORDION */}
+                    <MotionDiv initial="hidden" whileInView="show" viewport={{ once: true }} variants={ANIM.container}>
                         <Accordion type="single" collapsible className="w-full">
                             {FAQS.map((faq, idx) => (
-                                <AccordionItem key={idx} value={`item-${idx}`} className="border-netral-800">
-                                    <AccordionTrigger className="text-lg font-medium text-white hover:text-emerald-400 hover:no-underline">
-                                        {faq.question}
-                                    </AccordionTrigger>
-                                    <AccordionContent className="text-netral-400 leading-relaxed text-base">
-                                        {faq.answer}
-                                    </AccordionContent>
-                                </AccordionItem>
+                                <MotionDiv key={idx} variants={ANIM.slideUp}>
+                                    <AccordionItem value={`item-${idx}`} className="border-netral-800">
+                                        <AccordionTrigger className="text-lg font-medium text-netral-50 hover:text-primary-400 hover:no-underline text-left">
+                                            {faq.question}
+                                        </AccordionTrigger>
+                                        <AccordionContent className="text-netral-400 leading-relaxed text-base">
+                                            {faq.answer}
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                </MotionDiv>
                             ))}
                         </Accordion>
-                    </motion.div>
+                    </MotionDiv>
                 </div>
             </section>
 
             {/* --- CTA BOTTOM --- */}
             <section className="py-20 text-center">
                  <div className="container mx-auto px-6">
-                    <div className="max-w-4xl mx-auto bg-gradient-to-r from-emerald-900/40 to-teal-900/40 border border-emerald-500/30 p-12 rounded-3xl relative overflow-hidden">
+                    <MotionDiv initial="hidden" whileInView="show" viewport={{ once: true }} variants={ANIM.popIn} className="max-w-4xl mx-auto bg-gradient-to-r from-primary-900/40 to-secondary-900/40 border border-primary-500/30 p-12 rounded-3xl relative overflow-hidden">
+                        <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-primary-500/10 blur-[80px] rounded-full"></div>
                         <div className="relative z-10">
-                            <h2 className="text-3xl font-bold text-white mb-6">Jangan Takut Melapor!</h2>
-                            <p className="text-emerald-100/70 mb-8 max-w-xl mx-auto">Peran serta Anda sangat berarti untuk mewujudkan Kalimantan Barat yang bersih dari korupsi.</p>
-                            <Button 
-                                size="lg" 
-                                onClick={() => setCreateOpen(true)}
-                                className="bg-white text-emerald-950 hover:bg-emerald-50 font-bold px-8"
-                            >
-                                <Send className="mr-2 w-4 h-4" /> Kirim Laporan Sekarang
+                            <h2 className="text-3xl font-bold text-netral-50 mb-6">Jangan Takut Melapor!</h2>
+                            <p className="text-primary-100/70 mb-8 max-w-xl mx-auto">
+                                Korupsi menghambat kemajuan daerah kita. Peran serta Anda sangat berarti.
+                            </p>
+                            <Button size="lg" onClick={() => setCreateOpen(true)} className="bg-netral-50 text-primary-950 hover:bg-primary-50 font-bold px-8 h-14 text-lg hover:scale-105 transition-transform">
+                                <Send className="mr-2 w-5 h-5" /> Kirim Laporan Sekarang
                             </Button>
                         </div>
-                    </div>
+                    </MotionDiv>
                  </div>
             </section>
+
         </div>
     );
 };
 
-export default WBSPage;
+export default WBS;

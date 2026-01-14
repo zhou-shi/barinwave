@@ -2,7 +2,8 @@ import {clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { HugoMenuEntry } from "../types";
 import * as LucideIcons from "lucide-react";
-import { LucideIconKey, NavigationMenuItems } from "../components/header/types";
+import { NavigationMenuItems } from "../components/types";
+import { safeLucideIcon } from "./safe";
 
 export function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
@@ -12,11 +13,10 @@ export const mapHugoMenuEntry = (entry: HugoMenuEntry[]): NavigationMenuItems[] 
   if (!entry || !Array.isArray(entry)) return [];
   return entry.map((e) => {
     const rawName = e.Params?.icon;
-    const isValidIcon = typeof rawName === "string" && rawName in LucideIcons;
-    const IconComponent = isValidIcon ? LucideIcons[rawName as LucideIconKey] : undefined;
+    const IconComponent = safeLucideIcon(rawName as string) || undefined;
     return {
       title: e.Name || "",
-      href: e.URL,
+      href: e.URL || "",
       description: e.Params?.description || "",
       icon: IconComponent,
       children: e.Children ? mapHugoMenuEntry(e.Children) : [],
@@ -52,3 +52,4 @@ export const keysToCamel = (o: any): any => {
   // Jika tipe data primitif (string, number), kembalikan langsung
   return o;
 };
+

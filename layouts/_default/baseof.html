@@ -7,19 +7,29 @@
 {{- partial "structure/head.html" . -}}
 
 <body>
-    {{ $variant := .Site.Params.header.variant | default "basic" }}
-    {{ $headerPath := printf "structure/header/%s.html" $variant }}
-    
-    {{ if templates.Exists (printf "partials/%s" $headerPath ) }}
-        {{ partial $headerPath . }}
-    {{ else }}
-        {{ partial "structure/header/basic.html" . }}
+    {{ if not .Params.header.show }}
+        {{ $variant := .Site.Params.header.variant | default "hotodus" }}
+        {{ $headerPath := printf "components/header/%s.html" $variant }}
+        
+        {{ if templates.Exists (printf "partials/%s" $headerPath ) }}
+            {{ partial $headerPath . }}
+        {{ else }}
+            {{ partial "components/header/hotodus.html" . }}
+        {{ end }}
     {{ end }}
 
     <main class="relative z-10"> 
         {{ block "main" . }}{{ end }}
+        {{/*  <pre>
+            =========================
+            {{ debug.Dump .Params }}
+            =========================
+            {{ debug.Dump .Site.Params }}
+        </pre>  */}}
     </main>
 
-    {{ partial "structure/footer.html" . }}
+    {{ if not .Params.footer.show }} 
+        {{ partial "components/footer.html" . }}
+    {{ end }}
 </body>
 </html>

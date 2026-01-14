@@ -1,4 +1,4 @@
-import * as React from "preact/compat";
+import * as React from "react";
 import { cn } from "@/modules/lib/utils";
 import { h } from "preact";
 
