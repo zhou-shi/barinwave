@@ -1,6 +1,5 @@
 import * as LucideIcons from "lucide-react";
 
-
 /**
  * Fungsi ini memastikan kita mendapatkan objek yang aman.
  * Jika input undefined/null, kembalikan default value.

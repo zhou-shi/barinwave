@@ -79,7 +79,7 @@ const SearchDialog = () => {
             <Button 
                 variant="outline" 
                 onClick={() => setOpen(true)}
-                className="hidden md:flex relative h-10 w-full justify-start rounded-[0.5rem] bg-netral-900 border-netral-800 text-sm text-netral-400 sm:pr-12 md:w-40 lg:w-64 hover:bg-netral-800 hover:text-netral-50"
+                className="hidden md:flex relative h-10 w-full justify-start rounded-[0.5rem] bg-netral-900 border-netral-800 text-sm text-netral-400 sm:pr-12 md:w-40 lg:w-64 hover:bg-netral-800 hover:text-netral-50 z-50"
             >
                 <span className="inline-flex gap-2 items-center">
                     <Search className="h-4 w-4" />

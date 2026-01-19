@@ -193,7 +193,12 @@ const DesktopDropdownItem = ({ item }: { item: NavigationMenuItems }) => {
   );
 };
 
-export const config: ConfigIsland = { mode: "interactive", createShortcode: false };
+export const config: ConfigIsland = { 
+  mode: "interactive", 
+  name: "hotodus",
+  outputDir: ['layouts', 'partials', 'components', 'header'], 
+  createShortcode: false,
+};
 
 // --- MAIN COMPONENT ---
 export default function Hotodus({ Menus = [], Params = {} }: IslandProps) {
@@ -201,8 +206,6 @@ export default function Hotodus({ Menus = [], Params = {} }: IslandProps) {
   const cleanMenus: NavigationMenuItems[] = mapHugoMenuEntry(Menus);
   const cleanParams = keysToCamel(Params);
   const logoConfig = cleanParams.header?.logo;
-
-  console.log("Header component rendered with Params:", cleanParams);
 
   useEffect(() => {
     const handleResize = () => {
@@ -289,7 +292,9 @@ export default function Hotodus({ Menus = [], Params = {} }: IslandProps) {
                )}>
                 Let's Talk
               </a>
-              <SearchDialog />
+              <div className="z-50">
+                <SearchDialog />
+              </div>
               
               <button 
                 onClick={() => setIsMobileOpen(!isMobileOpen)} 

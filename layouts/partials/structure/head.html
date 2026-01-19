@@ -30,7 +30,7 @@
     }}
 
     {{/*  Build script  */}}
-    {{ $script := resources.Get "ts/main.tsx" | js.Build $opts }}
+    {{ $script := resources.Get "ts/main.ts" | js.Build $opts }}
 
     <script type="module" src="{{ $script.RelPermalink }}"></script>
 

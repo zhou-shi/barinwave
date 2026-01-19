@@ -1,0 +1,70 @@
+
+<script>
+    window.__BRAINWAVE_ENV__ = window.__BRAINWAVE_ENV__ || {};
+    Object.assign(window.__BRAINWAVE_ENV__, {"VITE_SUPABASE_URL":"https://xxx.supabase.co","VITE_SUPABASE_ANON_KEY":"eyJh..."});
+</script>
+{{ $uniqueID := now.UnixNano }}{{ $targetId := printf "island-%d" $uniqueID }}{{ $dataId := printf "data-%d" $uniqueID }}
+<div id="{{ $targetId }}"><div class="ui-engine-client-root w-full"></div></div>
+
+<script id="{{ $dataId }}" type="application/json">
+    {{/* --- INISIALISASI VARIABEL DEFAULT (Asumsi: Halaman Hugo Biasa) --- */}}
+    {{ $finalData := .Site.Data }}
+    {{ $finalParams := .Site.Params }}
+    {{ $finalMenus := .Site.Menus.main }}
+    {{ $pageCtx := . }} {{/* Default context adalah dot saat ini */}}
+
+    {{/* --- LOGIKA PENCABANGAN (MAP vs STRUCT) --- */}}
+    {{ if reflect.IsMap . }}
+        {{/* === JALUR 1: ASSEMBLER (Input berupa Map/Dict) === */}}
+        
+        {{/* 1. Ambil Data Spesifik dari Props */}}
+        {{ $finalData = .Data | default .Site.Data }}
+        
+        {{/* 2. Ambil Params Spesifik (Merge dengan Global jika perlu) */}}
+        {{ if .Params }}
+            {{ $finalParams = merge $finalParams .Params }}
+        {{ end }}
+
+        {{/* 3. Ambil Page Context Asli yang diselipkan di key 'ctx' */}}
+        {{/* PENTING: Gunakan fungsi 'index' agar aman mengambil key dari Map */}}
+        {{ $extractedCtx := index . "ctx" }}
+        {{ if $extractedCtx }}
+            {{ $pageCtx = $extractedCtx }}
+        {{ end }}
+
+    {{ else }}
+        {{/* === JALUR 2: STANDARD PAGE / SHORTCODE (Input berupa Page Object/Struct) === */}}
+        
+        {{/* 1. Ambil Params Lokal Page */}}
+        {{ if .Params }}
+            {{ $finalParams = merge $finalParams .Params }}
+        {{ end }}
+
+        {{/* 2. Cek apakah ini Shortcode (.Page merujuk ke parent page) */}}
+        {{ if .Page }}
+            {{ $pageCtx = .Page }}
+        {{ end }}
+        
+        {{/* 3. Halaman List kadang punya .Data yang berbahaya, jadi kita tetap pakai .Site.Data (default diatas) */}}
+    {{ end }}
+
+
+    {{/* --- EKSTRAKSI PAGE META --- */}}
+    {{/* Sekarang $pageCtx dijamin berisi Objek Page yang valid (baik dari Assembler maupun Page biasa) */}}
+    {{ $pageMeta := dict "Title" ($pageCtx.Title | default "") "Permalink" ($pageCtx.Permalink | default "") "IsHome" ($pageCtx.IsHome | default false) }}
+
+
+    {{/* --- RENDER FINAL JSON --- */}}
+    {{ dict "Params" $finalParams "Menus" $finalMenus "Data" $finalData "Page" $pageMeta | jsonify | safeJS }}
+</script>
+
+<script>
+    (function() {
+        window.requestIslands = window.requestIslands || [];
+        window.requestIslands.push({
+            component: "ui-engine-client",
+            targetId: "{{ $targetId }}",
+            dataId: "{{ $dataId }}"
+        });
+    })();
+</script>

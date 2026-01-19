@@ -1,4 +1,3 @@
-import { h } from "preact";
 import Spline from "@splinetool/react-spline";
 import { cn } from "@/modules/lib/utils";
 import { SceneProps } from "./scene";

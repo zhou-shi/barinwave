@@ -10,6 +10,7 @@ import * as PreactCompat from "preact/compat";
 import * as dotenv from "dotenv";
 import render from "preact-render-to-string";
 import { fileURLToPath } from "url";
+import { IslandConfig } from "@/modules/types";
 
 const require = createRequire(import.meta.url);
 
@@ -67,19 +68,6 @@ Object.keys(envConfig).forEach((key) => {
 // 2. Inject fallback object (agar import.meta.env tidak undefined)
 define['import.meta.env'] = JSON.stringify(envConfig);
 
-
-// --- TYPE DEFINITIONS ---
-export type IslandModuleConfig = {
-    mode?: 'interactive' | 'static';
-    outputDir: string[];
-    createShortcode?: boolean;
-    build?: boolean;
-}
-
-export type IslandConfig = IslandModuleConfig & {
-    name: string; // Wajib ada setelah diproses scanner
-    moduleSource: string[]; // Path source wajib ada
-}
 
 // --- 2. ADVANCED MOCKING STRATEGY ---
 
@@ -196,6 +184,7 @@ const loadComponentFromSource = (srcPath: string): any => {
 // --- 4. HUGO HELPERS ---
 
 const toPascalCase = (str: string) => str.replace(/(^\w|-\w)/g, (text) => text.replace(/-/, "").toUpperCase());
+
 const HUGO_PROPS_PARTIAL = "core/hugo-props.html";
 
 const injectHugoProps = (html: string): string => {
@@ -221,7 +210,93 @@ const injectHugoProps = (html: string): string => {
     });
 };
 
-// --- 5. MAIN BUILDER FUNCTION ---
+// =========================================================
+// 🔥 FITUR BARU: SMART CLEANUP (GRANULAR) 🔥
+// =========================================================
+
+/**
+ * Membersihkan folder output dengan presisi tinggi.
+ * Bisa melindungi folder utuh ATAU file spesifik di dalam folder.
+ */
+export const cleanGeneratedDirs = () => {
+    const rootDir = process.cwd();
+    const partialsDir = path.join(rootDir, 'layouts', 'partials');
+    const shortcodesDir = path.join(rootDir, 'layouts', 'shortcodes');
+
+    // --- ⚙️ KONFIGURASI PROTEKSI ---
+    const PROTECT_CONFIG = {
+        IGNORE_DIRS: ['_default', 'structure'],
+        KEEP_FILES: ['core/hugo-props.html']
+    };
+
+    console.log("🧹 Cleaning up generated artifacts (Smart Mode)...");
+
+    // Helper: Normalisasi Path (agar Windows/Mac/Linux konsisten pakai '/')
+    const toPathStr = (p: string) => p.split(path.sep).join('/');
+
+    // Fungsi Hapus Rekursif
+    const recursiveClean = (currentDir: string, relativePath = '') => {
+        if (!fs.existsSync(currentDir)) return;
+
+        const entries = fs.readdirSync(currentDir);
+
+        entries.forEach(entry => {
+            const fullEntryPath = path.join(currentDir, entry);
+            const entryRelativePath = relativePath ? path.join(relativePath, entry) : entry;
+            const normalizedRelative = toPathStr(entryRelativePath);
+
+            // 1. CEK FOLDER PROTECTED
+            // Jika folder ini ada di daftar IGNORE_DIRS, skip total.
+            if (PROTECT_CONFIG.IGNORE_DIRS.includes(entry)) {
+                // console.log(`   🛡️  Skipping Folder: ${normalizedRelative}`);
+                return;
+            }
+
+            const stat = fs.statSync(fullEntryPath);
+
+            if (stat.isDirectory()) {
+                // --- JIKA FOLDER ---
+                // Masuk ke dalam (Recurse)
+                recursiveClean(fullEntryPath, entryRelativePath);
+
+                // Setelah bersih-bersih di dalam, cek apakah folder jadi kosong?
+                // Jika kosong, hapus foldernya sekalian.
+                if (fs.readdirSync(fullEntryPath).length === 0) {
+                    fs.rmdirSync(fullEntryPath);
+                    // console.log(`   🗑️  Empty Folder Removed: ${normalizedRelative}`);
+                }
+
+            } else {
+                // --- JIKA FILE ---
+                // Cek apakah file ini ada di daftar KEEP_FILES?
+                if (PROTECT_CONFIG.KEEP_FILES.includes(normalizedRelative)) {
+                    // console.log(`   🛡️  Preserved File: ${normalizedRelative}`);
+                    return;
+                }
+
+                // Jika tidak dilindungi, HAPUS.
+                try {
+                    fs.unlinkSync(fullEntryPath);
+                    // console.log(`   🗑️  Deleted File: ${normalizedRelative}`);
+                } catch (e) {
+                    console.warn(`   ⚠️ Failed to delete ${normalizedRelative}`);
+                }
+            }
+        });
+    };
+
+    // 1. Eksekusi di Partials
+    console.log("   📍 Scanning Partials...");
+    recursiveClean(partialsDir);
+
+    // 2. Eksekusi di Shortcodes (Opsional)
+    console.log("   📍 Scanning Shortcodes...");
+    recursiveClean(shortcodesDir);
+    
+    console.log("✨ Workspace cleaned. Ready to build.");
+};
+
+// --- 6. MAIN BUILDER FUNCTION ---
 
 export const buildIsland = (config: IslandConfig): void => {
     try {

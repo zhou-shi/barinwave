@@ -65,7 +65,11 @@ const SOCIAL_PLATFORMS: Record<string, SocialConfig> = {
     }
 };
 
-export const config: ConfigIsland = { mode: "static", build: true };
+export const config: ConfigIsland = {
+    mode: "static", 
+    name: "footer", 
+    outputDir: ['layouts', 'partials', 'components']
+};
 
 // --- 3. HELPER COMPONENTS ---
 

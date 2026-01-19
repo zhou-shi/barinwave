@@ -1,75 +1,90 @@
 {{ define "main" }}
 <div class="brainwave-assembler min-h-screen bg-netral-950 text-netral-50">
-    
-    {{ $sections := .Params.sections }}
 
-    {{ range $index, $section := $sections }}
-        
-        {{ $componentName := $section.component }}
-        
-        {{/* --- SMART PATH RESOLVER --- */}}
-        
-        {{/* 1. Definisikan Kandidat Path */}}
-        {{/* A. Direct: Sesuai ketikan di YAML (untuk 'core/ui-engine', 'pages/home', dll) */}}
-        {{ $pathDirect := printf "%s.html" $componentName }}
-        
-        {{/* B. Components: Fallback ke folder components (untuk 'hero', 'footer' legacy) */}}
-        {{ $pathComponent := printf "components/%s.html" $componentName }}
-        
-        {{/* C. Core: Fallback khusus ke folder core (jika user cuma nulis 'ui-engine') */}}
-        {{ $pathCore := printf "core/%s.html" $componentName }}
+    {{/* ================================================================= */}}
+    {{/* 🚀 TWIN ENGINE LOGIC START                                        */}}
+    {{/* ================================================================= */}}
 
-        {{/* 2. Variabel Penampung Hasil Temuan */}}
-        {{ $finalPath := "" }}
+    {{/* 1. Cek apakah ada file Static (Pre-rendered) untuk halaman ini? */}}
+    {{ $baseName := .File.TranslationBaseName }}
+    {{ $staticPartialName := printf "islands/generated/%s.html" $baseName }}
+    {{ $checkPath := printf "partials/%s" $staticPartialName }}
 
-        {{/* 3. Eksekusi Pengecekan (Urutan Menentukan Prioritas) */}}
+    {{ if templates.Exists $checkPath }}
         
-        {{ if templates.Exists (printf "partials/%s" $pathDirect) }}
-            {{ $finalPath = $pathDirect }}
-        
-        {{ else if templates.Exists (printf "partials/%s" $pathComponent) }}
-            {{ $finalPath = $pathComponent }}
+        {{/* === JALUR A: STATIC MODE (Node.js Generated) === */}}
+        <div id="static-root" class="w-full">
+            {{ partial $staticPartialName . }}
+        </div>
+
+    {{ else }}
+
+        {{/* === JALUR B: ASSEMBLER MODE (Existing Logic) === */}}
+        {{ $sections := .Params.sections }}
+
+        {{ range $index, $section := $sections }}
             
-        {{ else if templates.Exists (printf "partials/%s" $pathCore) }}
-            {{ $finalPath = $pathCore }}
-        {{ end }}
-
-
-        {{/* 4. Render Logic */}}
-        {{ if ne $finalPath "" }}
+            {{ $componentName := $section.component }}
             
-            {{/* Context Merging */}}
-            {{ $props := $section.props | default dict }}
-            {{ $mergedContext := merge $props (dict "ctx" $) }}
+            {{/* --- SMART PATH RESOLVER (Milik Anda) --- */}}
+            
+            {{/* 1. Definisikan Kandidat Path */}}
+            {{ $pathDirect := printf "%s.html" $componentName }}
+            {{ $pathComponent := printf "components/%s.html" $componentName }}
+            {{ $pathCore := printf "core/%s.html" $componentName }}
 
-            <section 
-                class="section-assembler relative w-full" 
-                data-id="section-{{ $index }}" 
-                data-component="{{ $componentName }}"
-                data-resolved-path="{{ $finalPath }}"
-            >
-                {{ partial $finalPath $mergedContext }}
-            </section>
+            {{/* 2. Variabel Penampung Hasil Temuan */}}
+            {{ $finalPath := "" }}
 
-        {{ else }}
-            {{/* Error UI */}}
-            <div class="p-8 my-4 border-2 border-red-500 bg-red-900/20 rounded-lg text-center mx-auto max-w-2xl">
-                <h3 class="text-xl font-bold text-red-400">⚠️ Component Not Found</h3>
-                <p class="text-red-200 mt-2 text-sm">
-                    Brainwave Assembler could not resolve: <strong>{{ $componentName }}</strong>
-                </p>
-                <div class="mt-4 text-left bg-black/50 p-4 rounded text-xs font-mono text-netral-400">
-                    <p>Checked locations:</p>
-                    <ul class="list-disc pl-4 mt-1 space-y-1">
-                        <li>partials/{{ $pathDirect }} ❌</li>
-                        <li>partials/{{ $pathComponent }} ❌</li>
-                        <li>partials/{{ $pathCore }} ❌</li>
-                    </ul>
+            {{/* 3. Eksekusi Pengecekan */}}
+            {{ if templates.Exists (printf "partials/%s" $pathDirect) }}
+                {{ $finalPath = $pathDirect }}
+            
+            {{ else if templates.Exists (printf "partials/%s" $pathComponent) }}
+                {{ $finalPath = $pathComponent }}
+                
+            {{ else if templates.Exists (printf "partials/%s" $pathCore) }}
+                {{ $finalPath = $pathCore }}
+            {{ end }}
+
+
+            {{/* 4. Render Logic */}}
+            {{ if ne $finalPath "" }}
+                
+                {{/* Context Merging */}}
+                {{ $props := $section.props | default dict }}
+                {{ $mergedContext := merge $props (dict "ctx" $) }}
+
+                <section 
+                    class="section-assembler relative w-full" 
+                    data-id="section-{{ $index }}" 
+                    data-component="{{ $componentName }}"
+                    data-resolved-path="{{ $finalPath }}"
+                >
+                    {{ partial $finalPath $mergedContext }}
+                </section>
+
+            {{ else }}
+                {{/* Error UI */}}
+                <div class="p-8 my-4 border-2 border-red-500 bg-red-900/20 rounded-lg text-center mx-auto max-w-2xl">
+                    <h3 class="text-xl font-bold text-red-400">⚠️ Component Not Found</h3>
+                    <p class="text-red-200 mt-2 text-sm">
+                        Brainwave Assembler could not resolve: <strong>{{ $componentName }}</strong>
+                    </p>
+                    <div class="mt-4 text-left bg-black/50 p-4 rounded text-xs font-mono text-netral-400">
+                        <p>Checked locations:</p>
+                        <ul class="list-disc pl-4 mt-1 space-y-1">
+                            <li>partials/{{ $pathDirect }} ❌</li>
+                            <li>partials/{{ $pathComponent }} ❌</li>
+                            <li>partials/{{ $pathCore }} ❌</li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        {{ end }}
+            {{ end }}
 
-    {{ end }}
+        {{ end }} {{/* End Range */}}
+
+    {{ end }} {{/* End Twin Engine If/Else */}}
 
 </div>
 {{ end }}

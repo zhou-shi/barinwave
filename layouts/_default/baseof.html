@@ -20,12 +20,6 @@
 
     <main class="relative z-10"> 
         {{ block "main" . }}{{ end }}
-        {{/*  <pre>
-            =========================
-            {{ debug.Dump .Params }}
-            =========================
-            {{ debug.Dump .Site.Params }}
-        </pre>  */}}
     </main>
 
     {{ if not .Params.footer.show }} 

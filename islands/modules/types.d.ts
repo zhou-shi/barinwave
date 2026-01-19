@@ -1,4 +1,3 @@
-import { IslandConfig, IslandModuleConfig } from "@/core/island-builder";
 import { Label } from "@radix-ui/react-label";
 import { R } from "node_modules/framer-motion/dist/types.d-DagZKalS";
 
@@ -34,11 +33,31 @@ export interface IslandProps {
     isBuildTime?: boolean;
 };
 
+export type IslandModuleConfig = {
+    mode?: 'interactive' | 'static';
+    outputDir: string[];
+    createShortcode?: boolean;
+    build?: boolean;
+}
+
+export type IslandConfig = IslandModuleConfig & {
+    name: string; // Wajib ada setelah diproses scanner
+    moduleSource: string[]; // Path source wajib ada
+}
+
 export interface ComplexTitle {
     start?: string;
     gradient?: string;
     end?: string;        
     [key: string]: any;
+}
+
+export type ComponentSchema = {
+    component: string;
+    props?: Record<string, unknown>;
+    children?: ComponentSchema[];
+    text?: string;
+    if?: boolean | string;
 }
 
 // ------------------------------ HUGO TYPES -----------------------------

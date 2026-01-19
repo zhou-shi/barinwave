@@ -266,7 +266,12 @@ const ResponsiveNavigation = ({Menus=[]}: {Menus: NavigationMenuItems[]}) => {
   )
 };
 
-export const config: ConfigIsland = { mode: "interactive", createShortcode: false };
+export const config: ConfigIsland = { 
+  name: "brainwave",
+  mode: "interactive", 
+  outputDir: ['layouts', 'partials', 'components', 'header'], 
+  createShortcode: false 
+};
 
 const Brainwave = ({Menus=[], Params={}}: IslandProps) => {
    const cleanMenus = mapHugoMenuEntry(Menus);

@@ -4,7 +4,7 @@
     Object.assign(window.__BRAINWAVE_ENV__, {"VITE_SUPABASE_URL":"https://xxx.supabase.co","VITE_SUPABASE_ANON_KEY":"eyJh..."});
 </script>
 {{ $uniqueID := now.UnixNano }}{{ $targetId := printf "island-%d" $uniqueID }}{{ $dataId := printf "data-%d" $uniqueID }}
-<div id="{{ $targetId }}"><div class="ui-engine-root w-full"></div></div>
+<div id="{{ $targetId }}"><div class="ui-engine-client-root w-full"></div></div>
 
 <script id="{{ $dataId }}" type="application/json">
     {{/* --- INISIALISASI VARIABEL DEFAULT (Asumsi: Halaman Hugo Biasa) --- */}}
@@ -62,7 +62,7 @@
     (function() {
         window.requestIslands = window.requestIslands || [];
         window.requestIslands.push({
-            component: "ui-engine",
+            component: "ui-engine-client",
             targetId: "{{ $targetId }}",
             dataId: "{{ $dataId }}"
         });

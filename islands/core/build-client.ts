@@ -1,17 +1,21 @@
-import { buildIsland } from "./island-builder";
-import { generateClientManifest, scanIslands } from "./scanner";
+import { buildIsland, cleanGeneratedDirs } from "./island-builder";
+import { generateClientManifest, scanClient } from "./scan-client";
 
-console.log("🏝️  Starting Brainwave Islands Architecture Build...");
+console.log("🏝️  Starting Brainwave Client Build...");
+
+cleanGeneratedDirs();
 
 const startTime = performance.now();
 
-// 1. SCAN FILE SYSTEM & BACA CONFIG
-const islandsConfig = scanIslands();
+// --- SCAN & PARSE CONFIGS --- 
+const islandsConfig = scanClient();
 
-// 2. GENERATE CLIENT MANIFEST (Otomatis update main.tsx logic)
+// --- GENERATE MANIFEST (Agar main.tsx tahu komponen apa yang tersedia) ---
 generateClientManifest(islandsConfig);
 
-// 3. BUILD SETIAP ISLAND
+// --- BUILD INDIVIDUAL ISLANDS (Output ke folder Hugo layouts/partials) ---
+console.log(`🔨 Building ${islandsConfig.length} client bundles...`);
+
 islandsConfig.forEach((island) => {
     buildIsland(island);
 })

@@ -5,7 +5,7 @@ import { BorderBeam } from "@/modules/ui/lightswind/border-beam";
 import { VideoText } from "@/modules/ui/lightswind/video-text";
 import SceneIcon, { SceneIconProps } from "@/modules/ui/spline/scene-icon";
 import ScenePlaceholder from "@/modules/ui/spline/scene-paceholder";
-import { Suspense } from "node_modules/preact/compat/src/suspense";
+import { Suspense } from "preact/compat";
 
 export interface BrainwaveProps extends Omit<SceneIconProps, "className"> {
     beamSize?: number;
