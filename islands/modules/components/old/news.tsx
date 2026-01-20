@@ -1,7 +1,7 @@
-import { ANIM, MotionA, MotionDiv } from "../lib/motion";
-import { safeEntry } from "../lib/safe";
-import { IslandProps } from "../types";
-import { Button } from "../ui/shadcn/button";
+import { ANIM, MotionA, MotionDiv } from "../../lib/motion";
+import { safeEntry } from "../../lib/safe";
+import { IslandProps } from "../../types";
+import { Button } from "../../ui/shadcn/button";
 
 const DEFAUT_DATA: NewsContent = {
     items: [

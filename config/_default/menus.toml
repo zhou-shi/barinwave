@@ -72,8 +72,8 @@
 #   name = "Enterprise"
 #   weight = 9
 #   [main.params]
-#     description = "Solutions for business" 
-#     icon = "Building2"
+#     # description = "Solutions for business" 
+#     # icon = "Building2"
 
 # [[main]]
 #   parent = "products"

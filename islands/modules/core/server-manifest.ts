@@ -28,21 +28,21 @@ import * as ShadcnRadioGroup from "../ui/shadcn/radio-group";
 import * as ShadcnSelect from "../ui/shadcn/select";
 import * as ShadcnTabs from "../ui/shadcn/tabs";
 import * as ShadcnTextarea from "../ui/shadcn/textarea";
-import * as CompContentBlock from "../components/content-block";
-import * as CompCta from "../components/cta";
-import * as CompFeatures from "../components/features";
 import * as CompFooter from "../components/footer";
 import * as CompForm from "../components/form";
 import * as CompHeaderBrainwave from "../components/header/brainwave";
 import * as CompHeaderHotodus from "../components/header/hotodus";
-import * as CompHeroModern from "../components/hero-modern";
-import * as CompHero from "../components/hero";
 import * as CompLogosBrainwave from "../components/logos/brainwave";
 import * as CompLogosDispatcher from "../components/logos/dispatcher";
 import * as CompLogosHotodus from "../components/logos/hotodus";
-import * as CompNews from "../components/news";
+import * as CompOldContentBlock from "../components/old/content-block";
+import * as CompOldCta from "../components/old/cta";
+import * as CompOldFeatures from "../components/old/features";
+import * as CompOldHeroModern from "../components/old/hero-modern";
+import * as CompOldHero from "../components/old/hero";
+import * as CompOldNews from "../components/old/news";
+import * as CompOldStats from "../components/old/stats";
 import * as CompSearchDialog from "../components/search-dialog";
-import * as CompStats from "../components/stats";
 
 
 /**
@@ -131,12 +131,6 @@ export const SERVER_COMPONENTS: Record<string, any> = {
     "shadcn/Tabs": resolveComponent(ShadcnTabs, "Tabs"),
     ...expandModule(ShadcnTextarea, "shadcn/"),
     "shadcn/Textarea": resolveComponent(ShadcnTextarea, "Textarea"),
-    ...expandModule(CompContentBlock, "Comp"),
-    "CompContentBlock": resolveComponent(CompContentBlock, "ContentBlock"),
-    ...expandModule(CompCta, "Comp"),
-    "CompCta": resolveComponent(CompCta, "Cta"),
-    ...expandModule(CompFeatures, "Comp"),
-    "CompFeatures": resolveComponent(CompFeatures, "Features"),
     ...expandModule(CompFooter, "Comp"),
     "CompFooter": resolveComponent(CompFooter, "Footer"),
     ...expandModule(CompForm, "Comp"),
@@ -145,20 +139,26 @@ export const SERVER_COMPONENTS: Record<string, any> = {
     "CompHeaderBrainwave": resolveComponent(CompHeaderBrainwave, "HeaderBrainwave"),
     ...expandModule(CompHeaderHotodus, "Comp"),
     "CompHeaderHotodus": resolveComponent(CompHeaderHotodus, "HeaderHotodus"),
-    ...expandModule(CompHeroModern, "Comp"),
-    "CompHeroModern": resolveComponent(CompHeroModern, "HeroModern"),
-    ...expandModule(CompHero, "Comp"),
-    "CompHero": resolveComponent(CompHero, "Hero"),
     ...expandModule(CompLogosBrainwave, "Comp"),
     "CompLogosBrainwave": resolveComponent(CompLogosBrainwave, "LogosBrainwave"),
     ...expandModule(CompLogosDispatcher, "Comp"),
     "CompLogosDispatcher": resolveComponent(CompLogosDispatcher, "LogosDispatcher"),
     ...expandModule(CompLogosHotodus, "Comp"),
     "CompLogosHotodus": resolveComponent(CompLogosHotodus, "LogosHotodus"),
-    ...expandModule(CompNews, "Comp"),
-    "CompNews": resolveComponent(CompNews, "News"),
+    ...expandModule(CompOldContentBlock, "Comp"),
+    "CompOldContentBlock": resolveComponent(CompOldContentBlock, "OldContentBlock"),
+    ...expandModule(CompOldCta, "Comp"),
+    "CompOldCta": resolveComponent(CompOldCta, "OldCta"),
+    ...expandModule(CompOldFeatures, "Comp"),
+    "CompOldFeatures": resolveComponent(CompOldFeatures, "OldFeatures"),
+    ...expandModule(CompOldHeroModern, "Comp"),
+    "CompOldHeroModern": resolveComponent(CompOldHeroModern, "OldHeroModern"),
+    ...expandModule(CompOldHero, "Comp"),
+    "CompOldHero": resolveComponent(CompOldHero, "OldHero"),
+    ...expandModule(CompOldNews, "Comp"),
+    "CompOldNews": resolveComponent(CompOldNews, "OldNews"),
+    ...expandModule(CompOldStats, "Comp"),
+    "CompOldStats": resolveComponent(CompOldStats, "OldStats"),
     ...expandModule(CompSearchDialog, "Comp"),
     "CompSearchDialog": resolveComponent(CompSearchDialog, "SearchDialog"),
-    ...expandModule(CompStats, "Comp"),
-    "CompStats": resolveComponent(CompStats, "Stats"),
 };

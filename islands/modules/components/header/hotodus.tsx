@@ -142,32 +142,60 @@ const DesktopDropdownItem = ({ item }: { item: NavigationMenuItems }) => {
                     <ul className="flex flex-col gap-1 max-h-[90dvh] overflow-y-auto scrollbar-hide p-2 m-0 list-none">
                     {item.children!.map((child, idx) => (
                         <li key={idx}>
-                            <NavigationMenu.Link asChild>
-                                <a href={child.href || "#"} className={cn(
-                                    "flex items-start gap-4 p-3 rounded-lg transition-colors group focus:outline-none",
-                                    "hover:bg-netral-100 focus:bg-netral-100"
-                                )}>
-                                    {child.icon && (
-                                        <div className={cn(
-                                            "shrink-0 p-2 rounded-full transition-colors",
-                                            "bg-secondary-50 text-secondary-700",
-                                            "group-hover:bg-secondary-600 group-hover:text-netral-50"
-                                        )}>
-                                        <child.icon className="w-5 h-5" />
-                                        </div>
-                                    )}
-                                    <div className="flex flex-col">
-                                        <span className="text-sm font-bold text-netral-950 group-hover:text-secondary-700">
-                                            {child.title}
-                                        </span>
-                                        {child.description && (
-                                            <span className="text-xs text-netral-500 mt-1 leading-snug">
-                                                {child.description}
-                                            </span>
-                                        )}
-                                    </div>
-                                </a>
-                            </NavigationMenu.Link>
+                          { child.href 
+                            ? (
+                              <NavigationMenu.Link asChild>
+                                  <a href={child.href} className={cn(
+                                      "flex items-start gap-4 p-3 rounded-lg transition-colors group focus:outline-none",
+                                      "hover:bg-netral-100 focus:bg-netral-100"
+                                  )}>
+                                      {child.icon && (
+                                          <div className={cn(
+                                              "shrink-0 p-2 rounded-full transition-colors",
+                                              "bg-secondary-50 text-secondary-700",
+                                              "group-hover:bg-secondary-600 group-hover:text-netral-50"
+                                          )}>
+                                          <child.icon className="w-5 h-5" />
+                                          </div>
+                                      )}
+                                      <div className="flex flex-col">
+                                          <span className="text-sm font-bold text-netral-950 group-hover:text-secondary-700">
+                                              {child.title}
+                                          </span>
+                                          {child.description && (
+                                              <span className="text-xs text-netral-500 mt-1 leading-snug">
+                                                  {child.description}
+                                              </span>
+                                          )}
+                                      </div>
+                                  </a>
+                              </NavigationMenu.Link>
+                            ) : (
+                              <div className={cn(
+                                  "flex items-start gap-4 p-3 rounded-lg",
+                                  "cursor-default"
+                              )}>
+                                  {child.icon && (
+                                      <div className={cn(
+                                          "shrink-0 p-2 rounded-full",
+                                          "bg-secondary-50 text-secondary-700"
+                                      )}>
+                                      <child.icon className="w-5 h-5" />
+                                      </div>
+                                  )}
+                                  <div className="flex flex-col">
+                                      <span className="text-sm font-bold text-netral-950">
+                                          {child.title}
+                                      </span>
+                                      {child.description && (
+                                          <span className="text-xs text-netral-500 mt-1 leading-snug">
+                                              {child.description}
+                                          </span>
+                                      )}
+                                  </div>
+                              </div>
+                            )
+                          }
                         </li>
                     ))}
                     </ul>

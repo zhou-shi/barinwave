@@ -1,8 +1,8 @@
-import { ANIM, MotionDiv } from "../lib/motion"
-import { safeEntry } from "../lib/safe"
-import { ConfigIsland, IslandProps } from "../types"
-import { Button } from "../ui/shadcn/button"
-import { ButtonConfig } from "./types"
+import { ANIM, MotionDiv } from "../../lib/motion"
+import { safeEntry } from "../../lib/safe"
+import { ConfigIsland, IslandProps } from "../../types"
+import { Button } from "../../ui/shadcn/button"
+import { ButtonConfig } from "../types"
 
 const DEFAULT_DATA: CTAConfig = {
     buttons: [

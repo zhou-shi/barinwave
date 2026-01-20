@@ -98,7 +98,7 @@ export const scanClient = (): IslandConfig[] => {
 
     // 1. Brainwave UI (Prefix: Ui)
     filesMap.brainwave.forEach(f => 
-        processFile(f, "Ui", path.join(MODULES_ROOT, "ui", "brainwave"), "Ui")
+        processFile(f, "Ui", path.join(MODULES_ROOT, "ui", "brainwave"))
     );
 
     // 2. Lightswind UI (Prefix: Lw)

@@ -1,6 +1,6 @@
 import { IslandProps } from "@/modules/types";
-import { safeEntry } from "../lib/safe";
-import { ANIM, MotionDiv, MotionH3, MotionP } from "../lib/motion";
+import { safeEntry } from "../../lib/safe";
+import { ANIM, MotionDiv, MotionH3, MotionP } from "../../lib/motion";
 
 const DEFAUT_DATA: StatsContent = {
     items: [

@@ -3,6 +3,7 @@ import { safeLucideIcon } from "../lib/safe";
 import { HelpCircle } from "lucide-react";
 import { ComponentSchema, IslandConfig, IslandProps } from "../types";
 import { SERVER_COMPONENTS } from "./server-manifest";
+import { HTML_PRIMITIVES } from "../lib/primitives";
 
 
 // --- DAFTAR PROPS YANG DILARANG DI STATIC MODE ---
@@ -58,41 +59,48 @@ const IslandWrapper = ({ component, islandProps, context }: {component: string, 
     );
 };
 
+// --- HELPER: ISLAND COMPONENT ---
+const Island = ({ component, passProps, context }: { component: string, passProps: IslandProps, context: any }) => {
+    if (!component) return null;
+    return <IslandWrapper component={component} islandProps={passProps} context={context} />;
+}
+
+// --- HELPER: STATIC MAPPER (Untuk Map Component) ---
+
+const Mapper = ({ data, template, context }: any) => {
+     if (!data || !Array.isArray(data)) return null;
+     return (
+         <>
+             {data.map((item: any, index: number) => {
+                 const newContext = { ...context, item, index };
+                 return <StaticRenderer key={index} schema={template} context={newContext} />;
+             })}
+         </>
+     );
+}
+
+// --- HELPER: CLIENT COMPONENT (Untuk Static ke Interactive) ---
+const Client = ({Data = {}}: IslandProps) => {
+    return (
+        <IslandWrapper 
+            component="ui-engine-client" 
+            islandProps={{ Data }} 
+            context={{}}
+        />
+    );
+}
+
 // --- STATIC MAP ---
 const STATIC_MAP: Record<string, React.ElementType> = {
     ...SERVER_COMPONENTS,
-    Div: "div", Span: "span", P: "p", A: "a", Img: "img",
-    H1: "h1", H2: "h2", H3: "h3", Ul: "ul", Li: "li", 
-    Nav: "nav", Footer: "footer", Br: "br", Button: "button",
-    MotionDiv: "div", MotionH1: "h1", MotionP: "p", MotionA: "a", MotionSpan: "span",
+    ...HTML_PRIMITIVES,
     Fragment: Fragment,
     ErrorBoundary: ({ children }: any) => <>{children}</>,
     Suspense: ({ children, fallback }: any) => <>{fallback || children}</>,
     State: ({ children }: any) => <>{children}</>,
-    Map: ({ data, template, context }: any) => {
-         if (!data || !Array.isArray(data)) return null;
-         return (
-             <>
-                 {data.map((item: any, index: number) => {
-                     const newContext = { ...context, item, index };
-                     return <StaticRenderer key={index} schema={template} context={newContext} />;
-                 })}
-             </>
-         );
-    },
-    Island: ({ component, passProps, context }: { component: string, passProps: IslandProps, context: any }) => {
-        if (!component) return null;
-        return <IslandWrapper component={component} islandProps={passProps} context={context} />;
-    },
-    Client: ({Data = {}}: IslandProps) => {
-        return (
-            <IslandWrapper 
-                component="ui-engine-client" 
-                islandProps={{ Data }} 
-                context={{}}
-            />
-        );
-    }
+    Map: Mapper,
+    Island,
+    Client,
 };
 
 // --- HELPER: DATA INJECTION ---

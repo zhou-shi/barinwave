@@ -4,8 +4,8 @@ import { Button, buttonVariants } from "@/modules/ui/shadcn/button"; // Pastikan
 import { ErrorBoundary } from "@/modules/lib/error-boundry"; // Sesuaikan path
 import { lazy, Suspense } from "preact/compat";
 import { type VariantProps } from "class-variance-authority"
-import { safeEntry } from "../lib/safe";
-import { ANIM, MotionDiv, MotionH1, MotionP } from "../lib/motion";
+import { safeEntry } from "../../lib/safe";
+import { ANIM, MotionDiv, MotionH1, MotionP } from "../../lib/motion";
 
 // Lazy load Spline agar ringan
 const Scene = lazy(() => import("@/modules/ui/spline/scene"));

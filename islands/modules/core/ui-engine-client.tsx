@@ -14,10 +14,11 @@ import React, {
 import { Section } from "../ui/brainwave/section";
 import { Container } from "../ui/brainwave/container";
 import { Typography } from "../ui/brainwave/typography";
-import { ANIM, MotionDiv, MotionH1, MotionH2, MotionH3, MotionP, MotionSpan } from "../lib/motion";
+import { ANIM, HTML_MOTION, MotionDiv, MotionH1, MotionH2, MotionH3, MotionP, MotionSpan } from "../lib/motion";
 import { ErrorBoundary } from "../lib/error-boundry";
 import ScenePlaceholder from "../ui/spline/scene-paceholder";
 import { COMPONENT_LOADERS } from "assets/ts/client-manifest";
+import { HTML_PRIMITIVES } from "../lib/primitives";
 
 // --- 1. TYPE DEFINITIONS ---
 
@@ -246,29 +247,14 @@ const StateWrapper = ({ init, effects, schemaChildren }: { init: any, effects: E
 // --- 5. COMPONENT RESOLVER ---
 
 const INTERNAL_MAP: Record<string, React.ElementType> = {
-    Section: Section,
-    Container: Container,
+    ...HTML_PRIMITIVES,
+    ...HTML_MOTION,
     Map: Mapper,
     State: StateWrapper,
     ScenePlaceholder: ScenePlaceholder,
-    MotionDiv: MotionDiv,
-    MotionH1: MotionH1,
-    MotionH2: MotionH2,
-    MotionH3: MotionH3,
-    MotionP: MotionP,
-    MotionSpan: MotionSpan,
-    Typography: Typography,
     ErrorBoundary: ErrorBoundary,
     Suspense: Suspense,
     Fragment: Fragment,
-    Div: "div",
-    Span: "span",
-    Img: "img",
-    Ul: "ul",
-    Li: "li",
-    P: "p",
-    A: "a",
-    Button: "button",
 };
 
 const resolveDynamicComponent = (componentName: string) => {

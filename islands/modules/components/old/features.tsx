@@ -1,8 +1,8 @@
 import { ConfigIsland, IslandProps } from "@/modules/types";
 import { AlertTriangle, Layers } from "lucide-react";
-import { safeEntry, safeLucideIcon } from "../lib/safe";
-import { ANIM, MotionDiv } from "../lib/motion";
-import { cn } from "../lib/utils";
+import { safeEntry, safeLucideIcon } from "../../lib/safe";
+import { ANIM, MotionDiv } from "../../lib/motion";
+import { cn } from "../../lib/utils";
 
 const DEFAULT_PARAMS: FeaturesConfig= {
     title: "Our Features",

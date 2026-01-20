@@ -1,29 +1,53 @@
-// islands/modules/lib/anim.ts
 import { Transition, Variants, motion } from "framer-motion";
 
-const MotionDiv = motion.div;
-const MotionNav = motion.nav;
-const MotionHeader = motion.header;
-const MotionH1 = motion.h1;
-const MotionH2 = motion.h2;
-const MotionH3 = motion.h3;
-const MotionP = motion.p;
-const MotionA = motion.a;
-const MotionSpan = motion.span;
-const MotionButton = motion.button;
-const MotionSection = motion.section;
+// 1. Export Satu per Satu (Agar bisa di-import satuan & dikenali IDE)
+export const MotionDiv = motion.div;
+export const MotionNav = motion.nav;
+export const MotionHeader = motion.header;
+export const MotionFooter = motion.footer;
+export const MotionP = motion.p;
+export const MotionA = motion.a;
+export const MotionSpan = motion.span;
+export const MotionH1 = motion.h1;
+export const MotionH2 = motion.h2;
+export const MotionH3 = motion.h3;
+export const MotionButton = motion.button;
+export const MotionSection = motion.section;
+export const MotionImg = motion.img;
+export const MotionUl = motion.ul;
+export const MotionLi = motion.li;
+
+// 2. Export sebagai Grup (Untuk dimasukkan ke INTERNAL_MAP)
+// Karena namanya sama, kita tidak perlu tulis "MotionDiv: MotionDiv"
+export const HTML_MOTION = {
+    MotionDiv,
+    MotionNav,
+    MotionHeader,
+    MotionFooter,
+    MotionP,
+    MotionA,
+    MotionSpan,
+    MotionH1,
+    MotionH2,
+    MotionH3,
+    MotionButton,
+    MotionSection,
+    MotionImg,
+    MotionUl,
+    MotionLi
+};
 
 
 // --- KONFIGURASI TRANSISI STANDARD ---
 // Agar kita tidak perlu menulis ulang { type: "spring", ... } berulang kali
-const TRANSITION: Record<string, Transition> = {
+export const TRANSITION: Record<string, Transition> = {
     spring: { type: "spring", stiffness: 50, damping: 20 },
     springBouncy: { type: "spring", bounce: 0.4, duration: 0.8 },
     ease: { duration: 0.5, ease: "easeInOut" }
 };
 
 // --- GLOBAL ANIMATION VARIANTS ---
-const ANIM: Record<string, Variants> = {
+export const ANIM: Record<string, Variants> = {
     // 1. Container (Parent) - Mengatur anak-anaknya muncul berurutan
     container: {
         hidden: { opacity: 0 },
@@ -84,20 +108,4 @@ const ANIM: Record<string, Variants> = {
             transition: TRANSITION.springBouncy 
         }
     }
-};
-
-export { 
-    ANIM, 
-    TRANSITION, 
-    MotionDiv, 
-    MotionH1, 
-    MotionH2, 
-    MotionH3, 
-    MotionHeader, 
-    MotionNav, 
-    MotionSpan, 
-    MotionButton,
-    MotionP,
-    MotionA,
-    MotionSection
 };
