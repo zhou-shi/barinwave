@@ -4,77 +4,70 @@
 
 import React from "preact/compat";
 
-import * as UiContainer from "../ui/brainwave/container";
-import * as UiMobileMenu from "../ui/brainwave/mobile-menu";
-import * as UiSection from "../ui/brainwave/section";
-import * as UiTypography from "../ui/brainwave/typography";
-import * as LwAuroraTextEffect from "../ui/lightswind/aurora-text-effect";
-import * as LwBorderBeam from "../ui/lightswind/border-beam";
-import * as LwElectroBorder from "../ui/lightswind/electro-border";
-import * as LwShineButton from "../ui/lightswind/shine-button";
-import * as LwThemeToggle from "../ui/lightswind/theme-toggle";
-import * as LwVideoText from "../ui/lightswind/video-text";
-import * as ShadcnAccordion from "../ui/shadcn/accordion";
-import * as ShadcnAlert from "../ui/shadcn/alert";
-import * as ShadcnButton from "../ui/shadcn/button";
-import * as ShadcnCard from "../ui/shadcn/card";
-import * as ShadcnDialog from "../ui/shadcn/dialog";
-import * as ShadcnForm from "../ui/shadcn/form";
-import * as ShadcnInput from "../ui/shadcn/input";
-import * as ShadcnLabel from "../ui/shadcn/label";
-import * as ShadcnNavigationMenu from "../ui/shadcn/navigation-menu";
-import * as ShadcnPopover from "../ui/shadcn/popover";
-import * as ShadcnRadioGroup from "../ui/shadcn/radio-group";
-import * as ShadcnSelect from "../ui/shadcn/select";
-import * as ShadcnTabs from "../ui/shadcn/tabs";
-import * as ShadcnTextarea from "../ui/shadcn/textarea";
-import * as CompFooter from "../components/footer";
-import * as CompForm from "../components/form";
-import * as CompHeaderBrainwave from "../components/header/brainwave";
-import * as CompHeaderHotodus from "../components/header/hotodus";
-import * as CompLogosBrainwave from "../components/logos/brainwave";
-import * as CompLogosDispatcher from "../components/logos/dispatcher";
-import * as CompLogosHotodus from "../components/logos/hotodus";
-import * as CompOldContentBlock from "../components/old/content-block";
-import * as CompOldCta from "../components/old/cta";
-import * as CompOldFeatures from "../components/old/features";
-import * as CompOldHeroModern from "../components/old/hero-modern";
-import * as CompOldHero from "../components/old/hero";
-import * as CompOldNews from "../components/old/news";
-import * as CompOldStats from "../components/old/stats";
-import * as CompSearchDialog from "../components/search-dialog";
+import * as UiBrainwaveContainer from "../ui/brainwave/container";
+import * as UiBrainwaveHugoRaw from "../ui/brainwave/hugo-raw";
+import * as UiBrainwaveMobileMenu from "../ui/brainwave/mobile-menu";
+import * as UiBrainwaveSection from "../ui/brainwave/section";
+import * as UiBrainwaveTypography from "../ui/brainwave/typography";
+import * as UiLightswindAuroraTextEffect from "../ui/lightswind/aurora-text-effect";
+import * as UiLightswindBorderBeam from "../ui/lightswind/border-beam";
+import * as UiLightswindElectroBorder from "../ui/lightswind/electro-border";
+import * as UiLightswindShineButton from "../ui/lightswind/shine-button";
+import * as UiLightswindThemeToggle from "../ui/lightswind/theme-toggle";
+import * as UiLightswindVideoText from "../ui/lightswind/video-text";
+import * as UiShadcnAccordion from "../ui/shadcn/accordion";
+import * as UiShadcnAlert from "../ui/shadcn/alert";
+import * as UiShadcnButton from "../ui/shadcn/button";
+import * as UiShadcnCard from "../ui/shadcn/card";
+import * as UiShadcnDialog from "../ui/shadcn/dialog";
+import * as UiShadcnForm from "../ui/shadcn/form";
+import * as UiShadcnInput from "../ui/shadcn/input";
+import * as UiShadcnLabel from "../ui/shadcn/label";
+import * as UiShadcnNavigationMenu from "../ui/shadcn/navigation-menu";
+import * as UiShadcnPopover from "../ui/shadcn/popover";
+import * as UiShadcnRadioGroup from "../ui/shadcn/radio-group";
+import * as UiShadcnSelect from "../ui/shadcn/select";
+import * as UiShadcnTabs from "../ui/shadcn/tabs";
+import * as UiShadcnTextarea from "../ui/shadcn/textarea";
+import * as UiSplineSceneIcon from "../ui/spline/scene-icon";
+import * as UiSplineScenePaceholder from "../ui/spline/scene-paceholder";
+import * as UiSplineScene from "../ui/spline/scene";
+import * as ComponentsFooter from "../components/footer";
+import * as ComponentsForm from "../components/form";
+import * as ComponentsHeaderBrainwave from "../components/header/brainwave";
+import * as ComponentsHeaderHotodus from "../components/header/hotodus";
+import * as ComponentsLogosBrainwave from "../components/logos/brainwave";
+import * as ComponentsLogosDispatcher from "../components/logos/dispatcher";
+import * as ComponentsLogosHotodus from "../components/logos/hotodus";
+import * as ComponentsOldContentBlock from "../components/old/content-block";
+import * as ComponentsOldCta from "../components/old/cta";
+import * as ComponentsOldFeatures from "../components/old/features";
+import * as ComponentsOldHeroModern from "../components/old/hero-modern";
+import * as ComponentsOldHero from "../components/old/hero";
+import * as ComponentsOldNews from "../components/old/news";
+import * as ComponentsOldStats from "../components/old/stats";
+import * as ComponentsSearchDialog from "../components/search-dialog";
+import * as PagesHome from "../pages/home";
+import * as PagesLayananGratifikasi from "../pages/layanan/gratifikasi";
+import * as PagesLayananKonsultasi from "../pages/layanan/konsultasi";
+import * as PagesLayananWbs from "../pages/layanan/wbs";
+import * as CoreUiEngineClient from "./ui-engine-client";
+import * as CoreUiEngineServer from "./ui-engine-server";
 
 
 /**
- * Helper 1: Membongkar export (kecuali default)
+ * Helper: Mencari Default Export secara Aman
  */
-const expandModule = (module: any, prefix: string) => {
-    const result: Record<string, any> = {};
-    Object.keys(module).forEach(key => {
-        if (key === 'default') return;
-        const Component = module[key];
-        if (typeof Component === 'function' || typeof Component === 'object') {
-            result[`${prefix}${key}`] = Component;
-        }
-    });
-    return result;
-};
-
-/**
- * Helper 2: Mencari Komponen Utama secara Aman (Lazy)
- * Urutan Prioritas:
- * 1. Named Export yang sesuai nama file (misal: export const Section)
- * 2. Default Export
- * 3. Named Export pertama yang ditemukan (Fallback terakhir)
- */
-const resolveComponent = (module: any, name: string) => {
-    // Coba cari Named Export spesifik (misal: "Section")
-    if (module[name]) return module[name];
-    
-    // Coba cari Default
+const resolveDefault = (module: any, name: string) => {
+    // 1. Cek Default
     if (module.default) return module.default;
     
-    // Fallback: Cari export apapun yang bukan default
+    // 2. Cek Named Export yang sama dengan nama file (PascalCase)
+    // Contoh: file button.tsx -> export const Button
+    const pascalName = name.charAt(0).toUpperCase() + name.slice(1);
+    if (module[pascalName]) return module[pascalName];
+
+    // 3. Fallback: Ambil apa saja yang ada
     const keys = Object.keys(module).filter(k => k !== 'default');
     if (keys.length > 0) return module[keys[0]];
 
@@ -83,82 +76,113 @@ const resolveComponent = (module: any, name: string) => {
 
 
 export const SERVER_COMPONENTS: Record<string, any> = {
-    ...expandModule(UiContainer, "Ui"),
-    "UiContainer": resolveComponent(UiContainer, "Container"),
-    ...expandModule(UiMobileMenu, "Ui"),
-    "UiMobileMenu": resolveComponent(UiMobileMenu, "MobileMenu"),
-    ...expandModule(UiSection, "Ui"),
-    "UiSection": resolveComponent(UiSection, "Section"),
-    ...expandModule(UiTypography, "Ui"),
-    "UiTypography": resolveComponent(UiTypography, "Typography"),
-    ...expandModule(LwAuroraTextEffect, "Lw"),
-    "LwAuroraTextEffect": resolveComponent(LwAuroraTextEffect, "AuroraTextEffect"),
-    ...expandModule(LwBorderBeam, "Lw"),
-    "LwBorderBeam": resolveComponent(LwBorderBeam, "BorderBeam"),
-    ...expandModule(LwElectroBorder, "Lw"),
-    "LwElectroBorder": resolveComponent(LwElectroBorder, "ElectroBorder"),
-    ...expandModule(LwShineButton, "Lw"),
-    "LwShineButton": resolveComponent(LwShineButton, "ShineButton"),
-    ...expandModule(LwThemeToggle, "Lw"),
-    "LwThemeToggle": resolveComponent(LwThemeToggle, "ThemeToggle"),
-    ...expandModule(LwVideoText, "Lw"),
-    "LwVideoText": resolveComponent(LwVideoText, "VideoText"),
-    ...expandModule(ShadcnAccordion, "shadcn/"),
-    "shadcn/Accordion": resolveComponent(ShadcnAccordion, "Accordion"),
-    ...expandModule(ShadcnAlert, "shadcn/"),
-    "shadcn/Alert": resolveComponent(ShadcnAlert, "Alert"),
-    ...expandModule(ShadcnButton, "shadcn/"),
-    "shadcn/Button": resolveComponent(ShadcnButton, "Button"),
-    ...expandModule(ShadcnCard, "shadcn/"),
-    "shadcn/Card": resolveComponent(ShadcnCard, "Card"),
-    ...expandModule(ShadcnDialog, "shadcn/"),
-    "shadcn/Dialog": resolveComponent(ShadcnDialog, "Dialog"),
-    ...expandModule(ShadcnForm, "shadcn/"),
-    "shadcn/Form": resolveComponent(ShadcnForm, "Form"),
-    ...expandModule(ShadcnInput, "shadcn/"),
-    "shadcn/Input": resolveComponent(ShadcnInput, "Input"),
-    ...expandModule(ShadcnLabel, "shadcn/"),
-    "shadcn/Label": resolveComponent(ShadcnLabel, "Label"),
-    ...expandModule(ShadcnNavigationMenu, "shadcn/"),
-    "shadcn/NavigationMenu": resolveComponent(ShadcnNavigationMenu, "NavigationMenu"),
-    ...expandModule(ShadcnPopover, "shadcn/"),
-    "shadcn/Popover": resolveComponent(ShadcnPopover, "Popover"),
-    ...expandModule(ShadcnRadioGroup, "shadcn/"),
-    "shadcn/RadioGroup": resolveComponent(ShadcnRadioGroup, "RadioGroup"),
-    ...expandModule(ShadcnSelect, "shadcn/"),
-    "shadcn/Select": resolveComponent(ShadcnSelect, "Select"),
-    ...expandModule(ShadcnTabs, "shadcn/"),
-    "shadcn/Tabs": resolveComponent(ShadcnTabs, "Tabs"),
-    ...expandModule(ShadcnTextarea, "shadcn/"),
-    "shadcn/Textarea": resolveComponent(ShadcnTextarea, "Textarea"),
-    ...expandModule(CompFooter, "Comp"),
-    "CompFooter": resolveComponent(CompFooter, "Footer"),
-    ...expandModule(CompForm, "Comp"),
-    "CompForm": resolveComponent(CompForm, "Form"),
-    ...expandModule(CompHeaderBrainwave, "Comp"),
-    "CompHeaderBrainwave": resolveComponent(CompHeaderBrainwave, "HeaderBrainwave"),
-    ...expandModule(CompHeaderHotodus, "Comp"),
-    "CompHeaderHotodus": resolveComponent(CompHeaderHotodus, "HeaderHotodus"),
-    ...expandModule(CompLogosBrainwave, "Comp"),
-    "CompLogosBrainwave": resolveComponent(CompLogosBrainwave, "LogosBrainwave"),
-    ...expandModule(CompLogosDispatcher, "Comp"),
-    "CompLogosDispatcher": resolveComponent(CompLogosDispatcher, "LogosDispatcher"),
-    ...expandModule(CompLogosHotodus, "Comp"),
-    "CompLogosHotodus": resolveComponent(CompLogosHotodus, "LogosHotodus"),
-    ...expandModule(CompOldContentBlock, "Comp"),
-    "CompOldContentBlock": resolveComponent(CompOldContentBlock, "OldContentBlock"),
-    ...expandModule(CompOldCta, "Comp"),
-    "CompOldCta": resolveComponent(CompOldCta, "OldCta"),
-    ...expandModule(CompOldFeatures, "Comp"),
-    "CompOldFeatures": resolveComponent(CompOldFeatures, "OldFeatures"),
-    ...expandModule(CompOldHeroModern, "Comp"),
-    "CompOldHeroModern": resolveComponent(CompOldHeroModern, "OldHeroModern"),
-    ...expandModule(CompOldHero, "Comp"),
-    "CompOldHero": resolveComponent(CompOldHero, "OldHero"),
-    ...expandModule(CompOldNews, "Comp"),
-    "CompOldNews": resolveComponent(CompOldNews, "OldNews"),
-    ...expandModule(CompOldStats, "Comp"),
-    "CompOldStats": resolveComponent(CompOldStats, "OldStats"),
-    ...expandModule(CompSearchDialog, "Comp"),
-    "CompSearchDialog": resolveComponent(CompSearchDialog, "SearchDialog"),
+    "brainwave/container": UiBrainwaveContainer.Container,
+    "brainwave/hugo-raw": UiBrainwaveHugoRaw.HugoRaw,
+    "brainwave/menu-item-layout": UiBrainwaveMobileMenu.MenuItemLayout,
+    "brainwave/mobile-menu-item": UiBrainwaveMobileMenu.MobileMenuItem,
+    "brainwave/mobile-menu": resolveDefault(UiBrainwaveMobileMenu, "mobile-menu"),
+    "brainwave/section": UiBrainwaveSection.Section,
+    "brainwave/typography": UiBrainwaveTypography.Typography,
+    "brainwave/typography-variants": UiBrainwaveTypography.typographyVariants,
+    "lightswind/aurora-text-effect": UiLightswindAuroraTextEffect.AuroraTextEffect,
+    "lightswind/border-beam": UiLightswindBorderBeam.BorderBeam,
+    "lightswind/electro-border": UiLightswindElectroBorder.ElectroBorder,
+    "lightswind/shine-button": UiLightswindShineButton.ShineButton,
+    "lightswind/toggle-theme": UiLightswindThemeToggle.ToggleTheme,
+    "lightswind/theme-toggle": resolveDefault(UiLightswindThemeToggle, "theme-toggle"),
+    "lightswind/video-text": UiLightswindVideoText.VideoText,
+    "shadcn/accordion": UiShadcnAccordion.Accordion,
+    "shadcn/accordion-item": UiShadcnAccordion.AccordionItem,
+    "shadcn/accordion-trigger": UiShadcnAccordion.AccordionTrigger,
+    "shadcn/accordion-content": UiShadcnAccordion.AccordionContent,
+    "shadcn/alert": UiShadcnAlert.Alert,
+    "shadcn/alert-title": UiShadcnAlert.AlertTitle,
+    "shadcn/alert-description": UiShadcnAlert.AlertDescription,
+    "shadcn/button": UiShadcnButton.Button,
+    "shadcn/button-variants": UiShadcnButton.buttonVariants,
+    "shadcn/card": UiShadcnCard.Card,
+    "shadcn/card-header": UiShadcnCard.CardHeader,
+    "shadcn/card-footer": UiShadcnCard.CardFooter,
+    "shadcn/card-title": UiShadcnCard.CardTitle,
+    "shadcn/card-action": UiShadcnCard.CardAction,
+    "shadcn/card-description": UiShadcnCard.CardDescription,
+    "shadcn/card-content": UiShadcnCard.CardContent,
+    "shadcn/dialog": UiShadcnDialog.Dialog,
+    "shadcn/dialog-close": UiShadcnDialog.DialogClose,
+    "shadcn/dialog-content": UiShadcnDialog.DialogContent,
+    "shadcn/dialog-description": UiShadcnDialog.DialogDescription,
+    "shadcn/dialog-footer": UiShadcnDialog.DialogFooter,
+    "shadcn/dialog-header": UiShadcnDialog.DialogHeader,
+    "shadcn/dialog-overlay": UiShadcnDialog.DialogOverlay,
+    "shadcn/dialog-portal": UiShadcnDialog.DialogPortal,
+    "shadcn/dialog-title": UiShadcnDialog.DialogTitle,
+    "shadcn/dialog-trigger": UiShadcnDialog.DialogTrigger,
+    "shadcn/use-form-field": UiShadcnForm.useFormField,
+    "shadcn/form": UiShadcnForm.Form,
+    "shadcn/form-item": UiShadcnForm.FormItem,
+    "shadcn/form-label": UiShadcnForm.FormLabel,
+    "shadcn/form-control": UiShadcnForm.FormControl,
+    "shadcn/form-description": UiShadcnForm.FormDescription,
+    "shadcn/form-message": UiShadcnForm.FormMessage,
+    "shadcn/form-field": UiShadcnForm.FormField,
+    "shadcn/input": UiShadcnInput.Input,
+    "shadcn/label": UiShadcnLabel.Label,
+    "shadcn/navigation-menu": UiShadcnNavigationMenu.NavigationMenu,
+    "shadcn/navigation-menu-list": UiShadcnNavigationMenu.NavigationMenuList,
+    "shadcn/navigation-menu-item": UiShadcnNavigationMenu.NavigationMenuItem,
+    "shadcn/navigation-menu-content": UiShadcnNavigationMenu.NavigationMenuContent,
+    "shadcn/navigation-menu-trigger": UiShadcnNavigationMenu.NavigationMenuTrigger,
+    "shadcn/navigation-menu-link": UiShadcnNavigationMenu.NavigationMenuLink,
+    "shadcn/navigation-menu-indicator": UiShadcnNavigationMenu.NavigationMenuIndicator,
+    "shadcn/navigation-menu-viewport": UiShadcnNavigationMenu.NavigationMenuViewport,
+    "shadcn/navigation-menu-trigger-style": UiShadcnNavigationMenu.navigationMenuTriggerStyle,
+    "shadcn/popover": UiShadcnPopover.Popover,
+    "shadcn/popover-trigger": UiShadcnPopover.PopoverTrigger,
+    "shadcn/popover-content": UiShadcnPopover.PopoverContent,
+    "shadcn/popover-anchor": UiShadcnPopover.PopoverAnchor,
+    "shadcn/radio-group": UiShadcnRadioGroup.RadioGroup,
+    "shadcn/radio-group-item": UiShadcnRadioGroup.RadioGroupItem,
+    "shadcn/select": UiShadcnSelect.Select,
+    "shadcn/select-content": UiShadcnSelect.SelectContent,
+    "shadcn/select-group": UiShadcnSelect.SelectGroup,
+    "shadcn/select-item": UiShadcnSelect.SelectItem,
+    "shadcn/select-label": UiShadcnSelect.SelectLabel,
+    "shadcn/select-scroll-down-button": UiShadcnSelect.SelectScrollDownButton,
+    "shadcn/select-scroll-up-button": UiShadcnSelect.SelectScrollUpButton,
+    "shadcn/select-separator": UiShadcnSelect.SelectSeparator,
+    "shadcn/select-trigger": UiShadcnSelect.SelectTrigger,
+    "shadcn/select-value": UiShadcnSelect.SelectValue,
+    "shadcn/tabs": UiShadcnTabs.Tabs,
+    "shadcn/tabs-list": UiShadcnTabs.TabsList,
+    "shadcn/tabs-trigger": UiShadcnTabs.TabsTrigger,
+    "shadcn/tabs-content": UiShadcnTabs.TabsContent,
+    "shadcn/textarea": UiShadcnTextarea.Textarea,
+    "spline/scene-icon": resolveDefault(UiSplineSceneIcon, "scene-icon"),
+    "spline/scene-paceholder": resolveDefault(UiSplineScenePaceholder, "scene-paceholder"),
+    "spline/scene": resolveDefault(UiSplineScene, "scene"),
+    "components/footer": ComponentsFooter.Footer,
+    "components/form": resolveDefault(ComponentsForm, "form"),
+    "components/header/brainwave": resolveDefault(ComponentsHeaderBrainwave, "brainwave"),
+    "components/header/hotodus": resolveDefault(ComponentsHeaderHotodus, "hotodus"),
+    "components/logos/brainwave": resolveDefault(ComponentsLogosBrainwave, "brainwave"),
+    "components/dispatcher": ComponentsLogosDispatcher.Dispatcher,
+    "components/logos/dispatcher": resolveDefault(ComponentsLogosDispatcher, "dispatcher"),
+    "components/logos/hotodus": resolveDefault(ComponentsLogosHotodus, "hotodus"),
+    "components/old/content-block": resolveDefault(ComponentsOldContentBlock, "content-block"),
+    "components/old/cta": resolveDefault(ComponentsOldCta, "cta"),
+    "components/old/features": resolveDefault(ComponentsOldFeatures, "features"),
+    "components/old/hero-modern": resolveDefault(ComponentsOldHeroModern, "hero-modern"),
+    "components/old/hero": resolveDefault(ComponentsOldHero, "hero"),
+    "components/old/news": resolveDefault(ComponentsOldNews, "news"),
+    "components/old/stats": resolveDefault(ComponentsOldStats, "stats"),
+    "components/search-dialog": resolveDefault(ComponentsSearchDialog, "search-dialog"),
+    "page/home": PagesHome.Home,
+    "page/gratifikasi": PagesLayananGratifikasi.Gratifikasi,
+    "page/layanan/gratifikasi": resolveDefault(PagesLayananGratifikasi, "gratifikasi"),
+    "page/konsultasi": PagesLayananKonsultasi.Konsultasi,
+    "page/layanan/konsultasi": resolveDefault(PagesLayananKonsultasi, "konsultasi"),
+    "page/wbs": PagesLayananWbs.WBS,
+    "page/layanan/wbs": resolveDefault(PagesLayananWbs, "wbs"),
+    "UiEngineClient": resolveDefault(CoreUiEngineClient, "UiEngineClient"),
+    "UiEngineServer": resolveDefault(CoreUiEngineServer, "UiEngineServer"),
 };

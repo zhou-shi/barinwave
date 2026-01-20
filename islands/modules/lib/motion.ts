@@ -4,6 +4,7 @@ import { Transition, Variants, motion } from "framer-motion";
 export const MotionDiv = motion.div;
 export const MotionNav = motion.nav;
 export const MotionHeader = motion.header;
+export const MotionMain = motion.main;
 export const MotionFooter = motion.footer;
 export const MotionP = motion.p;
 export const MotionA = motion.a;
@@ -23,6 +24,7 @@ export const HTML_MOTION = {
     MotionDiv,
     MotionNav,
     MotionHeader,
+    MotionMain,
     MotionFooter,
     MotionP,
     MotionA,

@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import { h } from "@/modules/lib/hugo-bridge"; 
 import { ConfigIsland } from "../types";
+import { HugoRaw } from "../ui/brainwave/hugo-raw";
 
 // --- 1. TYPE DEFINITIONS ---
 
@@ -71,11 +72,6 @@ export const config: ConfigIsland = {
     outputDir: ['layouts', 'partials', 'components']
 };
 
-// --- 3. HELPER COMPONENTS ---
-
-export const HugoRaw = ({ code }: { code: string }) => (
-    <span dangerouslySetInnerHTML={{ __html: code }} />
-);
 
 const FadeIn = ({ children, delay = 0, className = "" }: FadeInProps) => (
     <div 

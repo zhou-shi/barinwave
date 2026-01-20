@@ -5,7 +5,6 @@ import matter from 'gray-matter';
 import chokidar from 'chokidar';
 import { render } from 'preact-render-to-string';
 import UIEngineServer from '@/modules/core/ui-engine-server';
-
 // --- KONFIGURASI PATH ---
 const THEME_CONTENT_DIR = path.resolve(process.cwd(), 'content');
 const PROJECT_CONTENT_DIR = path.resolve(process.cwd(), '../../content');
@@ -89,5 +88,6 @@ async function generateServerManifest() {
         chokidar.watch(watchPaths, { ignoreInitial: true }).on('change', processFile).on('add', processFile);
     }
 };
+
 
 generateServerManifest();

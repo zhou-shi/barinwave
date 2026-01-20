@@ -1,7 +1,7 @@
-import { ConfigIsland, IslandProps } from "@/modules/types";
+import { IslandProps } from "@/modules/types";
 import { cn } from "@/modules/lib/utils";
 import { h } from "../../lib/hugo-bridge";
-import { HugoRaw } from "../footer";
+import { HugoRaw } from "@/modules/ui/brainwave/hugo-raw";
 
 export default function ContentBlock({}: IslandProps) {
     const VAR_NAME = "$finalData"; 

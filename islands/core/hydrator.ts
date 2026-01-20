@@ -1,4 +1,4 @@
-import { h, render } from "preact";
+import { ComponentType, h, render } from "preact";
 import { COMPONENT_LOADERS } from "../../assets/ts/client-manifest";
 import { HugoMenuEntry, IslandProps } from "@/modules/types";
 
@@ -31,10 +31,12 @@ export const hydrateIslands = async () => {
                 
                 // Lazy Load
                 const module = await loader();
+
+                const RawExport = module.default || module[Object.keys(module)[0]];
                 
                 // Ambil Default Export atau Named Export pertama
                 // @ts-ignore - Kadang tipe module kompleks, kita ambil default/first key
-                const Component = module.default || module[Object.keys(module)[0]];
+                const Component = RawExport as ComponentType<IslandProps>;
 
                 if (!Component) {
                     console.error(`❌ Component ${component} loaded but export not found.`);

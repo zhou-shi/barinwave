@@ -4,6 +4,7 @@ const HTML_PRIMITIVES: Record<string, ElementType> = {
     Div: "div",
     Nav: "nav",
     Header: "header",
+    Main: "main",
     Footer: "footer",
     P: "p",
     A: "a",
@@ -13,6 +14,8 @@ const HTML_PRIMITIVES: Record<string, ElementType> = {
     H3: "h3",
     Button: "button",
     Section: "section",
-    Img: "img"
+    Img: "img",
+    Ul: "ul",
+    Li: "li"
 };
 export { HTML_PRIMITIVES };

@@ -10,7 +10,7 @@
         "build:client": "tsx islands/core/build-client.ts",
 
         "_comment2": "--- 2. UTILITIES ---",
-        "generate": "npx concurrently \"npm run build:client\" \"npm run build:server\"",
+        "generate": "npx concurrently \"npm run build:server\" \"npm run build:client\"",
         "dev:css": "npx @tailwindcss/cli -i ./assets/css/main.css -o ./assets/css/compiled/main.css --watch",
         "dev:hugo": "hugo server -D --disableFastRender --bind 0.0.0.0 --baseURL http://localhost:1313 --poll 700ms --source ../../",
 

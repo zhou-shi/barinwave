@@ -6,9 +6,7 @@ import { useState } from "preact/hooks";
 import { NavigationMenuItems } from "../../components/types";
 import { ConfigIsland } from "../../types";
 
-export const config: ConfigIsland = {
-    build: false 
-};
+export const config: ConfigIsland = { build: false };
 
 export const MenuItemLayout = ({ 
   title, 

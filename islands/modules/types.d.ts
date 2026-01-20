@@ -43,6 +43,7 @@ export type IslandModuleConfig = {
 export type IslandConfig = IslandModuleConfig & {
     name: string; // Wajib ada setelah diproses scanner
     moduleSource: string[]; // Path source wajib ada
+    exportName?: string; // Nama export spesifik (jika ada)
 }
 
 export interface ComplexTitle {

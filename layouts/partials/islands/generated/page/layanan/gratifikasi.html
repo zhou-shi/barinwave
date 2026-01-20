@@ -1,0 +1,70 @@
+
+<script>
+    window.__BRAINWAVE_ENV__ = window.__BRAINWAVE_ENV__ || {};
+    Object.assign(window.__BRAINWAVE_ENV__, {"VITE_SUPABASE_URL":"https://xxx.supabase.co","VITE_SUPABASE_ANON_KEY":"eyJh..."});
+</script>
+{{ $uniqueID := now.UnixNano }}{{ $targetId := printf "island-%d" $uniqueID }}{{ $dataId := printf "data-%d" $uniqueID }}
+<div id="{{ $targetId }}"><div class="w-full overflow-hidden bg-netral-950 min-h-screen pt-20"><section class="relative py-24 px-6 container mx-auto text-center overflow-hidden"><div class="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-900/20 blur-[120px] rounded-full pointer-events-none"></div><div class="absolute bottom-0 left-0 w-[400px] h-[400px] bg-secondary-900/10 blur-[100px] rounded-full pointer-events-none"></div><div style="opacity:0;"><div style="opacity:0;transform:translateY(20px);"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-heart-handshake"><path d="M19.414 14.414C21 12.828 22 11.5 22 9.5a5.5 5.5 0 0 0-9.591-3.676.6.6 0 0 1-.818.001A5.5 5.5 0 0 0 2 9.5c0 2.3 1.5 4 3 5.5l5.535 5.362a2 2 0 0 0 2.879.052 2.12 2.12 0 0 0-.004-3 2.124 2.124 0 1 0 3-3 2.124 2.124 0 0 0 3.004 0 2 2 0 0 0 0-2.828l-1.881-1.882a2.41 2.41 0 0 0-3.409 0l-1.71 1.71a2 2 0 0 1-2.828 0 2 2 0 0 1 0-2.828l2.823-2.762"></path></svg> Unit Pengendali Gratifikasi (UPG)</div><h1 style="opacity:0;transform:translateY(20px);">Berani <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-secondary-400">Tolak</span>, <br/>Wajib <span class="text-transparent bg-clip-text bg-gradient-to-r from-secondary-400 to-primary-400">Lapor</span>.</h1><p style="opacity:0;transform:translateY(20px);">Penerimaan hadiah terkait jabatan adalah Gratifikasi. Laporkan penerimaan apapun demi menjaga integritas dan netralitas ASN di lingkungan Pemerintah Provinsi.</p><div style="opacity:0;transform:translateY(20px);"><button data-slot="button" data-variant="default" data-size="lg" class="inline-flex items-center justify-center gap-2 whitespace-nowrap disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*=size-])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive has-[>svg]:px-4 rounded-full bg-primary-600 hover:bg-primary-500 hover:shadow-[0_0_20px_color-mix(in_srgb,var(--color-primary-500),transparent_60%)] text-netral-50 border-0 transition-all hover:scale-105 h-14 px-8 text-lg font-bold"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-file-text w-5 h-5 mr-2"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"></path><path d="M14 2v5a1 1 0 0 0 1 1h5"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg> Isi Formulir Laporan</button></div></div></section><section class="py-20 bg-netral-900 border-y border-netral-800"><div class="container mx-auto px-6 max-w-5xl"><div style="opacity:0;transform:translateY(20px);"><h2 class="text-3xl font-bold text-netral-50 mb-4">Kenali Gratifikasi</h2><p class="text-netral-400">Tidak semua pemberian itu dilarang. Pahami bedanya.</p></div><div style="opacity:0;transform:scale(0.9);"><div dir="ltr" data-orientation="horizontal" data-slot="tabs" class="flex flex-col gap-2 w-full"><div data-state="active" data-orientation="horizontal" role="tabpanel" aria-labelledby="radix-P0-3-trigger-wajib" id="radix-P0-3-content-wajib" tabindex="0" data-slot="tabs-content" class="flex-1 outline-none mt-0" style="animation-duration:0s;"><div data-slot="card" class="text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm bg-netral-900/50 border-tertiary-500/30"><div data-slot="card-header" class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6"><div data-slot="card-title" class="font-semibold text-tertiary-400 text-xl flex items-center gap-2"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-circle-x"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg> Gratifikasi yang Dianggap Suap</div><div data-slot="card-description" class="text-sm text-netral-400">Pemberian yang berkaitan dengan jabatan dan berlawanan dengan kewajiban atau tugasnya.</div></div><div data-slot="card-content" class="px-6"><ul class="grid grid-cols-1 md:grid-cols-2 gap-4"><li style="opacity:0;transform:translateX(-50px);"><div class="mt-1 w-2 h-2 rounded-full bg-tertiary-500 flex-shrink-0"></div><span>Uang tunai, voucher belanja, atau pulsa.</span></li><li style="opacity:0;transform:translateX(-50px);"><div class="mt-1 w-2 h-2 rounded-full bg-tertiary-500 flex-shrink-0"></div><span>Tiket perjalanan, akomodasi hotel, atau paket liburan.</span></li><li style="opacity:0;transform:translateX(-50px);"><div class="mt-1 w-2 h-2 rounded-full bg-tertiary-500 flex-shrink-0"></div><span>Diskon khusus yang tidak berlaku untuk umum.</span></li><li style="opacity:0;transform:translateX(-50px);"><div class="mt-1 w-2 h-2 rounded-full bg-tertiary-500 flex-shrink-0"></div><span>Pinjaman tanpa bunga dari rekanan.</span></li><li style="opacity:0;transform:translateX(-50px);"><div class="mt-1 w-2 h-2 rounded-full bg-tertiary-500 flex-shrink-0"></div><span>Pengobatan cuma-cuma dari pihak yang berkepentingan.</span></li></ul></div></div></div><div data-state="inactive" data-orientation="horizontal" role="tabpanel" aria-labelledby="radix-P0-3-trigger-tidak-wajib" hidden id="radix-P0-3-content-tidak-wajib" tabindex="0" data-slot="tabs-content" class="flex-1 outline-none mt-0"></div></div></div></div></section><section class="py-24 px-6 container mx-auto"><div style="opacity:0;transform:translateY(20px);"><h2 class="text-3xl font-bold text-netral-50 mb-4">Mekanisme Pelaporan</h2><p class="text-netral-400">Proses penanganan laporan gratifikasi yang transparan.</p></div><div style="opacity:0;"><div style="opacity:0;transform:scale(0.9);"><div class="absolute top-0 right-0 p-4 opacity-10 font-bold text-6xl text-netral-50 group-hover:opacity-20 transition-opacity">01</div><div class="w-14 h-14 bg-primary-900/20 rounded-xl flex items-center justify-center text-primary-400 mb-6 group-hover:scale-110 transition-transform duration-300 border border-primary-500/20"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-file-text"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"></path><path d="M14 2v5a1 1 0 0 0 1 1h5"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg></div><h3 class="text-xl font-bold text-netral-50 mb-2">Lapor</h3><p class="text-sm text-netral-400 leading-relaxed">Penerima melaporkan maksimal 30 hari kerja setelah menerima.</p></div><div style="opacity:0;transform:scale(0.9);"><div class="absolute top-0 right-0 p-4 opacity-10 font-bold text-6xl text-netral-50 group-hover:opacity-20 transition-opacity">02</div><div class="w-14 h-14 bg-primary-900/20 rounded-xl flex items-center justify-center text-primary-400 mb-6 group-hover:scale-110 transition-transform duration-300 border border-primary-500/20"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-info"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg></div><h3 class="text-xl font-bold text-netral-50 mb-2">Verifikasi</h3><p class="text-sm text-netral-400 leading-relaxed">UPG memeriksa kelengkapan dokumen dan bukti.</p></div><div style="opacity:0;transform:scale(0.9);"><div class="absolute top-0 right-0 p-4 opacity-10 font-bold text-6xl text-netral-50 group-hover:opacity-20 transition-opacity">03</div><div class="w-14 h-14 bg-primary-900/20 rounded-xl flex items-center justify-center text-primary-400 mb-6 group-hover:scale-110 transition-transform duration-300 border border-primary-500/20"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-search"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg></div><h3 class="text-xl font-bold text-netral-50 mb-2">Analisis</h3><p class="text-sm text-netral-400 leading-relaxed">KPK/UPG menetapkan status barang (Milik Negara/Pribadi).</p></div><div style="opacity:0;transform:scale(0.9);"><div class="absolute top-0 right-0 p-4 opacity-10 font-bold text-6xl text-netral-50 group-hover:opacity-20 transition-opacity">04</div><div class="w-14 h-14 bg-primary-900/20 rounded-xl flex items-center justify-center text-primary-400 mb-6 group-hover:scale-110 transition-transform duration-300 border border-primary-500/20"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="lucide lucide-circle-check"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg></div><h3 class="text-xl font-bold text-netral-50 mb-2">Penetapan</h3><p class="text-sm text-netral-400 leading-relaxed">SK Penetapan Status Gratifikasi diterbitkan.</p></div></div></section></div></div>
+
+<script id="{{ $dataId }}" type="application/json">
+    {{/* --- INISIALISASI VARIABEL DEFAULT (Asumsi: Halaman Hugo Biasa) --- */}}
+    {{ $finalData := .Site.Data }}
+    {{ $finalParams := .Site.Params }}
+    {{ $finalMenus := .Site.Menus.main }}
+    {{ $pageCtx := . }} {{/* Default context adalah dot saat ini */}}
+
+    {{/* --- LOGIKA PENCABANGAN (MAP vs STRUCT) --- */}}
+    {{ if reflect.IsMap . }}
+        {{/* === JALUR 1: ASSEMBLER (Input berupa Map/Dict) === */}}
+        
+        {{/* 1. Ambil Data Spesifik dari Props */}}
+        {{ $finalData = .Data | default .Site.Data }}
+        
+        {{/* 2. Ambil Params Spesifik (Merge dengan Global jika perlu) */}}
+        {{ if .Params }}
+            {{ $finalParams = merge $finalParams .Params }}
+        {{ end }}
+
+        {{/* 3. Ambil Page Context Asli yang diselipkan di key 'ctx' */}}
+        {{/* PENTING: Gunakan fungsi 'index' agar aman mengambil key dari Map */}}
+        {{ $extractedCtx := index . "ctx" }}
+        {{ if $extractedCtx }}
+            {{ $pageCtx = $extractedCtx }}
+        {{ end }}
+
+    {{ else }}
+        {{/* === JALUR 2: STANDARD PAGE / SHORTCODE (Input berupa Page Object/Struct) === */}}
+        
+        {{/* 1. Ambil Params Lokal Page */}}
+        {{ if .Params }}
+            {{ $finalParams = merge $finalParams .Params }}
+        {{ end }}
+
+        {{/* 2. Cek apakah ini Shortcode (.Page merujuk ke parent page) */}}
+        {{ if .Page }}
+            {{ $pageCtx = .Page }}
+        {{ end }}
+        
+        {{/* 3. Halaman List kadang punya .Data yang berbahaya, jadi kita tetap pakai .Site.Data (default diatas) */}}
+    {{ end }}
+
+
+    {{/* --- EKSTRAKSI PAGE META --- */}}
+    {{/* Sekarang $pageCtx dijamin berisi Objek Page yang valid (baik dari Assembler maupun Page biasa) */}}
+    {{ $pageMeta := dict "Title" ($pageCtx.Title | default "") "Permalink" ($pageCtx.Permalink | default "") "IsHome" ($pageCtx.IsHome | default false) }}
+
+
+    {{/* --- RENDER FINAL JSON --- */}}
+    {{ dict "Params" $finalParams "Menus" $finalMenus "Data" $finalData "Page" $pageMeta | jsonify | safeJS }}
+</script>
+
+<script>
+    (function() {
+        window.requestIslands = window.requestIslands || [];
+        window.requestIslands.push({
+            component: "page/layanan/gratifikasi",
+            targetId: "{{ $targetId }}",
+            dataId: "{{ $dataId }}"
+        });
+    })();
+</script>

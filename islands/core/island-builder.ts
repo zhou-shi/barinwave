@@ -316,8 +316,42 @@ export const buildIsland = (config: IslandConfig): void => {
 
         console.log(`🔨 Building Island (${config.mode || 'interactive'}): ${config.name}...`);
 
+        // --- 🛠️ SMART PATH RESOLUTION START ---
+        
+        // 1. Ambil folder tujuan dasar dari config
+        const baseOutputDir = path.join(process.cwd(), ...config.outputDir);
+
+        // 2. Ambil nama folder dari nama komponen (namespace)
+        // Contoh: "components/footer" -> folder: "components", file: "footer"
+        const componentFolder = path.dirname(config.name); // "components" atau "."
+        const componentFile = path.basename(config.name);  // "footer"
+
+        // 3. Cek apakah folder terakhir di baseOutputDir SAMA dengan namespace komponen?
+        // Contoh: base=".../partials/components", namespace="components"
+        const lastBaseFolder = path.basename(baseOutputDir);
+
+        let finalDestDir;
+        
+        if (lastBaseFolder === componentFolder) {
+            // DUPLIKASI TERDETEKSI! Jangan tambahkan foldernya lagi.
+            // Gunakan baseOutputDir apa adanya.
+            finalDestDir = baseOutputDir;
+        } else {
+            // TIDAK ADA DUPLIKASI. Gabungkan seperti biasa.
+            // layouts/partials + components -> layouts/partials/components
+            finalDestDir = path.join(baseOutputDir, componentFolder);
+        }
+
+        // 4. Pastikan folder tujuan ada
+        if (!fs.existsSync(finalDestDir)) {
+            fs.mkdirSync(finalDestDir, { recursive: true });
+        }
+        
+        // --- 🛠️ SMART PATH RESOLUTION END ---
+        
+        
         const destDir = path.join(process.cwd(), ...config.outputDir);
-        const destFile = path.join(destDir, `${config.name}.html`);
+        const destFile = path.join(finalDestDir, `${componentFile}.html`);
         const srcPath = path.join(process.cwd(), ...config.moduleSource) + '.tsx';
 
         if (!fs.existsSync(srcPath)) throw new Error(`Source not found: ${srcPath}`);
@@ -461,34 +495,53 @@ ${idLogic}
             console.log(`✅ Interactive Island wrapper deployed: ${destFile}`);
         }
 
-        // --- SHORTCODE GENERATOR (Opsional) ---
+        // --- SHORTCODE GENERATOR ---
         if (config.createShortcode) {
-            // A. Tentukan lokasi folder Shortcodes
-            // Kita asumsikan outputDir mengandung 'partials'. Kita ganti jadi 'shortcodes'.
+            // A. Tentukan lokasi folder Shortcodes (Ganti 'partials' jadi 'shortcodes')
             const shortcodeOutputDir = config.outputDir.map(d => d === 'partials' ? 'shortcodes' : d);
             
-            // B. Tentukan Path Partial untuk dipanggil di dalam file shortcode
-            // Contoh: layouts/partials/ui/card -> ui/card/card.html
+            // B. Tentukan Path Partial untuk dipanggil
             const partialIndex = config.outputDir.indexOf('partials');
             if (partialIndex !== -1) {
-                // Ambil path setelah 'partials' (misal: ['ui', 'card'])
+                // Ambil path relatif setelah partials
                 const relativePath = config.outputDir.slice(partialIndex + 1);
-                // Gabungkan menjadi string: "ui/card/card.html"
-                const partialImportPath = [...relativePath, `${config.name}.html`].join('/');
                 
-                // C. Buat Isi File Shortcode
+                // Cek Redundansi Path (Smart Path Logic untuk Partial Import)
+                // Jika config.name sudah mengandung folder yang sama dengan relativePath terakhir, jangan didouble.
+                const componentFolder = path.dirname(config.name);
+                const lastFolder = relativePath[relativePath.length - 1];
+                
+                let partialImportPath;
+                if (lastFolder === componentFolder) {
+                    // Kasus: components/components/footer -> components/footer
+                    partialImportPath = [...relativePath.slice(0, -1), `${config.name}.html`].join('/');
+                } else {
+                    // Kasus Normal
+                    partialImportPath = [...relativePath, `${config.name}.html`].join('/');
+                }
+                
+                // C. Konten File Shortcode
                 const shortcodeContent = `{{/* Auto-generated for ${config.name} */}}\n{{ $inner := .Inner }}\n{{ partial "${partialImportPath}" . }}`;
 
-                // D. Simpan File
-                const destShortcodeDir = path.join(process.cwd(), ...shortcodeOutputDir);
-                if (!fs.existsSync(destShortcodeDir)) {
-                    fs.mkdirSync(destShortcodeDir, { recursive: true });
+                // D. 🔥 FIX: TENTUKAN FULL PATH & BUAT FOLDER REKURSIF 🔥
+                
+                // 1. Buat full path file tujuan
+                // Contoh: .../layouts/shortcodes/islands/generated/page/layanan/gratifikasi.html
+                const destShortcodeFile = path.join(process.cwd(), ...shortcodeOutputDir, `${config.name}.html`);
+                
+                // 2. Ambil direktorinya saja
+                // Contoh: .../layouts/shortcodes/islands/generated/page/layanan
+                const targetDir = path.dirname(destShortcodeFile);
+
+                // 3. Buat folder jika belum ada (termasuk sub-foldernya)
+                if (!fs.existsSync(targetDir)) {
+                    fs.mkdirSync(targetDir, { recursive: true });
                 }
 
-                const destShortcodeFile = path.join(destShortcodeDir, `${config.name}.html`);
-            
+                // 4. Tulis File
                 fs.writeFileSync(destShortcodeFile, shortcodeContent);
                 console.log(`✨ Shortcode wrapper generated: ${destShortcodeFile}`);
+
             } else {
                 console.warn(`⚠️ Cannot generate shortcode: 'partials' directory not found in outputDir path.`);
             }

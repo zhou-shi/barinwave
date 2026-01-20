@@ -102,6 +102,38 @@ export const extractConfig = (filePath: string): IslandConfig => {
     }
 };
 
+// --- HELPER: AUTO DETECT EXPORTS ---
+// Membaca file dan mencari semua bentuk export (Function, Const, Named)
+export const getExportsFromFile = (filePath: string): string[] => {
+    try {
+        const content = fs.readFileSync(filePath, 'utf-8');
+        const exports: Set<string> = new Set();
+
+        // 1. Match: export function X
+        const funcMatches = content.matchAll(/export\s+function\s+([a-zA-Z0-9_]+)/g);
+        for (const match of funcMatches) exports.add(match[1]);
+
+        // 2. Match: export const X
+        const constMatches = content.matchAll(/export\s+const\s+([a-zA-Z0-9_]+)/g);
+        for (const match of constMatches) {
+            if (match[1] !== 'config') exports.add(match[1]);
+        }
+
+        // 3. Match: export { X, Y }
+        const braceMatch = content.match(/export\s+\{([\s\S]+?)\}/);
+        if (braceMatch && braceMatch[1]) {
+            braceMatch[1].split(',').forEach(item => {
+                const name = item.trim().split(' as ')[0]; // Handle "X as Y" -> ambil X (atau Y sesuai kebutuhan, disini simplifikasi)
+                if (name) exports.add(name);
+            });
+        }
+
+        return Array.from(exports);
+    } catch (e) {
+        return [];
+    }
+};
+
 // DATA GATHERER (Fungsi Utama) ---
 // Mengembalikan daftar file mentah per kategori
 export const getAllIslandFiles = () => {
